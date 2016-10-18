@@ -13,7 +13,7 @@ This will be a step-by-step, user-paced walkthrough of the quicksort algorithm i
 
 ### WireFrame
 
-
+![wireframe](/wireframes/wireframe.png)
 
 ### Implementation Timeline
 **Day 1**
@@ -37,5 +37,6 @@ colored bars represent, with zoomed-in visualization of one step happening
 ### Bonus Features
 * Allow user to input numbers, which will be normalized and turned into colored bars,
 and walk through sorting with those inputs, or be able to click button for random numbers
-* Explanation of why the algorithm is O(n * log(n)) time, with visualization comparing different sized inputs
+* Explanation of why the algorithm is O(n * log(n)) time average case
+and O(n^2) time worst case, with visualization comparing different sized inputs
 * Allow user to switch from using bars as a shape to variously sized circles
