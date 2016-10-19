@@ -9,20 +9,27 @@
   <body>
     <h1>Welcome to VR Quicksort</h1>
     <p></p>
+
     <a-scene>
-      <a-entity position="0 3 0" text="text: Virtual QuickSort"></a-entity>
-      <a-box position="-1 0.5 1" rotation="0 45 0" width="1" height="1" depth="1"  color="#4CC3D9"></a-box>
-      <a-box position="-1 1.5 1" rotation="0 45 0" width="1" height="1" depth="1"  color="#33C3D9"></a-box>
+      <a-entity look-at="#user" position="0 3 0" text="text: Virtual QuickSort" material="color: red"></a-entity>
+
+      <a-box cursor-listener position="-1 0.5 1" rotation="0 45 0" width="1" height="1" depth="1"  color="#4CC3D9"></a-box>
+      <a-box id="rotate-box" position="-1 1.5 1" rotation="0 45 0" width="1" height="1" depth="1"  color="#33C3D9"></a-box>
       <a-box position="-1 0.5 3" rotation="0 45 0" width="1" height="1" depth="1"  color="#4C33D9"></a-box>
       <a-plane rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
 
-      <a-sky color="#ECECEC"></a-sky>
+      <a-sky color="#82D6CC"></a-sky>
       <a-entity position="0 3 3.8">
-        <a-camera>
-          <a-cursor></a-cursor>
+        <a-camera id="user">
+            <a-entity cursor="fuse: true; fuseTimeout: 500"
+              position="0 0 -1"
+              geometry="primitive: ring"
+              material="color: black; shader: flat">
+            </a-entity>
         </a-camera>
       </a-entity>
     </a-scene>
 
   </body>
 </html>
+

@@ -20,6 +20,7 @@
   "homepage": "https://github.com/operskaas/VR-Quicksort#readme",
   "dependencies": {
     "aframe": "^0.3.2",
+    "aframe-look-at-component": "^0.1.2",
     "aframe-text-component": "^0.3.0",
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
