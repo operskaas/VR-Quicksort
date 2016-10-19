@@ -1,0 +1,28 @@
+{
+  "name": "JSAlgo",
+  "version": "1.0.0",
+  "description": "This will be a step-by-step, user-paced walkthrough of the quicksort algorithm in VR * Users will be able to click through, step-by-step, the quicksorting of an actual array of numbers * Number value will be represented by height and color on 3D bars * The user can input their own numbers at the beginning, or they can click a button to generate a random array",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "./node_modules/.bin/webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/operskaas/VR-Quicksort.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/operskaas/VR-Quicksort/issues"
+  },
+  "homepage": "https://github.com/operskaas/VR-Quicksort#readme",
+  "dependencies": {
+    "aframe": "^0.3.2",
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.16.0",
+    "webpack": "^1.13.2"
+  }
+}
