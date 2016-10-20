@@ -10,28 +10,36 @@
     <a-scene>
       <a-assets>
         <a-mixin id="user-facing-text" material="color: #ff0000" look-at"#user"></a-mixin>
-        <a-mixin id="array-element" material="color: #00cc00" width='0.5', height='1', depth='0.5'></a-mixin>
+        <a-mixin id="array-element" material="color: #00cc00" geometry="width:0.4; height:1; depth:0.4;"></a-mixin>
       </a-assets>
 
-      <a-entity mixin='user-facing-text' position="-4.15 3 0" text="text: Welcome to Virtual QuickSort!">
+      <a-entity mixin="user-facing-text" position="-4.15 3 0" text="text: Welcome to Virtual QuickSort!">
       </a-entity>
 
-      <a-entity position="-3.8 2 0" mixin='user-facing-text' text="text: Look at 'Start' to get started"></a-entity>
+      <a-entity position="-3.8 2 0" mixin="user-facing-text" text="text: Look at 'Start' to get started"></a-entity>
 
-      <a-entity position="-8.2 1 0" scale="0.8 0.8 1" mixin='user-facing-text' text="text: If you are not using Google Cardboard, drag the screen with your mouse"></a-entity>
+      <a-entity position="-8.2 1 0" scale="0.8 0.8 1" mixin="user-facing-text" text="text: If you are not using Google Cardboard, drag the screen with your mouse"></a-entity>
 
       <!-- <a-box array-element visible="false"></a-box> -->
 
-
-      <a-box cursor-listener position="-1 0.5 1" rotation="0 45 0" mixin="array-element" visible="false">
+<!-- 
+      <a-box class="clickable" cursor-listener position="-1 0.5 1" rotation="0 45 0" mixin="array-element" visible="true">
 
       </a-box>
 
-<!--       <a-box class="clickable" id="rotate-box" position="-1 1.5 1" rotation="0 45 0" mixin="array-element" visible="false">
+      <a-box class="clickable" id="rotate-box" position="-1 1.5 1" rotation="0 45 0" mixin="array-element" visible="true">
         <a-animation begin="cursor-hovered" easing="ease" attribute="material.color"
              fill="backwards" from="#00cc00" to="red" dur="500"></a-animation>
       </a-box> -->
-      <a-entity id="el-container"></a-entity>
+
+
+      <a-entity id="el-container">
+        <a-box id="el-1" mixin="array-element" class="clickable" position="-4.5 2 0"></a-box>
+        <a-box id="el-2" mixin="array-element" class="clickable" position="-3.5 2 0"></a-box>
+        <a-box id="el-3" mixin="array-element" class="clickable" position="-2.5 2 0"></a-box>
+        <a-box id="el-4" mixin="array-element" class="clickable" position="-1.5 2 0"></a-box>
+        <a-box id="el-5" mixin="array-element" class="clickable" position="-0.5 2 0"></a-box>
+      </a-entity>
 
 
 

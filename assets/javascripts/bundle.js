@@ -58,6 +58,18 @@
 	
 	var NUM_ELS = 10;
 	
+	var EL_IDS = ['el-1', 'el-2', 'el-3', 'el-4', 'el-5'];
+	var EL_POSITIONS = [''];
+	
+	var setElHeights = function setElHeights() {
+	  EL_IDS.forEach(function (elId, idx) {
+	    var el = document.getElementById(elId);
+	    el.setAttribute('height', '' + (0.5 + idx / 5));
+	    var blueHex = Math.floor(17 + (255 - 17) * (idx / EL_IDS.length)).toString(16);
+	    el.setAttribute('material', 'color:#0000' + blueHex);
+	  });
+	};
+	
 	var generateValsToBeSorted = function generateValsToBeSorted() {
 	  var valsToBeSorted = [];
 	
@@ -88,18 +100,17 @@
 	  _createClass(ArrayElement, [{
 	    key: 'createElement',
 	    value: function createElement() {
-	      var el = document.createElement('a-box');
+	      var el = document.createElement('a-entity');
+	      var height = 2 * (this.value / 100);
+	      el.setAttribute('geometry', 'primitive: box; height: ' + height + '; width: 0.5; depth: 0.5;');
+	      el.setAttribute('material', 'color: #0000cc');
 	      el.setAttribute('cursor-listener', '');
-	      el.setAttribute('class', 'clickable');
+	      el.className = 'clickable';
 	
 	      var x = -(NUM_ELS / 2) + this.idx;
 	      el.setAttribute('position', x + ' 1 0');
 	
-	      var height = 2 * (this.value / 100);
 	      el.setAttribute('scale', '1 1 1');
-	      el.setAttribute('height', '' + height);
-	      el.setAttribute('width', '0.5');
-	      el.setAttribute('depth', '0.5');
 	      return el;
 	    }
 	  }, {
@@ -117,8 +128,10 @@
 	  var scene = document.querySelector('a-scene');
 	  scene.addEventListener('loaded', function () {
 	    var valsToBeSorted = generateValsToBeSorted();
+	    setElHeights();
 	
-	    var arrElements = generateArrayEls(valsToBeSorted);
+	    // const arrElements = generateArrayEls(valsToBeSorted);
+	
 	
 	    AFRAME.registerComponent('cursor-listener', {
 	      init: function init() {
