@@ -53,10 +53,10 @@
 	__webpack_require__(8);
 	
 	var valsToBeSorted = [];
+	
 	for (var i = 0; i < 10; i++) {
 	  valsToBeSorted.push(Math.floor(Math.random() * 100));
 	}
-	console.log(valsToBeSorted);
 	
 	document.addEventListener('DOMContentLoaded', function () {
 	
