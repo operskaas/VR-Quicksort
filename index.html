@@ -9,24 +9,39 @@
   <body>
 
     <a-scene>
-      <a-entity look-at="#user" position="0 3 0" text="text: Virtual QuickSort" material="color: red"></a-entity>
-      <a-box array-element>
+      <a-assets>
+        <a-mixin id="user-facing-text" material="color: #ff0000" look-at"#user"></a-mixin>
+        <a-mixin id="array-element" material="color: #00cc00" width='0.5', height='1', depth='0.5'></a-mixin>
+      </a-assets>
 
-      <a-box cursor-listener position="-1 0.5 1" rotation="0 45 0" width="1" height="1" depth="1"  color="#4CC3D9"></a-box>
-      <a-box id="rotate-box" position="-1 1.5 1" rotation="0 45 0" width="1" height="1" depth="1"  color="#33C3D9"></a-box>
-      <a-box position="-1 0.5 3" rotation="0 45 0" width="1" height="1" depth="1"  color="#4C33D9"></a-box>
-      <a-plane rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+      <a-entity mixin='user-facing-text' position="0 3 0" text="text: Welcome to Virtual QuickSort">
+      </a-entity>
+      <a-entity mixin='user-facing-text' text="text: Look at 'Start' to get started"></a-entity>
+      <a-box array-element></a-box>
+
+      <a-box cursor-listener position="-1 0.5 1" rotation="0 45 0" mixin='array-element'>
+      </a-box>
+
+      <a-box id="rotate-box" position="-1 1.5 1" rotation="0 45 0" mixin='array-element'>
+      </a-box>
+
+      <a-box position="-1 0.5 3" rotation="0 45 0" mixin='array-element'></a-box>
+
+      <a-plane rotation="-90 0 0" width="4" height="4" color="#7BC8A4">
+      </a-plane>
 
       <a-sky color="#82D6CC"></a-sky>
+
       <a-entity position="0 3 3.8">
         <a-camera id="user">
             <a-entity cursor="fuse: true; fuseTimeout: 500"
-              position="0 0 -1"
+              position="0 0 -3"
               geometry="primitive: ring"
               material="color: black; shader: flat">
             </a-entity>
         </a-camera>
       </a-entity>
+
     </a-scene>
 
   </body>
