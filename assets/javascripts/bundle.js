@@ -85,7 +85,7 @@
 	    var blueHex = Math.floor(17 + (255 - 17) * (id / numEls)).toString(16);
 	    arrayEl.setAttribute('material', 'color:#7777' + blueHex);
 	    var x = EL_X_POSITIONS[idx];
-	    arrayEl.setAttribute('position', x + ' 1 2');
+	    arrayEl.setAttribute('position', x + ' 1 0');
 	    arrayEl.setAttribute('visible', 'false');
 	  });
 	};
@@ -96,22 +96,93 @@
 	  });
 	};
 	
-	var makeStartingElsInvisible = function makeStartingElsInvisible() {
-	  var startingTexts = document.getElementsByClassName('starting-el');
-	  for (var i = 0; i < startingTexts.length; i++) {
-	    startingTexts[i].setAttribute('visible', 'false');
-	  }
+	// const makeStartingElsInvisible = () => {
+	//   const startingTexts = document.getElementsByClassName('starting-el');
+	//   for (let i = 0; i < startingTexts.length; i++) {
+	//     startingTexts[i].setAttribute('visible', 'false');
+	//   }
+	// };
+	
+	var toBeCleanedUp = document.getElementsByClassName('starting-el');
+	
+	var addPhase1Text = function addPhase1Text() {
+	  var these = document.createElement('a-entity');
+	  these.setAttribute('text', 'text: These boxes represent the array elements to be sorted.');
+	  these.setAttribute('position', '-8.6 5 0');
+	  these.setAttribute('material', 'color:#60BC5A');
+	  var they = document.createElement('a-entity');
+	  they.setAttribute('text', 'text: Their values are represented by varying heights and color shades');
+	  they.setAttribute('position', '-10 4 0');
+	  they.setAttribute('material', 'color:#60BC5A');
+	
+	  var when = document.createElement('a-entity');
+	  when.setAttribute('text', 'text: When sorted, the smallest box will be on the left, and the largest on the right');
+	  when.setAttribute('position', '-11.3 3 0');
+	  when.setAttribute('material', 'color:#60BC5A');
+	
+	  toBeCleanedUp.push(these);
+	  toBeCleanedUp.push(they);
+	  toBeCleanedUp.push(when);
+	
+	  var scene = document.querySelector('a-scene');
+	  scene.appendChild(these);
+	  scene.appendChild(they);
+	  scene.appendChild(when);
 	};
 	
-	var moveToPhase1 = function moveToPhase1() {
-	  makeArrayElsVisible();
-	  makeStartingElsInvisible();
+	var addPhase2Text = function addPhase2Text() {
+	  var first = document.createElement('a-entity');
+	  first.setAttribute('text', 'text: The first step is to select the pivot element');
+	  first.setAttribute('position', '-8.6 5 0');
+	  first.setAttribute('material', 'color:#60BC5A');
+	
+	  toBeCleanedUp.push(first);
+	
+	  var purpose = document.createElement('a-entity');
+	  purpose.setAttribute('text', 'text: The pivot element will be sorted first by comparing it against all other elements');
+	  purpose.setAttribute('position', '-12 4 0');
+	  purpose.setAttribute('material', 'color:#60BC5A');
+	
+	  toBeCleanedUp.push(purpose);
+	
+	  var scene = document.querySelector('a-scene');
+	  scene.appendChild(first);
+	};
+	
+	var cleanUp = function cleanUp() {
+	  for (var i = 0; i < toBeCleanedUp.length; i++) {
+	    toBeCleanedUp[i].setAttribute('visible', 'false');
+	  }
+	  toBeCleanedUp = [];
+	};
+	
+	var moveToPhase = function moveToPhase(phase) {
+	  debugger;
+	  cleanUp();
+	  switch (phase) {
+	    case 1:
+	      makeArrayElsVisible();
+	      addPhase1Text();
+	      break;
+	    case 2:
+	      addPhase2Text();
+	      break;
+	    default:
+	      break;
+	  }
+	  incrementPhase();
+	};
+	
+	var phase = 1;
+	
+	var incrementPhase = function incrementPhase() {
+	  return phase++;
 	};
 	
 	var setListenerOnStartBox = function setListenerOnStartBox() {
 	  var startBox = document.getElementById('start-box');
 	  startBox.addEventListener('click', function (e) {
-	    moveToPhase1();
+	    moveToPhase(phase);
 	  });
 	};
 	
