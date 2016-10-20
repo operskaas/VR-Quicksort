@@ -24,20 +24,22 @@
       <a-box id="rotate-box" position="-1 1.5 1" rotation="0 45 0" mixin='array-element'>
       </a-box>
 
-      <a-box position="-1 0.5 3" rotation="0 45 0" mixin='array-element'></a-box>
-
-      <a-plane rotation="-90 0 0" width="4" height="4" color="#7BC8A4">
+      <a-plane rotation="-90 0 0" width="20" height="20" color="#7BC8A4">
       </a-plane>
 
       <a-sky color="#82D6CC"></a-sky>
 
-      <a-entity position="0 3 10">
+      <a-entity position="0 0 5">
         <a-camera id="user" fov="110">
-<!--             <a-entity cursor="fuse: true; fuseTimeout: 500"
+            <a-entity cursor="fuse: true; fuseTimeout: 1000"
               position="0 0 -3"
-              geometry="primitive: ring"
+              geometry="primitive: ring; radiusOuter: 0.30; radiusInner: 0.20;"
               material="color: black; shader: flat">
-            </a-entity> -->
+              <a-animation begin="click" easing="ease" attribute="scale"
+             fill="backwards" from="0.1 0.1 0.1" to="1 1 1" dur="150"></a-animation>
+              <a-animation begin="cursor-fusing" easing="ease" attribute="scale"
+             fill="none" from="1 1 1" to="0.1 0.1 0.1" dur="1000"></a-animation>
+            </a-entity>
         </a-camera>
       </a-entity>
 
