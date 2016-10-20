@@ -59,44 +59,40 @@
 	  return -((EL_IDS.length - 1) / 2) + idx;
 	});
 	
-	var setElHeights = function setElHeights() {
-	  var elXPositions = EL_X_POSITIONS.slice();
+	var randomElOrder = function randomElOrder() {
+	  var arrayEls = [];
 	
-	  EL_IDS.forEach(function (elId, idx) {
-	    var el = document.getElementById(elId);
-	    var numEls = EL_IDS.length;
-	    el.setAttribute('height', '' + (0.5 + idx / 5));
-	    var blueHex = Math.floor(17 + (255 - 17) * (idx / numEls)).toString(16);
-	    el.setAttribute('material', 'color:#7777' + blueHex);
-	    var randPositionIdx = Math.floor(Math.random() * elXPositions.length);
-	    var x = elXPositions.splice(randPositionIdx, 1);
-	    el.setAttribute('position', x + ' 1 2');
-	  });
-	};
+	  var elIdCopy = EL_IDS.slice();
 	
-	var generateValsToBeSorted = function generateValsToBeSorted() {
-	  var valsToBeSorted = [];
-	
-	  for (var i = 0; i < NUM_ELS; i++) {
-	    valsToBeSorted.push(Math.floor(Math.random() * 100));
+	  for (var i = 0; i < EL_IDS.length; i++) {
+	    var randomIdx = Math.floor(Math.random() * elIdCopy.length);
+	    var randomElId = elIdCopy.splice(randomIdx, 1);
+	    var randomEl = document.getElementById(randomElId);
+	    arrayEls.push(randomEl);
 	  }
 	
-	  return valsToBeSorted;
+	  return arrayEls;
 	};
 	
-	var generateArrayEls = function generateArrayEls(valsToBeSorted) {
-	  var arrayEls = valsToBeSorted.map(function (val, idx) {
-	    new ArrayElement(val, idx);
+	var setElHeights = function setElHeights(arrayEls) {
+	
+	  arrayEls.forEach(function (arrayEl, idx) {
+	    var numEls = EL_IDS.length;
+	    var id = parseInt(arrayEl.id.substr(3));
+	    arrayEl.setAttribute('height', '' + (0.5 + id / 5));
+	    var blueHex = Math.floor(17 + (255 - 17) * (id / numEls)).toString(16);
+	    arrayEl.setAttribute('material', 'color:#7777' + blueHex);
+	    var x = EL_X_POSITIONS[idx];
+	    arrayEl.setAttribute('position', x + ' 1 2');
 	  });
-	  return arrayEls;
 	};
 	
 	document.addEventListener('DOMContentLoaded', function () {
 	  var scene = document.querySelector('a-scene');
 	  scene.addEventListener('loaded', function () {
 	
-	    var valsToBeSorted = generateValsToBeSorted();
-	    setElHeights();
+	    var arrayEls = randomElOrder();
+	    setElHeights(arrayEls);
 	
 	    // AFRAME.registerComponent('cursor-listener', {
 	    //   init: function () {
