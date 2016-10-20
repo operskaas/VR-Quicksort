@@ -46,27 +46,31 @@
 
 	'use strict';
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	__webpack_require__(1);
 	
 	__webpack_require__(4);
 	
 	__webpack_require__(8);
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var NUM_ELS = 12;
 	
-	var NUM_ELS = 10;
-	
-	var EL_IDS = ['el-1', 'el-2', 'el-3', 'el-4', 'el-5'];
-	var EL_POSITIONS = [''];
+	var EL_IDS = ['el-1', 'el-2', 'el-3', 'el-4', 'el-5', 'el-6', 'el-7', 'el-8', 'el-9', 'el-10', 'el-11', 'el-12'];
+	var EL_X_POSITIONS = EL_IDS.map(function (id, idx) {
+	  return -((EL_IDS.length - 1) / 2) + idx;
+	});
 	
 	var setElHeights = function setElHeights() {
+	  var elXPositions = EL_X_POSITIONS.slice();
+	
 	  EL_IDS.forEach(function (elId, idx) {
 	    var el = document.getElementById(elId);
+	    var numEls = EL_IDS.length;
 	    el.setAttribute('height', '' + (0.5 + idx / 5));
-	    var blueHex = Math.floor(17 + (255 - 17) * (idx / EL_IDS.length)).toString(16);
-	    el.setAttribute('material', 'color:#0000' + blueHex);
+	    var blueHex = Math.floor(17 + (255 - 17) * (idx / numEls)).toString(16);
+	    el.setAttribute('material', 'color:#7777' + blueHex);
+	    var randPositionIdx = Math.floor(Math.random() * elXPositions.length);
+	    var x = elXPositions.splice(randPositionIdx, 1);
+	    el.setAttribute('position', x + ' 1 2');
 	  });
 	};
 	
@@ -87,72 +91,24 @@
 	  return arrayEls;
 	};
 	
-	var ArrayElement = function () {
-	  function ArrayElement(value, idx) {
-	    _classCallCheck(this, ArrayElement);
-	
-	    this.value = value;
-	    this.idx = idx;
-	    this.DOMNode = this.createElement();
-	    this.appendDOMNode();
-	  }
-	
-	  _createClass(ArrayElement, [{
-	    key: 'createElement',
-	    value: function createElement() {
-	      var el = document.createElement('a-entity');
-	      var height = 2 * (this.value / 100);
-	      el.setAttribute('geometry', 'primitive: box; height: ' + height + '; width: 0.5; depth: 0.5;');
-	      el.setAttribute('material', 'color: #0000cc');
-	      el.setAttribute('cursor-listener', '');
-	      el.className = 'clickable';
-	
-	      var x = -(NUM_ELS / 2) + this.idx;
-	      el.setAttribute('position', x + ' 1 0');
-	
-	      el.setAttribute('scale', '1 1 1');
-	      return el;
-	    }
-	  }, {
-	    key: 'appendDOMNode',
-	    value: function appendDOMNode() {
-	      var elContainer = document.querySelector('#el-container');
-	      elContainer.appendChild(this.DOMNode);
-	    }
-	  }]);
-	
-	  return ArrayElement;
-	}();
-	
 	document.addEventListener('DOMContentLoaded', function () {
 	  var scene = document.querySelector('a-scene');
 	  scene.addEventListener('loaded', function () {
+	
 	    var valsToBeSorted = generateValsToBeSorted();
 	    setElHeights();
 	
-	    // const arrElements = generateArrayEls(valsToBeSorted);
-	
-	
-	    AFRAME.registerComponent('cursor-listener', {
-	      init: function init() {
-	        var COLORS = ['red', 'green', 'blue'];
-	        this.el.addEventListener('click', function (evt) {
-	          var randomIndex = Math.floor(Math.random() * COLORS.length);
-	          this.setAttribute('material', 'color', COLORS[randomIndex]);
-	          console.log('I was clicked at: ', evt.detail.intersection.point);
-	        });
-	      }
-	    });
-	
-	    // AFRAME.registerComponent('array-element', {
+	    // AFRAME.registerComponent('cursor-listener', {
 	    //   init: function () {
-	    //       this.el.setAttribute('color', "#cccccc");
-	    //       this.el.setAttribute('position', "0 0 0");
-	    //       this.el.setAttribute('width', '0.5');
-	    //       this.el.setAttribute('height', '1');
-	    //       this.el.setAttribute('depth', '0.5');
+	    //     var COLORS = ['red', 'green', 'blue'];
+	    //     this.el.addEventListener('click', function (evt) {
+	    //       var randomIndex = Math.floor(Math.random() * COLORS.length);
+	    //       this.setAttribute('material', 'color', COLORS[randomIndex]);
+	    //       console.log('I was clicked at: ', evt.detail.intersection.point);
+	    //     });
 	    //   }
 	    // });
+	
 	
 	    AFRAME.registerComponent('user-facing-text', {
 	      init: function init() {
@@ -172,23 +128,6 @@
 	    // rotateBox.appendChild(animation);
 	  });
 	});
-	
-	// const box = document.querySelector('a-box');
-	// box.addEventListener('mouseenter', function () {
-	//   box.setAttribute('scale', {
-	//     x: 4,
-	//     y: 1,
-	//     z: 6
-	//   });
-	// });  
-	
-	// box.addEventListener('mouseleave', function () {
-	//   box.setAttribute('scale', {
-	//     x: 1,
-	//     y: 1,
-	//     z: 1
-	//   });
-	// });
 
 /***/ },
 /* 1 */
