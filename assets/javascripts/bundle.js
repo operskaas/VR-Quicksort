@@ -46,59 +46,118 @@
 
 	'use strict';
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	__webpack_require__(1);
 	
 	__webpack_require__(4);
 	
 	__webpack_require__(8);
 	
-	var valsToBeSorted = [];
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	for (var i = 0; i < 10; i++) {
-	  valsToBeSorted.push(Math.floor(Math.random() * 100));
-	}
+	var NUM_ELS = 10;
+	
+	var generateValsToBeSorted = function generateValsToBeSorted() {
+	  var valsToBeSorted = [];
+	
+	  for (var i = 0; i < NUM_ELS; i++) {
+	    valsToBeSorted.push(Math.floor(Math.random() * 100));
+	  }
+	
+	  return valsToBeSorted;
+	};
+	
+	var generateArrayEls = function generateArrayEls(valsToBeSorted) {
+	  var arrayEls = valsToBeSorted.map(function (val, idx) {
+	    new ArrayElement(val, idx);
+	  });
+	  return arrayEls;
+	};
+	
+	var ArrayElement = function () {
+	  function ArrayElement(value, idx) {
+	    _classCallCheck(this, ArrayElement);
+	
+	    this.value = value;
+	    this.idx = idx;
+	    this.DOMNode = this.createElement();
+	    this.appendDOMNode();
+	  }
+	
+	  _createClass(ArrayElement, [{
+	    key: 'createElement',
+	    value: function createElement() {
+	      var el = document.createElement('a-box');
+	      el.setAttribute('cursor-listener', '');
+	      el.setAttribute('class', 'clickable');
+	
+	      var x = -(NUM_ELS / 2) + this.idx;
+	      el.setAttribute('position', x + ' 1 0');
+	
+	      var height = 2 * (this.value / 100);
+	      el.setAttribute('scale', '1 1 1');
+	      el.setAttribute('height', '' + height);
+	      el.setAttribute('width', '0.5');
+	      el.setAttribute('depth', '0.5');
+	      return el;
+	    }
+	  }, {
+	    key: 'appendDOMNode',
+	    value: function appendDOMNode() {
+	      var elContainer = document.querySelector('#el-container');
+	      elContainer.appendChild(this.DOMNode);
+	    }
+	  }]);
+	
+	  return ArrayElement;
+	}();
 	
 	document.addEventListener('DOMContentLoaded', function () {
-	
-	  AFRAME.registerComponent('cursor-listener', {
-	    init: function init() {
-	      var COLORS = ['red', 'green', 'blue'];
-	      this.el.addEventListener('click', function (evt) {
-	        var randomIndex = Math.floor(Math.random() * COLORS.length);
-	        this.setAttribute('material', 'color', COLORS[randomIndex]);
-	        console.log('I was clicked at: ', evt.detail.intersection.point);
-	      });
-	    }
-	  });
-	
-	  AFRAME.registerComponent('array-element', {
-	    init: function init() {
-	      this.el.setAttribute('color', "#cccccc");
-	      this.el.setAttribute('position', "0 0 0");
-	      this.el.setAttribute('width', '0.5');
-	      this.el.setAttribute('height', '1');
-	      this.el.setAttribute('depth', '0.5');
-	    }
-	  });
-	
-	  AFRAME.registerComponent('user-facing-text', {
-	    init: function init() {
-	      this.el.setAttribute('look-at', "#user");
-	      this.el.setAttribute('material', "color: red");
-	    }
-	  });
-	
 	  var scene = document.querySelector('a-scene');
+	  scene.addEventListener('loaded', function () {
+	    var valsToBeSorted = generateValsToBeSorted();
 	
-	  var animation = document.createElement('a-animation');
-	  animation.setAttribute('attribute', 'rotation');
-	  animation.setAttribute('dur', '1000');
-	  animation.setAttribute('fill', 'forwards');
-	  animation.setAttribute('to', '0 360 0');
-	  animation.setAttribute('repeat', 'indefinite');
+	    var arrElements = generateArrayEls(valsToBeSorted);
 	
-	  var rotateBox = document.getElementById('rotate-box');
-	  rotateBox.appendChild(animation);
+	    AFRAME.registerComponent('cursor-listener', {
+	      init: function init() {
+	        var COLORS = ['red', 'green', 'blue'];
+	        this.el.addEventListener('click', function (evt) {
+	          var randomIndex = Math.floor(Math.random() * COLORS.length);
+	          this.setAttribute('material', 'color', COLORS[randomIndex]);
+	          console.log('I was clicked at: ', evt.detail.intersection.point);
+	        });
+	      }
+	    });
+	
+	    // AFRAME.registerComponent('array-element', {
+	    //   init: function () {
+	    //       this.el.setAttribute('color', "#cccccc");
+	    //       this.el.setAttribute('position', "0 0 0");
+	    //       this.el.setAttribute('width', '0.5');
+	    //       this.el.setAttribute('height', '1');
+	    //       this.el.setAttribute('depth', '0.5');
+	    //   }
+	    // });
+	
+	    AFRAME.registerComponent('user-facing-text', {
+	      init: function init() {
+	        this.el.setAttribute('look-at', "#user");
+	        this.el.setAttribute('material', "color: red");
+	      }
+	    });
+	
+	    // const animation = document.createElement('a-animation');
+	    // animation.setAttribute('attribute', 'rotation');
+	    // animation.setAttribute('dur', '1000');
+	    // animation.setAttribute('fill', 'forwards');
+	    // animation.setAttribute('to', '0 360 0');
+	    // animation.setAttribute('repeat', 'indefinite');
+	
+	    // const rotateBox = document.getElementById('rotate-box');
+	    // rotateBox.appendChild(animation);
+	  });
 	});
 	
 	// const box = document.querySelector('a-box');
