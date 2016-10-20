@@ -59,6 +59,8 @@
 	  return -((EL_IDS.length - 1) / 2) + idx;
 	});
 	
+	var arrayEls = void 0;
+	
 	var randomElOrder = function randomElOrder() {
 	  var arrayEls = [];
 	
@@ -84,6 +86,32 @@
 	    arrayEl.setAttribute('material', 'color:#7777' + blueHex);
 	    var x = EL_X_POSITIONS[idx];
 	    arrayEl.setAttribute('position', x + ' 1 2');
+	    arrayEl.setAttribute('visible', 'false');
+	  });
+	};
+	
+	var makeArrayElsVisible = function makeArrayElsVisible() {
+	  arrayEls.forEach(function (arrayEl) {
+	    return arrayEl.setAttribute('visible', 'true');
+	  });
+	};
+	
+	var makeStartingElsInvisible = function makeStartingElsInvisible() {
+	  var startingTexts = document.getElementsByClassName('starting-el');
+	  for (var i = 0; i < startingTexts.length; i++) {
+	    startingTexts[i].setAttribute('visible', 'false');
+	  }
+	};
+	
+	var moveToPhase1 = function moveToPhase1() {
+	  makeArrayElsVisible();
+	  makeStartingElsInvisible();
+	};
+	
+	var setListenerOnStartBox = function setListenerOnStartBox() {
+	  var startBox = document.getElementById('start-box');
+	  startBox.addEventListener('click', function (e) {
+	    moveToPhase1();
 	  });
 	};
 	
@@ -91,7 +119,10 @@
 	  var scene = document.querySelector('a-scene');
 	  scene.addEventListener('loaded', function () {
 	
-	    var arrayEls = randomElOrder();
+	    arrayEls = randomElOrder();
+	
+	    setListenerOnStartBox();
+	
 	    setElHeights(arrayEls);
 	
 	    // AFRAME.registerComponent('cursor-listener', {
