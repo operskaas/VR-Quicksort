@@ -106,47 +106,30 @@
 	var toBeCleanedUp = document.getElementsByClassName('starting-el');
 	
 	var addPhase1Text = function addPhase1Text() {
-	  var these = document.createElement('a-entity');
-	  these.setAttribute('text', 'text: These boxes represent the array elements to be sorted.');
-	  these.setAttribute('position', '-8.6 5 0');
-	  these.setAttribute('material', 'color:#60BC5A');
-	  var they = document.createElement('a-entity');
-	  they.setAttribute('text', 'text: Their values are represented by varying heights and color shades');
-	  they.setAttribute('position', '-10 4 0');
-	  they.setAttribute('material', 'color:#60BC5A');
-	
-	  var when = document.createElement('a-entity');
-	  when.setAttribute('text', 'text: When sorted, the smallest box will be on the left, and the largest on the right');
-	  when.setAttribute('position', '-11.3 3 0');
-	  when.setAttribute('material', 'color:#60BC5A');
-	
-	  toBeCleanedUp.push(these);
-	  toBeCleanedUp.push(they);
-	  toBeCleanedUp.push(when);
-	
-	  var scene = document.querySelector('a-scene');
-	  scene.appendChild(these);
-	  scene.appendChild(they);
-	  scene.appendChild(when);
+	  addTemporaryText('These boxes represent the array elements to be sorted', '-8.6 6 0');
+	  addTemporaryText('Their values are represented by varying heights and color shades', '-10 5 0');
+	  addTemporaryText('When sorted, the smallest box will be on the left, and the largest on the right', '-11.3 4 0');
 	};
 	
 	var addPhase2Text = function addPhase2Text() {
-	  var first = document.createElement('a-entity');
-	  first.setAttribute('text', 'text: The first step is to select the pivot element');
-	  first.setAttribute('position', '-8.6 5 0');
-	  first.setAttribute('material', 'color:#60BC5A');
+	  addTemporaryText('The first step is to select the pivot element', '-6.87 5 0');
+	  addTemporaryText('The pivot element will be sorted first by comparing it against all other elements', '-12 4 0');
+	};
 	
-	  toBeCleanedUp.push(first);
+	var addTemporaryText = function addTemporaryText(text, position) {
+	  var textEl = document.createElement('a-entity');
+	  textEl.setAttribute('text', 'text: ' + text);
+	  textEl.setAttribute('position', position);
+	  textEl.setAttribute('material', 'color:#60BC5A');
 	
-	  var purpose = document.createElement('a-entity');
-	  purpose.setAttribute('text', 'text: The pivot element will be sorted first by comparing it against all other elements');
-	  purpose.setAttribute('position', '-12 4 0');
-	  purpose.setAttribute('material', 'color:#60BC5A');
-	
-	  toBeCleanedUp.push(purpose);
+	  toBeCleanedUp.push(textEl);
 	
 	  var scene = document.querySelector('a-scene');
-	  scene.appendChild(first);
+	  scene.appendChild(textEl);
+	};
+	
+	var addPhase3Text = function addPhase3Text() {
+	  addTemporaryText('');
 	};
 	
 	var cleanUp = function cleanUp() {
@@ -157,20 +140,32 @@
 	};
 	
 	var moveToPhase = function moveToPhase(phase) {
-	  debugger;
 	  cleanUp();
 	  switch (phase) {
 	    case 1:
 	      makeArrayElsVisible();
 	      addPhase1Text();
+	      changeStartText();
 	      break;
 	    case 2:
 	      addPhase2Text();
+	      break;
+	    case 3:
+	      addPhase3Text();
 	      break;
 	    default:
 	      break;
 	  }
 	  incrementPhase();
+	};
+	
+	var changeStartText = function changeStartText() {
+	  var startText = document.getElementById('next-text');
+	  startText.setAttribute('text', 'text: Continue');
+	  startText.setAttribute('position', '-1.33 2.8 0.5');
+	
+	  var startBox = document.getElementById('start-box');
+	  startBox.setAttribute('scale', '3.25 1 1');
 	};
 	
 	var phase = 1;
