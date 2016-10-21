@@ -222,7 +222,6 @@
 	document.addEventListener('DOMContentLoaded', function () {
 	  var scene = document.querySelector('a-scene');
 	  scene.addEventListener('loaded', function () {
-	    debugger;
 	
 	    arrayEls = randomElOrder();
 	
@@ -230,34 +229,12 @@
 	
 	    setElHeights(arrayEls);
 	
-	    // AFRAME.registerComponent('cursor-listener', {
-	    //   init: function () {
-	    //     var COLORS = ['red', 'green', 'blue'];
-	    //     this.el.addEventListener('click', function (evt) {
-	    //       var randomIndex = Math.floor(Math.random() * COLORS.length);
-	    //       this.setAttribute('material', 'color', COLORS[randomIndex]);
-	    //       console.log('I was clicked at: ', evt.detail.intersection.point);
-	    //     });
-	    //   }
-	    // });
-	
-	
 	    AFRAME.registerComponent('user-facing-text', {
 	      init: function init() {
 	        this.el.setAttribute('look-at', "#user");
 	        this.el.setAttribute('material', "color: red");
 	      }
 	    });
-	
-	    // const animation = document.createElement('a-animation');
-	    // animation.setAttribute('attribute', 'rotation');
-	    // animation.setAttribute('dur', '1000');
-	    // animation.setAttribute('fill', 'forwards');
-	    // animation.setAttribute('to', '0 360 0');
-	    // animation.setAttribute('repeat', 'indefinite');
-	
-	    // const rotateBox = document.getElementById('rotate-box');
-	    // rotateBox.appendChild(animation);
 	  });
 	});
 

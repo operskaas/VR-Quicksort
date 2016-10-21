@@ -14,16 +14,16 @@
         <img id="sky" src="images/plaza.jpg" />
       </a-assets>
 
-      <a-entity id="top-text" class="starting-el" mixin="user-facing-text" position="-4.15 7.5 0" text="text: Welcome to Virtual QuickSort!">
+      <a-entity id="top-text" class="starting-el" user-facing-text" position="-4.15 7.5 0" text="text: Welcome to Virtual QuickSort!">
       </a-entity>
 
-      <a-entity id="mid-text" class="starting-el" position="-3.8 6.5 0" mixin="user-facing-text" text="text: Look at 'Start' to get started"></a-entity>
+      <a-entity id="mid-text" class="starting-el" position="-3.8 6.5 0" user-facing-text" text="text: Look at 'Start' to get started"></a-entity>
 
-      <a-entity id="bot-text" class="starting-el" position="-8.2 5.5 0" scale="0.8 0.8 1" mixin="user-facing-text" text="text: "></a-entity>
+      <a-entity visible="false" id="bot-text" class="starting-el" position="-8.2 5.5 0" user-facing-text" text="text: shouldn't see"></a-entity>
 
 
       <a-box id="start-box" class="clickable" position="0 4.5 0" width="2">
-        <a-entity id="next-text" position="-.72 -0.2 0.5" text="text: Start" mixin="user-facing-text" material="color: #00dd00"></a-entity>
+        <a-entity id="next-text" position="-.72 -0.2 0.5" text="text: Start" user-facing-text" material="color: #00dd00"></a-entity>
       </a-box>
 
 
