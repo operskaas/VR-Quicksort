@@ -60,6 +60,7 @@
 	});
 	
 	var arrayEls = void 0;
+	var pivotEl = void 0;
 	
 	var randomElOrder = function randomElOrder() {
 	  var arrayEls = [];
@@ -96,40 +97,45 @@
 	  });
 	};
 	
-	// const makeStartingElsInvisible = () => {
-	//   const startingTexts = document.getElementsByClassName('starting-el');
-	//   for (let i = 0; i < startingTexts.length; i++) {
-	//     startingTexts[i].setAttribute('visible', 'false');
-	//   }
-	// };
-	
 	var toBeCleanedUp = document.getElementsByClassName('starting-el');
 	
+	var setText = function setText(id, text, xPos) {
+	  var scale = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+	
+	  var textEl = document.getElementById(id);
+	  textEl.setAttribute('visible', 'true');
+	  textEl.setAttribute('text', 'text: ' + text);
+	  var yPos = 6;
+	  if (id === 'mid-text') {
+	    yPos = 5;
+	  } else if (id === 'bot-text') {
+	    yPos = 4;
+	  }
+	  textEl.setAttribute('position', xPos + ' ' + yPos + ' 0');
+	  textEl.setAttribute('scale', scale + ' ' + scale + ' ' + scale);
+	
+	  toBeCleanedUp.push(textEl);
+	};
+	
 	var addPhase1Text = function addPhase1Text() {
-	  addTemporaryText('These boxes represent the array elements to be sorted', '-8.6 6 0');
-	  addTemporaryText('Their values are represented by varying heights and color shades', '-10 5 0');
-	  addTemporaryText('When sorted, the smallest box will be on the left, and the largest on the right', '-11.3 4 0');
+	  setText('top-text', 'These boxes represent the array elements to be sorted', '-8.6');
+	  setText('mid-text', 'Their values are represented by varying heights and color shades', '-10');
+	  setText('bot-text', 'When sorted, the smallest box will be on the left, and the largest on the right', '-11.3');
 	};
 	
 	var addPhase2Text = function addPhase2Text() {
-	  addTemporaryText('The first step is to select the pivot element', '-6.87 5 0');
-	  addTemporaryText('The pivot element will be sorted first by comparing it against all other elements', '-12 4 0');
-	};
-	
-	var addTemporaryText = function addTemporaryText(text, position) {
-	  var textEl = document.createElement('a-entity');
-	  textEl.setAttribute('text', 'text: ' + text);
-	  textEl.setAttribute('position', position);
-	  textEl.setAttribute('material', 'color:#60BC5A');
-	
-	  toBeCleanedUp.push(textEl);
-	
-	  var scene = document.querySelector('a-scene');
-	  scene.appendChild(textEl);
+	  setText('mid-text', 'The first step is to select the pivot element', '-6.87');
+	  setText('bot-text', 'The pivot element will be sorted first by comparing it against all other elements', '-12');
 	};
 	
 	var addPhase3Text = function addPhase3Text() {
-	  addTemporaryText('');
+	  setText('top-text', 'It is common to use the first element as the pivot element', '-8');
+	  setText('mid-text', 'Any elements smaller than the pivot element will be moved to the left', '-9.5');
+	  setText('bot-text', "Any elements larger than the pivot element will be moved to it's right", '-9.5');
+	};
+	
+	var addPhase4Text = function addPhase4Text() {
+	  setText('top-text', "Let's compare it with the first remaining element", '-7');
 	};
 	
 	var cleanUp = function cleanUp() {
@@ -137,6 +143,26 @@
 	    toBeCleanedUp[i].setAttribute('visible', 'false');
 	  }
 	  toBeCleanedUp = [];
+	};
+	
+	var moveAndPulsePivot = function moveAndPulsePivot() {
+	  var pulseAnimation = document.createElement('a-animation');
+	  pulseAnimation.setAttribute('attribute', 'scale');
+	  pulseAnimation.setAttribute('direction', 'alternate');
+	  pulseAnimation.setAttribute('dur', '1000');
+	  pulseAnimation.setAttribute('fill', 'forwards');
+	  pulseAnimation.setAttribute('to', '1.3 1.3 1.3');
+	  pulseAnimation.setAttribute('repeat', 'indefinite');
+	
+	  var moveAnimation = document.createElement('a-animation');
+	  moveAnimation.setAttribute('attribute', 'position');
+	  moveAnimation.setAttribute('dur', '2000');
+	  moveAnimation.setAttribute('to', '0 0 1');
+	
+	  pivotEl = arrayEls.splice(0, 1);
+	
+	  pivotEl.appendChild(pulseAnimation);
+	  pivotEl.appendChild(moveAnimation);
 	};
 	
 	var moveToPhase = function moveToPhase(phase) {
@@ -152,7 +178,11 @@
 	      break;
 	    case 3:
 	      addPhase3Text();
+	      moveAndPulsePivot();
 	      break;
+	    case 4:
+	      addPhase4Text();
+	
 	    default:
 	      break;
 	  }
