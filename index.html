@@ -9,7 +9,7 @@
   <body>
     <a-scene>
       <a-assets>
-        <a-mixin id="user-facing-text" material="color: #86cbce" look-at"#user"></a-mixin>
+        <a-mixin id="user-facing-text" material="color: #86cbce" look-at="#user" ></a-mixin>
         <a-mixin id="array-element" material="color: #00cc00" geometry="width:0.4; height:1; depth:0.4;"></a-mixin>
         <img id="sky" src="images/plaza.jpg" />
       </a-assets>
@@ -25,18 +25,6 @@
       <a-box id="start-box" class="clickable" position="0 4.5 0" width="2">
         <a-entity id="next-text" position="-.72 -0.2 0.5" text="text: Start" mixin="user-facing-text" material="color: #00dd00"></a-entity>
       </a-box>
-
-      <!-- <a-box array-element visible="false"></a-box> -->
-
-<!-- 
-      <a-box class="clickable" cursor-listener position="-1 0.5 1" rotation="0 45 0" mixin="array-element" visible="true">
-
-      </a-box>
-
-      <a-box class="clickable" id="rotate-box" position="-1 1.5 1" rotation="0 45 0" mixin="array-element" visible="true">
-        <a-animation begin="cursor-hovered" easing="ease" attribute="material.color"
-             fill="backwards" from="#00cc00" to="red" dur="500"></a-animation>
-      </a-box> -->
 
 
       <a-entity id="el-container">
@@ -56,16 +44,13 @@
 
 
 
-
-
-
       <a-plane rotation="-90 0 0" width="200" height="200" color="#edf5d9">
       </a-plane>
 
       <a-sky color="#b9335e"></a-sky>
 
       <a-entity position="0 2 15">
-        <a-box color="#edf5d9" geometry="height:2; width:2; depth:1"></a-box>
+        <a-box color="#edf5d9" height="2" width="2" depth="1"></a-box>
         <a-camera id="user" fov="80">
             <a-entity raycaster="objects: .clickable"
               cursor="fuse: true; fuseTimeout: 1000"
