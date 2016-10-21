@@ -193,11 +193,11 @@
 	var changeStartText = function changeStartText() {
 	  var startText = document.getElementById('next-text');
 	  startText.setAttribute('text', 'text: Continue');
-	  startText.setAttribute('position', '-1.33 -0.2 0.5');
+	  movePositionBy(startText, [3, 0, 0]);
 	
 	  var startBox = document.getElementById('start-box');
 	  startBox.setAttribute('width', '3.25');
-	  movePositionBy(startBox, [3, 0, 0]);
+	  movePositionBy(startBox, [0.62, 0, 0]);
 	};
 	
 	var movePositionBy = function movePositionBy(element, delta) {

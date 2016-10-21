@@ -9,22 +9,23 @@
   <body>
     <a-scene>
       <a-assets>
-        <a-mixin id="user-facing-text" material="color: #86cbce" look-at="#user" ></a-mixin>
+        <a-mixin id="user-facing-text" material="color: #86cbce"></a-mixin>
         <a-mixin id="array-element" material="color: #00cc00" geometry="width:0.4; height:1; depth:0.4;"></a-mixin>
         <img id="sky" src="images/plaza.jpg" />
       </a-assets>
 
-      <a-entity id="top-text" class="starting-el" user-facing-text" position="-4.15 7.5 0" text="text: Welcome to Virtual QuickSort!">
+      <a-entity id="top-text" class="starting-el" user-facing-text position="-4.15 7.5 0" text="text: Welcome to Virtual QuickSort!">
       </a-entity>
 
-      <a-entity id="mid-text" class="starting-el" position="-3.8 6.5 0" user-facing-text" text="text: Look at 'Start' to get started"></a-entity>
+      <a-entity id="mid-text" class="starting-el" position="-3.8 6.5 0" user-facing-text text="text: Look at 'Start' to get started"></a-entity>
 
-      <a-entity visible="false" id="bot-text" class="starting-el" position="-8.2 5.5 0" user-facing-text" text="text: shouldn't see"></a-entity>
+      <a-entity visible="false" id="bot-text" class="starting-el" position="-8.2 5.5 0" user-facing-text text="text: shouldn't see"></a-entity>
 
 
-      <a-box id="start-box" class="clickable" position="0 4.5 0" width="2">
-        <a-entity id="next-text" position="-.72 -0.2 0.5" text="text: Start" user-facing-text" material="color: #00dd00"></a-entity>
-      </a-box>
+        <a-entity id="next-text" position="0 4.5 0" text="text: Start" user-facing-text material="color: #00dd00">
+          <a-box id="start-box" class="clickable" position="0.72 0.2 -0.5" width="2">
+          </a-box> 
+        </a-entity>
 
 
       <a-entity id="el-container">
