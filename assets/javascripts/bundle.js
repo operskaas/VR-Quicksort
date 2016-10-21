@@ -171,19 +171,21 @@
 	  switch (phase) {
 	    case 1:
 	      makeArrayElsVisible();
-	      addPhase1Text();
+	      // addPhase1Text();
 	      changeStartText();
 	      break;
 	    case 2:
-	      addPhase2Text();
+	      // addPhase2Text();
 	      break;
 	    case 3:
-	      addPhase3Text();
+	      // addPhase3Text();
 	      moveAndPulsePivot();
 	      break;
 	    case 4:
-	      addPhase4Text();
-	
+	      // addPhase4Text();
+	      break;
+	    case 5:
+	      break;
 	    default:
 	      break;
 	  }

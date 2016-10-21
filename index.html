@@ -7,19 +7,19 @@
     <link rel="stylesheet" href="./lib/css/master.css" media="screen" title="no title">
   </head>
   <body>
-    <a-scene>
+    <a-scene stats>
       <a-assets>
         <a-mixin id="user-facing-text" material="color: #86cbce"></a-mixin>
         <a-mixin id="array-element" material="color: #00cc00" geometry="width:0.4; height:1; depth:0.4;"></a-mixin>
         <img id="sky" src="images/plaza.jpg" />
       </a-assets>
 
-      <a-entity id="top-text" class="starting-el" user-facing-text position="-4.15 7.5 0" text="text: Welcome to Virtual QuickSort!">
+<!--       <a-entity id="top-text" class="starting-el" user-facing-text position="-4.15 7.5 0" text="text: Welcome to Virtual QuickSort!">
       </a-entity>
 
       <a-entity id="mid-text" class="starting-el" position="-3.8 6.5 0" user-facing-text text="text: Look at 'Start' to get started"></a-entity>
 
-      <a-entity visible="false" id="bot-text" class="starting-el" position="-8.2 5.5 0" user-facing-text text="text: shouldn't see"></a-entity>
+      <a-entity visible="false" id="bot-text" class="starting-el" position="-8.2 5.5 0" user-facing-text text="text: shouldn't see"></a-entity> -->
 
 
         <a-entity id="next-text" position="0 4.5 0" text="text: Start" user-facing-text material="color: #00dd00">
@@ -48,7 +48,7 @@
       <a-plane rotation="-90 0 0" width="200" height="200" color="#edf5d9">
       </a-plane>
 
-      <a-sky color="#b9335e"></a-sky>
+      <!-- <a-sky color="#b9335e"></a-sky> -->
 
       <a-entity position="0 2 15">
         <a-box color="#edf5d9" height="2" width="2" depth="1"></a-box>
@@ -56,7 +56,7 @@
             <a-entity raycaster="objects: .clickable"
               cursor="fuse: true; fuseTimeout: 1000"
               position="0 0 -3"
-              geometry="primitive: ring; radiusOuter: 0.08; radiusInner: 0.05;"
+              geometry="primitive: plane; width: 0.05; height: 0.05;"
               material="color: black; shader: flat">
               <a-animation begin="click" easing="ease" attribute="scale"
              fill="backwards" from="0.25 0.25 0.25" to="1 1 1" dur="150"></a-animation>
