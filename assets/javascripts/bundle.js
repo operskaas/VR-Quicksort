@@ -86,7 +86,7 @@
 	    var blueHex = Math.floor(17 + (255 - 17) * (id / numEls)).toString(16);
 	    arrayEl.setAttribute('material', 'color:#7777' + blueHex);
 	    var x = EL_X_POSITIONS[idx];
-	    arrayEl.setAttribute('position', x + ' 1 0');
+	    arrayEl.setAttribute('position', x + ' 2 0');
 	    arrayEl.setAttribute('visible', 'false');
 	  });
 	};
@@ -105,11 +105,11 @@
 	  var textEl = document.getElementById(id);
 	  textEl.setAttribute('visible', 'true');
 	  textEl.setAttribute('text', 'text: ' + text);
-	  var yPos = 6;
+	  var yPos = 7.5;
 	  if (id === 'mid-text') {
-	    yPos = 5;
+	    yPos = 6.5;
 	  } else if (id === 'bot-text') {
-	    yPos = 4;
+	    yPos = 5.5;
 	  }
 	  textEl.setAttribute('position', xPos + ' ' + yPos + ' 0');
 	  textEl.setAttribute('scale', scale + ' ' + scale + ' ' + scale);
@@ -118,14 +118,15 @@
 	};
 	
 	var addPhase1Text = function addPhase1Text() {
-	  setText('top-text', 'These boxes represent the array elements to be sorted', '-8.6');
-	  setText('mid-text', 'Their values are represented by varying heights and color shades', '-10');
-	  setText('bot-text', 'When sorted, the smallest box will be on the left, and the largest on the right', '-11.3');
+	  setText('top-text', 'These boxes represent the elements to be sorted', '-7.8');
+	  setText('mid-text', 'When sorted, the smallest box will be on the left,', '-7.55');
+	  setText('bot-text', 'and the largest on the right', '-4.3');
 	};
 	
 	var addPhase2Text = function addPhase2Text() {
-	  setText('mid-text', 'The first step is to select the pivot element', '-6.87');
-	  setText('bot-text', 'The pivot element will be sorted first by comparing it against all other elements', '-12');
+	  setText('top-text', 'The first step is to select the pivot element', '-6.87');
+	  setText('mid-text', 'The pivot element will be sorted first,', '-5.9');
+	  setText('bot-text', 'by comparing it against all other elements', '-6.6');
 	};
 	
 	var addPhase3Text = function addPhase3Text() {
@@ -192,10 +193,17 @@
 	var changeStartText = function changeStartText() {
 	  var startText = document.getElementById('next-text');
 	  startText.setAttribute('text', 'text: Continue');
-	  startText.setAttribute('position', '-1.33 2.8 0.5');
+	  startText.setAttribute('position', '-1.33 -0.2 0.5');
 	
 	  var startBox = document.getElementById('start-box');
-	  startBox.setAttribute('scale', '3.25 1 1');
+	  startBox.setAttribute('width', '3.25');
+	  movePositionBy(startBox, [3, 0, 0]);
+	};
+	
+	var movePositionBy = function movePositionBy(element, delta) {
+	  var prevPos = element.getAttribute('position');
+	  var newPos = prevPos.x + delta[0] + ' ' + (prevPos.y + delta[1]) + ' ' + (prevPos.z + delta[2]);
+	  element.setAttribute('position', newPos);
 	};
 	
 	var phase = 1;
