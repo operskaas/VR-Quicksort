@@ -11,7 +11,7 @@
       <a-assets>
         <a-mixin id="user-facing-text" material="color: #86cbce"></a-mixin>
         <a-mixin id="array-element" material="color: #00cc00" geometry="width:0.4; height:1; depth:0.4;"></a-mixin>
-        <img id="sky" src="images/plaza.jpg" />
+        <!-- <img id="start" src="images/textures/start.png" /> -->
       </a-assets>
 
 <!--       <a-entity id="top-text" class="starting-el" user-facing-text position="-4.15 7.5 0" text="text: Welcome to Virtual QuickSort!">
@@ -22,10 +22,10 @@
       <a-entity visible="false" id="bot-text" class="starting-el" position="-8.2 5.5 0" user-facing-text text="text: shouldn't see"></a-entity> -->
 
 
-        <a-entity id="next-text" position="0 4.5 0" text="text: Start" user-facing-text material="color: #00dd00">
-          <a-box id="start-box" class="clickable" position="0.72 0.2 -0.5" width="2">
-          </a-box> 
-        </a-entity>
+      <a-plane id="start-box" class="clickable" position="0 5 -0.5" width="3">
+        <a-entity id="next-text" position="-2.4 -0.35 0.5" scale="5 5 0" 
+        bmfont-text="align: center; text:Start; width:200;"></a-entity>
+      </a-plane> 
 
 
       <a-entity id="el-container">
@@ -59,9 +59,9 @@
               geometry="primitive: plane; width: 0.05; height: 0.05;"
               material="color: black; shader: flat">
               <a-animation begin="click" easing="ease" attribute="scale"
-             fill="backwards" from="0.25 0.25 0.25" to="1 1 1" dur="150"></a-animation>
+                fill="backwards" from="0.25 0.25 0.25" to="1 1 1" dur="150"></a-animation>
               <a-animation begin="cursor-fusing" easing="ease" attribute="scale"
-             fill="none" from="1 1 1" to="0.25 0.25 0.25" dur="1000"></a-animation>
+                fill="none" from="1 1 1" to="0.25 0.25 0.25" dur="1000"></a-animation>
             </a-entity>
         </a-camera>
       </a-entity>
