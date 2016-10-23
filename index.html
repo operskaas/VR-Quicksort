@@ -9,17 +9,19 @@
   <body>
     <a-scene stats>
       <a-assets>
-        <a-mixin id="user-facing-text" material="color: #86cbce"></a-mixin>
         <a-mixin id="array-element" material="color: #00cc00" geometry="width:0.4; height:1; depth:0.4;"></a-mixin>
         <!-- <img id="start" src="images/textures/start.png" /> -->
       </a-assets>
 
-<!--       <a-entity id="top-text" class="starting-el" user-facing-text position="-4.15 7.5 0" text="text: Welcome to Virtual QuickSort!">
+      <a-entity id="top-text" class="starting-el" user-facing-text position="-7 7.5 0" 
+      bmfont-text="color: red; text: Welcome to Virtual QuickSort!; align: center; width: 600;">
       </a-entity>
 
-      <a-entity id="mid-text" class="starting-el" position="-3.8 6.5 0" user-facing-text text="text: Look at 'Start' to get started"></a-entity>
+      <a-entity id="mid-text" class="starting-el" position="-7 6.5 0" user-facing-text 
+      bmfont-text="text: Look at 'Start' to get started; align: center; width: 600;"></a-entity>
 
-      <a-entity visible="false" id="bot-text" class="starting-el" position="-8.2 5.5 0" user-facing-text text="text: shouldn't see"></a-entity> -->
+      <a-entity visible="false" id="bot-text" class="starting-el" position="-7 5.5 0" user-facing-text>
+      </a-entity>
 
 
       <a-entity class="clickable" id="next-text" position="-2.4 5 -0.5" scale="5 5 0" 
