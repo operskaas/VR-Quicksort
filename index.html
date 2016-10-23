@@ -10,7 +10,7 @@
     <a-scene stats>
       <a-assets>
         <a-mixin id="array-element" material="color: #00cc00" geometry="width:0.4; height:1; depth:0.4;"></a-mixin>
-        <!-- <img id="start" src="images/textures/start.png" /> -->
+        <img id="start" src="images/textures/start.png" />
       </a-assets>
 
       <a-entity id="top-text" class="starting-el" user-facing-text position="-7 7.5 0" 
@@ -24,11 +24,13 @@
       </a-entity>
 
 
-      <a-entity class="clickable" id="next-text" position="-2.4 5 -0.5" scale="5 5 0" 
+      <a-entity class="clickable" id="next-text" position="1.4 5 -0.5" scale="5 5 0" 
       bmfont-text="align: center; text:Start; width:200;">
-        <a-plane id="start-box" scale="0.2 0.2 0.2" position="0.47 0.05 -0.5" width="3">
-        </a-plane> 
+        <a-box id="start-box" scale="0.2 0.2 0.2" position="0.47 0.05 -0.6" width="3">
+        </a-box> 
       </a-entity>
+
+      <a-box src="#start" ></a-box>
 
 
       <a-entity id="el-container">

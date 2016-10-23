@@ -111,25 +111,19 @@
 	};
 	
 	var addPhase1Text = function addPhase1Text() {
-	  setText('top-text', 'These boxes represent the elements to be sorted');
-	  setText('mid-text', 'When sorted, the smallest box will be on the left,');
-	  setText('bot-text', 'and the largest on the right');
+	  setText('mid-text', 'These boxes represent the elements to be sorted. When sorted, the smallest box will be on the left, and the largest on the right');
 	};
 	
 	var addPhase2Text = function addPhase2Text() {
-	  setText('top-text', 'The first step is to select the pivot element');
-	  setText('mid-text', 'The pivot element will be sorted first,');
-	  setText('bot-text', 'by comparing it against all other elements');
+	  setText('mid-text', 'The first step is to select the pivot element. The pivot element will be sorted first by comparing it against all other elements');
 	};
 	
 	var addPhase3Text = function addPhase3Text() {
-	  setText('top-text', 'It is common to use the first element as the pivot element');
-	  setText('mid-text', 'Any elements smaller than the pivot element will be moved to the left');
-	  setText('bot-text', "Any elements larger than the pivot element will be moved to it's right");
+	  setText('mid-text', "It is common to use the first element as the pivot element. Any elements smaller than the pivot element will be moved to the left, Any elements larger than the pivot element will be moved to it's right");
 	};
 	
 	var addPhase4Text = function addPhase4Text() {
-	  setText('top-text', "Let's compare it with the first remaining element");
+	  setText('mid-text', "Let's compare it with the first remaining element");
 	};
 	
 	var cleanUp = function cleanUp() {
@@ -167,10 +161,21 @@
 	var changeAndMoveStartText = function changeAndMoveStartText() {
 	  var startText = document.getElementById('next-text');
 	  setStartText('Continue');
-	  movePositionBy(startText, [3, 0, 0]);
+	  // movePositionBy(startText, [3, 0, 0]);
 	
 	  var startBox = document.getElementById('start-box');
 	  startBox.setAttribute('width', '4.5');
+	};
+	
+	var alternateNextTextPosition = function alternateNextTextPosition() {
+	  var nextText = document.getElementById('next-text');
+	  var prevPos = nextText.getAttribute('position');
+	  debugger;
+	  if (prevPos.x < 0) {
+	    movePositionBy(nextText, [6, 0, 0]);
+	  } else {
+	    movePositionBy(nextText, [-6, 0, 0]);
+	  }
 	};
 	
 	var movePositionBy = function movePositionBy(element, delta) {
@@ -186,6 +191,7 @@
 	};
 	
 	var moveToPhase = function moveToPhase(phase) {
+	  // alternateNextTextPosition();
 	  cleanUp();
 	  switch (phase) {
 	    case 1:
