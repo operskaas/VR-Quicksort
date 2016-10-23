@@ -158,14 +158,14 @@
 	  startText.setAttribute('bmfont-text', 'text: ' + text + '; align: center; width: 200;');
 	};
 	
-	var changeAndMoveStartText = function changeAndMoveStartText() {
-	  var startText = document.getElementById('next-text');
-	  setStartText('Continue');
-	  // movePositionBy(startText, [3, 0, 0]);
+	// const changeAndMoveStartText = () => {
+	//   const startText = document.getElementById('next-text');
+	//   // setStartText('Continue');
+	//   // movePositionBy(startText, [3, 0, 0]);
 	
-	  var startBox = document.getElementById('start-box');
-	  startBox.setAttribute('width', '4.5');
-	};
+	//   const startBox = document.getElementById('start-box');
+	//   startBox.setAttribute('width', '4.5');
+	// };
 	
 	var alternateNextTextPosition = function alternateNextTextPosition() {
 	  var nextText = document.getElementById('next-text');
@@ -197,7 +197,7 @@
 	    case 1:
 	      makeArrayElsVisible();
 	      addPhase1Text();
-	      changeAndMoveStartText();
+	      // changeAndMoveStartText();
 	      break;
 	    case 2:
 	      addPhase2Text();
