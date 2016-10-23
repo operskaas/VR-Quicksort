@@ -233,7 +233,7 @@
 	
 	var setIntroText = function setIntroText() {
 	  setText('top-text', 'Welcome to Quicksort VR!');
-	  setText('mid-text', "Look at 'Start' to get started");
+	  setText('mid-text', "Look at 'Continue' to get started");
 	};
 	
 	document.addEventListener('DOMContentLoaded', function () {
