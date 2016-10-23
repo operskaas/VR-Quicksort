@@ -100,11 +100,11 @@
 	var toBeCleanedUp = [];
 	
 	var setText = function setText(id, text) {
-	  var scale = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5;
+	  var scale = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 3.8;
 	
 	  var textEl = document.getElementById(id);
 	  textEl.setAttribute('visible', 'true');
-	  textEl.setAttribute('bmfont-text', 'text: ' + text + '; align: center; width: 600; color: red;');
+	  textEl.setAttribute('bmfont-text', 'text: ' + text + '; align: center; width: 700; color: red;');
 	  textEl.setAttribute('scale', scale + ' ' + scale + ' ' + scale);
 	
 	  toBeCleanedUp.push(textEl);
