@@ -174,7 +174,7 @@
 	    case 1:
 	      makeArrayElsVisible();
 	      // addPhase1Text();
-	      changeStartText();
+	      changeAndMoveStartText();
 	      break;
 	    case 2:
 	      // addPhase2Text();
@@ -194,14 +194,18 @@
 	  incrementPhase();
 	};
 	
-	var changeStartText = function changeStartText() {
+	var setStartText = function setStartText(text) {
 	  var startText = document.getElementById('next-text');
-	  startText.setAttribute('bmfont-text', 'text: Continue; align: center; width: 200;');
-	  // movePositionBy(startText, [3, 0, 0]);
+	  startText.setAttribute('bmfont-text', 'text: ' + text + '; align: center; width: 200;');
+	};
+	
+	var changeAndMoveStartText = function changeAndMoveStartText() {
+	  var startText = document.getElementById('next-text');
+	  setStartText('Continue');
+	  movePositionBy(startText, [3, 0, 0]);
 	
 	  var startBox = document.getElementById('start-box');
 	  startBox.setAttribute('width', '4.5');
-	  movePositionBy(startBox, [3, 0, 0]);
 	};
 	
 	var movePositionBy = function movePositionBy(element, delta) {
