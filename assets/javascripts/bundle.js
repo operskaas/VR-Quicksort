@@ -127,6 +127,12 @@
 	  setText('mid-text', "Let's compare it with the first remaining element");
 	};
 	
+	var setUpCompare = function setUpCompare() {
+	  setText('mid-text', "Let's compare the pivot element to the next element");
+	  moveContenderToCompare();
+	  setCompareListener();
+	};
+	
 	var cleanUp = function cleanUp() {
 	  for (var i = 0; i < toBeCleanedUp.length; i++) {
 	    toBeCleanedUp[i].setAttribute('visible', 'false');
@@ -183,10 +189,10 @@
 	    case 4:
 	      addPhase4Text();
 	      stopPulsingAndMovePivot();
-	      moveFirstContender();
+	      moveContenderToCompare();
 	      break;
 	    case 5:
-	      addCompareText();
+	      compare();
 	      break;
 	    default:
 	      break;
@@ -194,8 +200,8 @@
 	  incrementPhase();
 	};
 	
-	var addCompareText = function addCompareText() {
-	
+	var compare = function compare() {
+	  debugger;
 	  var comparison = 'smaller';
 	  var direction = 'left';
 	
@@ -204,32 +210,56 @@
 	    direction = 'right';
 	  }
 	  setText('mid-text', 'In this case, the contender is ' + comparison + ' than the pivot element, so it will be moved to the ' + direction);
-	  moveContender(direction);
+	  placeContender(direction);
+	
+	  if (arrayEls.length > 0) {
+	    changeNextTextListener();
+	  } else {
+	    console.log('finished sorting this round');
+	  }
 	};
 	
 	var leftArray = [];
 	var rightArray = [];
 	
-	var moveContender = function moveContender(direction) {
+	var placeContender = function placeContender(direction) {
 	  if (direction === 'left') {
-	    movePositionBy(contender, [-4, 0, 0]);
+	    moveByAnimation(contender, [-4, 0, 0], true);
 	    leftArray.push(contender);
 	  } else {
-	    movePositionBy(contender, [4, 0, 0]);
+	    moveByAnimation(contender, [4, 0, 0], true);
 	    rightArray.push(contender);
 	  }
 	};
 	
 	var elValue = function elValue(element) {
-	  return element.id.substr(3);
+	  return parseInt(element.id.substr(3));
 	};
 	
 	var stopPulsingAndMovePivot = function stopPulsingAndMovePivot() {
 	  pivotEl.innerHTML = '';
-	  movePositionBy(pivotEl, [-0.5, 0, 0]);
+	  moveByAnimation(pivotEl, [-0.5, 0, 0], true);
 	};
 	
-	var moveFirstContender = function moveFirstContender() {
+	var moveByAnimation = function moveByAnimation(element, pos) {
+	  var delta = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+	
+	  if (delta) {
+	    var prevPos = element.getAttribute('position');
+	    pos = pos[0] + prevPos.x + ' ' + (pos[1] + prevPos.y) + ' ' + (pos[2] + prevPos.z);
+	  } else {
+	    pos = pos[0] + ' ' + pos[1] + ' ' + pos[2];
+	  }
+	
+	  var moveAnimation = document.createElement('a-animation');
+	  moveAnimation.setAttribute('attribute', 'position');
+	  moveAnimation.setAttribute('dur', '2000');
+	  moveAnimation.setAttribute('to', pos);
+	
+	  element.appendChild(moveAnimation);
+	};
+	
+	var moveContenderToCompare = function moveContenderToCompare() {
 	  contender = arrayEls.splice(0, 1)[0];
 	
 	  var moveAnimation = document.createElement('a-animation');
@@ -242,9 +272,35 @@
 	
 	var setListenerOnNextText = function setListenerOnNextText() {
 	  var nextText = document.getElementById('next-text');
-	  nextText.addEventListener('click', function (e) {
-	    moveToPhase(phase);
-	  });
+	  nextText.addEventListener('click', moveToPhaseListener);
+	};
+	
+	var moveToPhaseListener = function moveToPhaseListener(e) {
+	  moveToPhase(phase);
+	};
+	
+	var setCompareListener = function setCompareListener() {
+	  var nextText = document.getElementById('next-text');
+	  nextText.addEventListener('click', compareListener);
+	};
+	
+	var compareListener = function compareListener(e) {
+	  compare();
+	  var nextText = document.getElementById('next-text');
+	  nextText.removeEventListener('click', compareListener);
+	};
+	
+	var changeNextTextListener = function changeNextTextListener() {
+	  var nextText = document.getElementById('next-text');
+	  nextText.removeEventListener('click', moveToPhaseListener);
+	
+	  nextText.addEventListener('click', setUpCompareListener);
+	};
+	
+	var setUpCompareListener = function setUpCompareListener(e) {
+	  setUpCompare();
+	  var nextText = document.getElementById('next-text');
+	  nextText.removeEventListener('click', setUpCompareListener);
 	};
 	
 	// AFRAME.registerComponent('user-facing-text', {
