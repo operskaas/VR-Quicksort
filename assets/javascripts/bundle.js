@@ -52,6 +52,8 @@
 	
 	__webpack_require__(5);
 	
+	var _animation_utils = __webpack_require__(42);
+	
 	var NUM_ELS = 12;
 	
 	var EL_IDS = ['el-1', 'el-2', 'el-3', 'el-4', 'el-5', 'el-6', 'el-7', 'el-8', 'el-9', 'el-10', 'el-11', 'el-12'];
@@ -60,8 +62,6 @@
 	});
 	
 	var arrayEls = void 0;
-	var pivotEl = void 0;
-	var contender = void 0;
 	
 	var randomElOrder = function randomElOrder() {
 	  var arrayEls = [];
@@ -79,7 +79,6 @@
 	};
 	
 	var setElHeights = function setElHeights(arrayEls) {
-	
 	  arrayEls.forEach(function (arrayEl, idx) {
 	    var numEls = EL_IDS.length;
 	    var id = parseInt(arrayEl.id.substr(3));
@@ -129,7 +128,7 @@
 	
 	var setUpCompare = function setUpCompare() {
 	  setText('mid-text', "Let's compare the pivot element to the next element");
-	  moveContenderToCompare();
+	  (0, _animation_utils.moveContenderToCompare)(currentContender);
 	  setCompareListener();
 	};
 	
@@ -138,32 +137,6 @@
 	    toBeCleanedUp[i].setAttribute('visible', 'false');
 	  }
 	  toBeCleanedUp = [];
-	};
-	
-	var moveAndPulsePivot = function moveAndPulsePivot() {
-	  var pulseAnimation = document.createElement('a-animation');
-	  pulseAnimation.setAttribute('attribute', 'scale');
-	  pulseAnimation.setAttribute('direction', 'alternate');
-	  pulseAnimation.setAttribute('dur', '1000');
-	  pulseAnimation.setAttribute('fill', 'forwards');
-	  pulseAnimation.setAttribute('to', '1.3 1.3 1.3');
-	  pulseAnimation.setAttribute('repeat', 'indefinite');
-	
-	  var moveAnimation = document.createElement('a-animation');
-	  moveAnimation.setAttribute('attribute', 'position');
-	  moveAnimation.setAttribute('dur', '2000');
-	  moveAnimation.setAttribute('to', '0 2 3');
-	
-	  pivotEl = arrayEls.splice(0, 1)[0];
-	
-	  pivotEl.appendChild(pulseAnimation);
-	  pivotEl.appendChild(moveAnimation);
-	};
-	
-	var movePositionBy = function movePositionBy(element, delta) {
-	  var prevPos = element.getAttribute('position');
-	  var newPos = prevPos.x + delta[0] + ' ' + (prevPos.y + delta[1]) + ' ' + (prevPos.z + delta[2]);
-	  element.setAttribute('position', newPos);
 	};
 	
 	var phase = 1;
@@ -183,13 +156,15 @@
 	      addPhase2Text();
 	      break;
 	    case 3:
+	      setCurrentPivotEl();
 	      addPhase3Text();
-	      moveAndPulsePivot();
+	      (0, _animation_utils.moveAndPulsePivot)(currentPivotEl);
 	      break;
 	    case 4:
 	      addPhase4Text();
-	      stopPulsingAndMovePivot();
-	      moveContenderToCompare();
+	      (0, _animation_utils.stopPulsingAndMovePivot)(currentPivotEl);
+	      setCurrentContender();
+	      (0, _animation_utils.moveContenderToCompare)(currentContender);
 	      break;
 	    case 5:
 	      compare();
@@ -200,16 +175,28 @@
 	  incrementPhase();
 	};
 	
+	var currentPivotEl = void 0;
+	var currentContender = void 0;
+	
+	var setCurrentPivotEl = function setCurrentPivotEl() {
+	  currentPivotEl = arrayEls.splice(0, 1)[0];
+	};
+	
+	var setCurrentContender = function setCurrentContender() {
+	  currentContender = arrayEls.splice(0, 1)[0];
+	};
+	
 	var compare = function compare() {
 	  var comparison = 'smaller';
 	  var direction = 'left';
 	
-	  if (elValue(pivotEl) < elValue(contender)) {
+	  if (elValue(currentPivotEl) < elValue(currentContender)) {
 	    comparison = 'greater';
 	    direction = 'right';
 	  }
 	  setText('mid-text', 'In this case, the contender is ' + comparison + ' than the pivot element, so it will be moved to the ' + direction);
 	  placeContender(direction);
+	  setCurrentContender();
 	
 	  if (arrayEls.length > 0) {
 	    changeNextTextListener();
@@ -223,50 +210,16 @@
 	
 	var placeContender = function placeContender(direction) {
 	  if (direction === 'left') {
-	    moveByAnimation(contender, [-4, 0, 0], true);
-	    leftArray.push(contender);
+	    (0, _animation_utils.moveByAnimation)(currentContender, [-4, 0, 0], true);
+	    leftArray.push(currentContender);
 	  } else {
-	    moveByAnimation(contender, [4, 0, 0], true);
-	    rightArray.push(contender);
+	    (0, _animation_utils.moveByAnimation)(currentContender, [4, 0, 0], true);
+	    rightArray.push(currentContender);
 	  }
 	};
 	
 	var elValue = function elValue(element) {
 	  return parseInt(element.id.substr(3));
-	};
-	
-	var stopPulsingAndMovePivot = function stopPulsingAndMovePivot() {
-	  pivotEl.innerHTML = '';
-	  moveByAnimation(pivotEl, [-0.5, 0, 0], true);
-	};
-	
-	var moveByAnimation = function moveByAnimation(element, pos) {
-	  var delta = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-	
-	  if (delta) {
-	    var prevPos = element.getAttribute('position');
-	    pos = pos[0] + prevPos.x + ' ' + (pos[1] + prevPos.y) + ' ' + (pos[2] + prevPos.z);
-	  } else {
-	    pos = pos[0] + ' ' + pos[1] + ' ' + pos[2];
-	  }
-	
-	  var moveAnimation = document.createElement('a-animation');
-	  moveAnimation.setAttribute('attribute', 'position');
-	  moveAnimation.setAttribute('dur', '2000');
-	  moveAnimation.setAttribute('to', pos);
-	
-	  element.appendChild(moveAnimation);
-	};
-	
-	var moveContenderToCompare = function moveContenderToCompare() {
-	  contender = arrayEls.splice(0, 1)[0];
-	
-	  var moveAnimation = document.createElement('a-animation');
-	  moveAnimation.setAttribute('attribute', 'position');
-	  moveAnimation.setAttribute('dur', '1500');
-	  moveAnimation.setAttribute('to', '0.5 2 3');
-	
-	  contender.appendChild(moveAnimation);
 	};
 	
 	var setListenerOnNextText = function setListenerOnNextText() {
@@ -72608,6 +72561,65 @@
 	  }
 	}));
 
+
+/***/ },
+/* 42 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var moveAndPulsePivot = exports.moveAndPulsePivot = function moveAndPulsePivot(pivotEl) {
+	  var pulseAnimation = document.createElement('a-animation');
+	  pulseAnimation.setAttribute('attribute', 'scale');
+	  pulseAnimation.setAttribute('direction', 'alternate');
+	  pulseAnimation.setAttribute('dur', '1000');
+	  pulseAnimation.setAttribute('fill', 'forwards');
+	  pulseAnimation.setAttribute('to', '1.3 1.3 1.3');
+	  pulseAnimation.setAttribute('repeat', 'indefinite');
+	
+	  var moveAnimation = document.createElement('a-animation');
+	  moveAnimation.setAttribute('attribute', 'position');
+	  moveAnimation.setAttribute('dur', '2000');
+	  moveAnimation.setAttribute('to', '0 2 3');
+	
+	  pivotEl.appendChild(pulseAnimation);
+	  pivotEl.appendChild(moveAnimation);
+	};
+	
+	var stopPulsingAndMovePivot = exports.stopPulsingAndMovePivot = function stopPulsingAndMovePivot(pivotEl) {
+	  pivotEl.innerHTML = '';
+	  moveByAnimation(pivotEl, [-0.5, 0, 0], true);
+	};
+	
+	var moveByAnimation = exports.moveByAnimation = function moveByAnimation(element, pos) {
+	  var delta = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+	
+	  if (delta) {
+	    var prevPos = element.getAttribute('position');
+	    pos = pos[0] + prevPos.x + ' ' + (pos[1] + prevPos.y) + ' ' + (pos[2] + prevPos.z);
+	  } else {
+	    pos = pos[0] + ' ' + pos[1] + ' ' + pos[2];
+	  }
+	
+	  var moveAnimation = document.createElement('a-animation');
+	  moveAnimation.setAttribute('attribute', 'position');
+	  moveAnimation.setAttribute('dur', '2000');
+	  moveAnimation.setAttribute('to', pos);
+	
+	  element.appendChild(moveAnimation);
+	};
+	
+	var moveContenderToCompare = exports.moveContenderToCompare = function moveContenderToCompare(contender) {
+	  var moveAnimation = document.createElement('a-animation');
+	  moveAnimation.setAttribute('attribute', 'position');
+	  moveAnimation.setAttribute('dur', '1500');
+	  moveAnimation.setAttribute('to', '0.5 2 3');
+	
+	  contender.appendChild(moveAnimation);
+	};
 
 /***/ }
 /******/ ]);
