@@ -48,9 +48,9 @@
 	
 	__webpack_require__(1);
 	
-	__webpack_require__(8);
+	__webpack_require__(4);
 	
-	__webpack_require__(9);
+	__webpack_require__(5);
 	
 	var NUM_ELS = 12;
 	
@@ -61,6 +61,7 @@
 	
 	var arrayEls = void 0;
 	var pivotEl = void 0;
+	var contender = void 0;
 	
 	var randomElOrder = function randomElOrder() {
 	  var arrayEls = [];
@@ -119,7 +120,7 @@
 	};
 	
 	var addPhase3Text = function addPhase3Text() {
-	  setText('mid-text', "It is common to use the first element as the pivot element. Any elements smaller than the pivot element will be moved to the left, Any elements larger than the pivot element will be moved to it's right");
+	  setText('mid-text', "It is common to use the first element as the pivot element. Any elements smaller than the pivot element will be moved to the left, and any elements larger than the pivot element will be moved to the right");
 	};
 	
 	var addPhase4Text = function addPhase4Text() {
@@ -153,31 +154,6 @@
 	  pivotEl.appendChild(moveAnimation);
 	};
 	
-	var setStartText = function setStartText(text) {
-	  var startText = document.getElementById('next-text');
-	  startText.setAttribute('bmfont-text', 'text: ' + text + '; align: center; width: 200;');
-	};
-	
-	// const changeAndMoveStartText = () => {
-	//   const startText = document.getElementById('next-text');
-	//   // setStartText('Continue');
-	//   // movePositionBy(startText, [3, 0, 0]);
-	
-	//   const startBox = document.getElementById('start-box');
-	//   startBox.setAttribute('width', '4.5');
-	// };
-	
-	var alternateNextTextPosition = function alternateNextTextPosition() {
-	  var nextText = document.getElementById('next-text');
-	  var prevPos = nextText.getAttribute('position');
-	  debugger;
-	  if (prevPos.x < 0) {
-	    movePositionBy(nextText, [6, 0, 0]);
-	  } else {
-	    movePositionBy(nextText, [-6, 0, 0]);
-	  }
-	};
-	
 	var movePositionBy = function movePositionBy(element, delta) {
 	  var prevPos = element.getAttribute('position');
 	  var newPos = prevPos.x + delta[0] + ' ' + (prevPos.y + delta[1]) + ' ' + (prevPos.z + delta[2]);
@@ -191,13 +167,11 @@
 	};
 	
 	var moveToPhase = function moveToPhase(phase) {
-	  // alternateNextTextPosition();
 	  cleanUp();
 	  switch (phase) {
 	    case 1:
 	      makeArrayElsVisible();
 	      addPhase1Text();
-	      // changeAndMoveStartText();
 	      break;
 	    case 2:
 	      addPhase2Text();
@@ -208,13 +182,62 @@
 	      break;
 	    case 4:
 	      addPhase4Text();
+	      stopPulsingAndMovePivot();
+	      moveFirstContender();
 	      break;
 	    case 5:
+	      addCompareText();
 	      break;
 	    default:
 	      break;
 	  }
 	  incrementPhase();
+	};
+	
+	var addCompareText = function addCompareText() {
+	
+	  var comparison = 'smaller';
+	  var direction = 'left';
+	
+	  if (elValue(pivotEl) < elValue(contender)) {
+	    comparison = 'greater';
+	    direction = 'right';
+	  }
+	  setText('mid-text', 'In this case, the contender is ' + comparison + ' than the pivot element, so it will be moved to the ' + direction);
+	  moveContender(direction);
+	};
+	
+	var leftArray = [];
+	var rightArray = [];
+	
+	var moveContender = function moveContender(direction) {
+	  if (direction === 'left') {
+	    movePositionBy(contender, [-4, 0, 0]);
+	    leftArray.push(contender);
+	  } else {
+	    movePositionBy(contender, [4, 0, 0]);
+	    rightArray.push(contender);
+	  }
+	};
+	
+	var elValue = function elValue(element) {
+	  return element.id.substr(3);
+	};
+	
+	var stopPulsingAndMovePivot = function stopPulsingAndMovePivot() {
+	  pivotEl.innerHTML = '';
+	  movePositionBy(pivotEl, [-0.5, 0, 0]);
+	};
+	
+	var moveFirstContender = function moveFirstContender() {
+	  contender = arrayEls.splice(0, 1)[0];
+	
+	  var moveAnimation = document.createElement('a-animation');
+	  moveAnimation.setAttribute('attribute', 'position');
+	  moveAnimation.setAttribute('dur', '1500');
+	  moveAnimation.setAttribute('to', '0.5 0 1');
+	
+	  contender.appendChild(moveAnimation);
 	};
 	
 	var setListenerOnNextText = function setListenerOnNextText() {
@@ -224,12 +247,11 @@
 	  });
 	};
 	
-	AFRAME.registerComponent('user-facing-text', {
-	  init: function init() {
-	    // this.el.setAttribute('look-at', "#user");
-	    this.el.setAttribute('scale', "5 5 1");
-	  }
-	});
+	// AFRAME.registerComponent('user-facing-text', {
+	//   init: function () {
+	//       this.el.setAttribute('scale', "5 5 1");
+	//   }
+	// });
 	
 	var setIntroText = function setIntroText() {
 	  setText('top-text', 'Welcome to Quicksort VR!');
@@ -68199,17 +68221,13 @@
 
 
 /***/ },
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */
+/* 4 */
 /***/ function(module, exports) {
 
 	!function(t){function e(n){if(o[n])return o[n].exports;var r=o[n]={exports:{},id:n,loaded:!1};return t[n].call(r.exports,r,r.exports,e),r.loaded=!0,r.exports}var o={};return e.m=t,e.c=o,e.p="",e(0)}([function(t,e){var o=AFRAME.utils.debug,n=AFRAME.utils.coordinates,r=o("components:look-at:warn"),i=n.isCoordinate;delete AFRAME.components["look-at"],AFRAME.registerComponent("look-at",{schema:{"default":"",parse:function(t){return i(t)||"object"==typeof t?n.parse(t):t},stringify:function(t){return"object"==typeof t?n.stringify(t):t}},init:function(){this.target3D=null,this.vector=new THREE.Vector3},update:function(){var t,e=this,o=e.data,n=e.el.object3D;return!o||"object"==typeof o&&!Object.keys(o).length?e.remove():"object"==typeof o?n.lookAt(new THREE.Vector3(o.x,o.y,o.z)):(t=e.el.sceneEl.querySelector(o),t?t.hasLoaded?e.beginTracking(t):t.addEventListener("loaded",function(){e.beginTracking(t)}):void r('"'+o+'" does not point to a valid entity to look-at'))},tick:function(t){var e=this.target3D;return e?this.el.object3D.lookAt(this.vector.setFromMatrixPosition(e.matrixWorld)):void 0},beginTracking:function(t){this.target3D=t.object3D}})}]);
 
 /***/ },
-/* 9 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* global AFRAME, THREE */
@@ -68217,11 +68235,11 @@
 	  throw new Error('Component attempted to register before AFRAME was available.');
 	}
 	
-	var createText = __webpack_require__(10);
-	var loadFont = __webpack_require__(26);
-	var SDFShader = __webpack_require__(44);
+	var createText = __webpack_require__(6);
+	var loadFont = __webpack_require__(22);
+	var SDFShader = __webpack_require__(40);
 	
-	__webpack_require__(45); // Register experimental text primitive
+	__webpack_require__(41); // Register experimental text primitive
 	
 	/**
 	 * bmfont text component for A-Frame.
@@ -68352,17 +68370,17 @@
 
 
 /***/ },
-/* 10 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var createLayout = __webpack_require__(11)
-	var inherits = __webpack_require__(16)
-	var createIndices = __webpack_require__(17)
-	var buffer = __webpack_require__(21)
-	var assign = __webpack_require__(23)
+	var createLayout = __webpack_require__(7)
+	var inherits = __webpack_require__(12)
+	var createIndices = __webpack_require__(13)
+	var buffer = __webpack_require__(17)
+	var assign = __webpack_require__(19)
 	
-	var vertices = __webpack_require__(24)
-	var utils = __webpack_require__(25)
+	var vertices = __webpack_require__(20)
+	var utils = __webpack_require__(21)
 	
 	var Base = THREE.BufferGeometry
 	
@@ -68482,13 +68500,13 @@
 
 
 /***/ },
-/* 11 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var wordWrap = __webpack_require__(12)
-	var xtend = __webpack_require__(13)
-	var findChar = __webpack_require__(14)('id')
-	var number = __webpack_require__(15)
+	var wordWrap = __webpack_require__(8)
+	var xtend = __webpack_require__(9)
+	var findChar = __webpack_require__(10)('id')
+	var number = __webpack_require__(11)
 	
 	var X_HEIGHTS = ['x', 'e', 'a', 'o', 'n', 's', 'r', 'c', 'u', 'm', 'v', 'w', 'z']
 	var M_WIDTHS = ['m', 'w']
@@ -68777,7 +68795,7 @@
 	}
 
 /***/ },
-/* 12 */
+/* 8 */
 /***/ function(module, exports) {
 
 	var newline = /\n/
@@ -68909,7 +68927,7 @@
 	}
 
 /***/ },
-/* 13 */
+/* 9 */
 /***/ function(module, exports) {
 
 	module.exports = extend
@@ -68934,7 +68952,7 @@
 
 
 /***/ },
-/* 14 */
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = function compile(property) {
@@ -68951,7 +68969,7 @@
 	}
 
 /***/ },
-/* 15 */
+/* 11 */
 /***/ function(module, exports) {
 
 	module.exports = function numtype(num, def) {
@@ -68961,7 +68979,7 @@
 	}
 
 /***/ },
-/* 16 */
+/* 12 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -68990,12 +69008,12 @@
 
 
 /***/ },
-/* 17 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var dtype = __webpack_require__(18)
-	var anArray = __webpack_require__(19)
-	var isBuffer = __webpack_require__(20)
+	var dtype = __webpack_require__(14)
+	var anArray = __webpack_require__(15)
+	var isBuffer = __webpack_require__(16)
 	
 	var CW = [0, 2, 3]
 	var CCW = [2, 1, 3]
@@ -69037,7 +69055,7 @@
 	}
 
 /***/ },
-/* 18 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = function(dtype) {
@@ -69067,7 +69085,7 @@
 
 
 /***/ },
-/* 19 */
+/* 15 */
 /***/ function(module, exports) {
 
 	var str = Object.prototype.toString
@@ -69084,7 +69102,7 @@
 
 
 /***/ },
-/* 20 */
+/* 16 */
 /***/ function(module, exports) {
 
 	/*!
@@ -69111,10 +69129,10 @@
 
 
 /***/ },
-/* 21 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var flatten = __webpack_require__(22)
+	var flatten = __webpack_require__(18)
 	var warned = false;
 	
 	module.exports.attr = setAttribute
@@ -69195,11 +69213,11 @@
 
 
 /***/ },
-/* 22 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*eslint new-cap:0*/
-	var dtype = __webpack_require__(18)
+	var dtype = __webpack_require__(14)
 	module.exports = flattenVertexData
 	function flattenVertexData (data, output, offset) {
 	  if (!data) throw new TypeError('must specify data as first parameter')
@@ -69246,7 +69264,7 @@
 
 
 /***/ },
-/* 23 */
+/* 19 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -69335,7 +69353,7 @@
 
 
 /***/ },
-/* 24 */
+/* 20 */
 /***/ function(module, exports) {
 
 	module.exports.pages = function pages (glyphs) {
@@ -69418,7 +69436,7 @@
 
 
 /***/ },
-/* 25 */
+/* 21 */
 /***/ function(module, exports) {
 
 	var itemSize = 2
@@ -69462,16 +69480,16 @@
 
 
 /***/ },
-/* 26 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var xhr = __webpack_require__(31)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var xhr = __webpack_require__(27)
 	var noop = function(){}
-	var parseASCII = __webpack_require__(37)
-	var parseXML = __webpack_require__(38)
-	var readBinary = __webpack_require__(41)
-	var isBinaryFormat = __webpack_require__(42)
-	var xtend = __webpack_require__(13)
+	var parseASCII = __webpack_require__(33)
+	var parseXML = __webpack_require__(34)
+	var readBinary = __webpack_require__(37)
+	var isBinaryFormat = __webpack_require__(38)
+	var xtend = __webpack_require__(9)
 	
 	var xml2 = (function hasXML2() {
 	  return window.XMLHttpRequest && "withCredentials" in new XMLHttpRequest
@@ -69562,10 +69580,10 @@
 	    xhr: req
 	  }, opt)
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer))
 
 /***/ },
-/* 27 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
@@ -69578,9 +69596,9 @@
 	
 	'use strict'
 	
-	var base64 = __webpack_require__(28)
-	var ieee754 = __webpack_require__(29)
-	var isArray = __webpack_require__(30)
+	var base64 = __webpack_require__(24)
+	var ieee754 = __webpack_require__(25)
+	var isArray = __webpack_require__(26)
 	
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -71358,10 +71376,10 @@
 	  return val !== val // eslint-disable-line no-self-compare
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 28 */
+/* 24 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -71481,7 +71499,7 @@
 
 
 /***/ },
-/* 29 */
+/* 25 */
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -71571,7 +71589,7 @@
 
 
 /***/ },
-/* 30 */
+/* 26 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -71582,14 +71600,14 @@
 
 
 /***/ },
-/* 31 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var window = __webpack_require__(32)
-	var isFunction = __webpack_require__(33)
-	var parseHeaders = __webpack_require__(34)
-	var xtend = __webpack_require__(13)
+	var window = __webpack_require__(28)
+	var isFunction = __webpack_require__(29)
+	var parseHeaders = __webpack_require__(30)
+	var xtend = __webpack_require__(9)
 	
 	module.exports = createXHR
 	createXHR.XMLHttpRequest = window.XMLHttpRequest || noop
@@ -71823,7 +71841,7 @@
 
 
 /***/ },
-/* 32 */
+/* 28 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {if (typeof window !== "undefined") {
@@ -71839,7 +71857,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 33 */
+/* 29 */
 /***/ function(module, exports) {
 
 	module.exports = isFunction
@@ -71860,11 +71878,11 @@
 
 
 /***/ },
-/* 34 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var trim = __webpack_require__(35)
-	  , forEach = __webpack_require__(36)
+	var trim = __webpack_require__(31)
+	  , forEach = __webpack_require__(32)
 	  , isArray = function(arg) {
 	      return Object.prototype.toString.call(arg) === '[object Array]';
 	    }
@@ -71896,7 +71914,7 @@
 	}
 
 /***/ },
-/* 35 */
+/* 31 */
 /***/ function(module, exports) {
 
 	
@@ -71916,10 +71934,10 @@
 
 
 /***/ },
-/* 36 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(33)
+	var isFunction = __webpack_require__(29)
 	
 	module.exports = forEach
 	
@@ -71968,7 +71986,7 @@
 
 
 /***/ },
-/* 37 */
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports = function parseBMFontAscii(data) {
@@ -72081,11 +72099,11 @@
 	}
 
 /***/ },
-/* 38 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var parseAttributes = __webpack_require__(39)
-	var parseFromString = __webpack_require__(40)
+	var parseAttributes = __webpack_require__(35)
+	var parseFromString = __webpack_require__(36)
 	
 	//In some cases element.attribute.nodeName can return
 	//all lowercase values.. so we need to map them to the correct 
@@ -72171,7 +72189,7 @@
 	}
 
 /***/ },
-/* 39 */
+/* 35 */
 /***/ function(module, exports) {
 
 	//Some versions of GlyphDesigner have a typo
@@ -72204,7 +72222,7 @@
 	}
 
 /***/ },
-/* 40 */
+/* 36 */
 /***/ function(module, exports) {
 
 	module.exports = (function xmlparser() {
@@ -72236,7 +72254,7 @@
 	})()
 
 /***/ },
-/* 41 */
+/* 37 */
 /***/ function(module, exports) {
 
 	var HEADER = [66, 77, 70]
@@ -72401,10 +72419,10 @@
 	}
 
 /***/ },
-/* 42 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var equal = __webpack_require__(43)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var equal = __webpack_require__(39)
 	var HEADER = new Buffer([66, 77, 70, 3])
 	
 	module.exports = function(buf) {
@@ -72412,13 +72430,13 @@
 	    return buf.substring(0, 3) === 'BMF'
 	  return buf.length > 4 && equal(buf.slice(0, 4), HEADER)
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer))
 
 /***/ },
-/* 43 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Buffer = __webpack_require__(27).Buffer; // for use with browserify
+	var Buffer = __webpack_require__(23).Buffer; // for use with browserify
 	
 	module.exports = function (a, b) {
 	    if (!Buffer.isBuffer(a)) return undefined;
@@ -72435,10 +72453,10 @@
 
 
 /***/ },
-/* 44 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assign = __webpack_require__(23)
+	var assign = __webpack_require__(19)
 	
 	module.exports = function createSDFShader (opt) {
 	  opt = opt || {}
@@ -72504,7 +72522,7 @@
 
 
 /***/ },
-/* 45 */
+/* 41 */
 /***/ function(module, exports) {
 
 	/* global AFRAME */
