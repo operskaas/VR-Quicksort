@@ -201,7 +201,6 @@
 	};
 	
 	var compare = function compare() {
-	  debugger;
 	  var comparison = 'smaller';
 	  var direction = 'left';
 	
