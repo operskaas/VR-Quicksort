@@ -54,42 +54,9 @@
 	
 	var _animation_utils = __webpack_require__(42);
 	
-	var NUM_ELS = 12;
-	
-	var EL_IDS = ['el-1', 'el-2', 'el-3', 'el-4', 'el-5', 'el-6', 'el-7', 'el-8', 'el-9', 'el-10', 'el-11', 'el-12'];
-	var EL_X_POSITIONS = EL_IDS.map(function (id, idx) {
-	  return -((EL_IDS.length - 1) / 2) + idx;
-	});
+	var _setup = __webpack_require__(43);
 	
 	var arrayEls = void 0;
-	
-	var randomElOrder = function randomElOrder() {
-	  var arrayEls = [];
-	
-	  var elIdCopy = EL_IDS.slice();
-	
-	  for (var i = 0; i < EL_IDS.length; i++) {
-	    var randomIdx = Math.floor(Math.random() * elIdCopy.length);
-	    var randomElId = elIdCopy.splice(randomIdx, 1);
-	    var randomEl = document.getElementById(randomElId);
-	    arrayEls.push(randomEl);
-	  }
-	
-	  return arrayEls;
-	};
-	
-	var setElHeights = function setElHeights(arrayEls) {
-	  arrayEls.forEach(function (arrayEl, idx) {
-	    var numEls = EL_IDS.length;
-	    var id = parseInt(arrayEl.id.substr(3));
-	    arrayEl.setAttribute('height', '' + (0.5 + id / 5));
-	    var blueHex = Math.floor(17 + (255 - 17) * (id / numEls)).toString(16);
-	    arrayEl.setAttribute('material', 'color:#7777' + blueHex);
-	    var x = EL_X_POSITIONS[idx];
-	    arrayEl.setAttribute('position', x + ' 2 0');
-	    arrayEl.setAttribute('visible', 'false');
-	  });
-	};
 	
 	var makeArrayElsVisible = function makeArrayElsVisible() {
 	  arrayEls.forEach(function (arrayEl) {
@@ -272,9 +239,9 @@
 	
 	    setIntroText();
 	
-	    arrayEls = randomElOrder();
+	    arrayEls = (0, _setup.randomElOrder)();
 	
-	    setElHeights(arrayEls);
+	    (0, _setup.setElHeights)(arrayEls);
 	
 	    setListenerOnNextText();
 	  });
@@ -72619,6 +72586,48 @@
 	  moveAnimation.setAttribute('to', '0.5 2 3');
 	
 	  contender.appendChild(moveAnimation);
+	};
+
+/***/ },
+/* 43 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var EL_IDS = ['el-1', 'el-2', 'el-3', 'el-4', 'el-5', 'el-6', 'el-7', 'el-8', 'el-9', 'el-10', 'el-11', 'el-12'];
+	var EL_X_POSITIONS = EL_IDS.map(function (id, idx) {
+	  return -((EL_IDS.length - 1) / 2) + idx;
+	});
+	
+	var randomElOrder = exports.randomElOrder = function randomElOrder() {
+	  var arrayEls = [];
+	
+	  var elIdCopy = EL_IDS.slice();
+	
+	  for (var i = 0; i < EL_IDS.length; i++) {
+	    var randomIdx = Math.floor(Math.random() * elIdCopy.length);
+	    var randomElId = elIdCopy.splice(randomIdx, 1);
+	    var randomEl = document.getElementById(randomElId);
+	    arrayEls.push(randomEl);
+	  }
+	
+	  return arrayEls;
+	};
+	
+	var setElHeights = exports.setElHeights = function setElHeights(arrayEls) {
+	  arrayEls.forEach(function (arrayEl, idx) {
+	    var numEls = EL_IDS.length;
+	    var id = parseInt(arrayEl.id.substr(3));
+	    arrayEl.setAttribute('height', '' + (0.5 + id / 5));
+	    var blueHex = Math.floor(17 + (255 - 17) * (id / numEls)).toString(16);
+	    arrayEl.setAttribute('material', 'color:#7777' + blueHex);
+	    var x = EL_X_POSITIONS[idx];
+	    arrayEl.setAttribute('position', x + ' 2 0');
+	    arrayEl.setAttribute('visible', 'false');
+	  });
 	};
 
 /***/ }
