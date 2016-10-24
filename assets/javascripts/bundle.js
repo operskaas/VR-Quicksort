@@ -56,57 +56,20 @@
 	
 	var _setup = __webpack_require__(43);
 	
-	var arrayEls = void 0;
+	var _sorting_utils = __webpack_require__(44);
 	
-	var makeArrayElsVisible = function makeArrayElsVisible() {
-	  arrayEls.forEach(function (arrayEl) {
-	    return arrayEl.setAttribute('visible', 'true');
-	  });
-	};
-	
-	var toBeCleanedUp = [];
-	
-	var setText = function setText(id, text) {
-	  var scale = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 3;
-	
-	  var textEl = document.getElementById(id);
-	  textEl.setAttribute('visible', 'true');
-	  textEl.setAttribute('bmfont-text', 'text: ' + text + '; align: center; width: 750; color: red;');
-	  textEl.setAttribute('scale', scale + ' ' + scale + ' ' + scale);
-	
-	  toBeCleanedUp.push(textEl);
-	};
-	
-	var addPhase1Text = function addPhase1Text() {
-	  setText('mid-text', 'These boxes represent the elements to be sorted. When sorted, the smallest box will be on the left, and the largest on the right');
-	};
-	
-	var addPhase2Text = function addPhase2Text() {
-	  setText('mid-text', 'The first step is to select the pivot element. The pivot element will be sorted first by comparing it against all other elements');
-	};
-	
-	var addPhase3Text = function addPhase3Text() {
-	  setText('mid-text', "It is common to use the first element as the pivot element. Any elements smaller than the pivot element will be moved to the left, and any elements larger than the pivot element will be moved to the right");
-	};
-	
-	var addPhase4Text = function addPhase4Text() {
-	  setText('mid-text', "Let's compare it with the first remaining element");
-	};
+	var _text_util = __webpack_require__(46);
 	
 	var setUpCompare = function setUpCompare() {
-	  setText('mid-text', "Let's compare the pivot element to the next element");
+	  (0, _text_util.setText)('mid-text', "Let's compare the pivot element to the next element");
 	  (0, _animation_utils.moveContenderToCompare)(currentContender);
 	  setCompareListener();
 	};
 	
-	var cleanUp = function cleanUp() {
-	  for (var i = 0; i < toBeCleanedUp.length; i++) {
-	    toBeCleanedUp[i].setAttribute('visible', 'false');
-	  }
-	  toBeCleanedUp = [];
-	};
-	
+	var arrayEls = void 0;
 	var phase = 1;
+	var currentPivotEl = void 0;
+	var currentContender = void 0;
 	
 	var incrementPhase = function incrementPhase() {
 	  return phase++;
@@ -116,19 +79,19 @@
 	  cleanUp();
 	  switch (phase) {
 	    case 1:
-	      makeArrayElsVisible();
-	      addPhase1Text();
+	      (0, _setup.makeArrayElsVisible)(arrayEls);
+	      (0, _text_util.addPhase1Text)();
 	      break;
 	    case 2:
-	      addPhase2Text();
+	      (0, _text_util.addPhase2Text)();
 	      break;
 	    case 3:
 	      setCurrentPivotEl();
-	      addPhase3Text();
+	      (0, _text_util.addPhase3Text)();
 	      (0, _animation_utils.moveAndPulsePivot)(currentPivotEl);
 	      break;
 	    case 4:
-	      addPhase4Text();
+	      (0, _text_util.addPhase4Text)();
 	      (0, _animation_utils.stopPulsingAndMovePivot)(currentPivotEl);
 	      setCurrentContender();
 	      (0, _animation_utils.moveContenderToCompare)(currentContender);
@@ -142,9 +105,6 @@
 	  incrementPhase();
 	};
 	
-	var currentPivotEl = void 0;
-	var currentContender = void 0;
-	
 	var setCurrentPivotEl = function setCurrentPivotEl() {
 	  currentPivotEl = arrayEls.splice(0, 1)[0];
 	};
@@ -157,11 +117,11 @@
 	  var comparison = 'smaller';
 	  var direction = 'left';
 	
-	  if (elValue(currentPivotEl) < elValue(currentContender)) {
+	  if ((0, _sorting_utils.elValue)(currentPivotEl) < (0, _sorting_utils.elValue)(currentContender)) {
 	    comparison = 'greater';
 	    direction = 'right';
 	  }
-	  setText('mid-text', 'In this case, the contender is ' + comparison + ' than the pivot element, so it will be moved to the ' + direction);
+	  (0, _text_util.setText)('mid-text', 'In this case, the contender is ' + comparison + ' than the pivot element, so it will be moved to the ' + direction);
 	  placeContender(direction);
 	  setCurrentContender();
 	
@@ -183,10 +143,6 @@
 	    (0, _animation_utils.moveByAnimation)(currentContender, [4, 0, 0], true);
 	    rightArray.push(currentContender);
 	  }
-	};
-	
-	var elValue = function elValue(element) {
-	  return parseInt(element.id.substr(3));
 	};
 	
 	var setListenerOnNextText = function setListenerOnNextText() {
@@ -222,22 +178,11 @@
 	  nextText.removeEventListener('click', setUpCompareListener);
 	};
 	
-	// AFRAME.registerComponent('user-facing-text', {
-	//   init: function () {
-	//       this.el.setAttribute('scale', "5 5 1");
-	//   }
-	// });
-	
-	var setIntroText = function setIntroText() {
-	  setText('top-text', 'Welcome to Quicksort VR!');
-	  setText('mid-text', "Look at 'Continue' to get started");
-	};
-	
 	document.addEventListener('DOMContentLoaded', function () {
 	  var scene = document.querySelector('a-scene');
 	  scene.addEventListener('loaded', function () {
 	
-	    setIntroText();
+	    (0, _text_util.setIntroText)();
 	
 	    arrayEls = (0, _setup.randomElOrder)();
 	
@@ -72628,6 +72573,65 @@
 	    arrayEl.setAttribute('position', x + ' 2 0');
 	    arrayEl.setAttribute('visible', 'false');
 	  });
+	};
+	
+	var makeArrayElsVisible = exports.makeArrayElsVisible = function makeArrayElsVisible(arrayEls) {
+	  arrayEls.forEach(function (arrayEl) {
+	    return arrayEl.setAttribute('visible', 'true');
+	  });
+	};
+
+/***/ },
+/* 44 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var elValue = exports.elValue = function elValue(element) {
+	  return parseInt(element.id.substr(3));
+	};
+
+/***/ },
+/* 45 */,
+/* 46 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var addPhase1Text = exports.addPhase1Text = function addPhase1Text() {
+	  setText('mid-text', 'These boxes represent the elements to be sorted. When sorted, the smallest box will be on the left, and the largest on the right');
+	};
+	
+	var addPhase2Text = exports.addPhase2Text = function addPhase2Text() {
+	  setText('mid-text', 'The first step is to select the pivot element. The pivot element will be sorted first by comparing it against all other elements');
+	};
+	
+	var addPhase3Text = exports.addPhase3Text = function addPhase3Text() {
+	  setText('mid-text', "It is common to use the first element as the pivot element. Any elements smaller than the pivot element will be moved to the left, and any elements larger than the pivot element will be moved to the right");
+	};
+	
+	var addPhase4Text = exports.addPhase4Text = function addPhase4Text() {
+	  setText('mid-text', "Let's compare it with the first remaining element");
+	};
+	
+	var setIntroText = exports.setIntroText = function setIntroText() {
+	  setText('top-text', 'Welcome to Quicksort VR!');
+	  setText('mid-text', "Look at 'Continue' to get started");
+	};
+	
+	var setText = exports.setText = function setText(id, text) {
+	  var scale = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 3;
+	
+	  var textEl = document.getElementById(id);
+	  textEl.setAttribute('visible', 'true');
+	  textEl.setAttribute('bmfont-text', 'text: ' + text + '; align: center; width: 750; color: red;');
+	  textEl.setAttribute('scale', scale + ' ' + scale + ' ' + scale);
 	};
 
 /***/ }
