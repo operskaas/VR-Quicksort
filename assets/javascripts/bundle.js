@@ -152,7 +152,7 @@
 	  var moveAnimation = document.createElement('a-animation');
 	  moveAnimation.setAttribute('attribute', 'position');
 	  moveAnimation.setAttribute('dur', '2000');
-	  moveAnimation.setAttribute('to', '0 0 1');
+	  moveAnimation.setAttribute('to', '0 2 3');
 	
 	  pivotEl = arrayEls.splice(0, 1)[0];
 	
@@ -265,7 +265,7 @@
 	  var moveAnimation = document.createElement('a-animation');
 	  moveAnimation.setAttribute('attribute', 'position');
 	  moveAnimation.setAttribute('dur', '1500');
-	  moveAnimation.setAttribute('to', '0.5 0 1');
+	  moveAnimation.setAttribute('to', '0.5 2 3');
 	
 	  contender.appendChild(moveAnimation);
 	};
