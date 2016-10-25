@@ -96,7 +96,6 @@
 	      (0, _animation_utils.moveContenderToCompare)(currentContender);
 	      break;
 	    case 5:
-	      // setUpLeftAndRight();
 	      compare();
 	      break;
 	    default:
@@ -104,21 +103,6 @@
 	  }
 	  incrementPhase();
 	};
-	
-	// const setUpLeftAndRight = () => {
-	//   const left = document.createElement('a-entity');
-	//   left.id = 'left';
-	//   left.setAttribute('position', '-3 0 0');
-	
-	//   const right = document.createElement('a-entity');
-	//   right.id = 'right';
-	//   right.setAttribute('position', '3 0 0');
-	
-	//   const sortingContainer = document.getElementById('sorting-container');
-	//   sortingContainer.appendChild(left);
-	//   sortingContainer.appendChild(right);
-	// };
-	
 	
 	var setCurrentPivotEl = function setCurrentPivotEl() {
 	  currentPivotEl = arrayEls.splice(0, 1)[0];
@@ -152,10 +136,8 @@
 	
 	var _addToDOMArray = function _addToDOMArray(id, element) {
 	  var sortingContainer = document.getElementById('sorting-container');
-	  debugger;
-	  var newEl = element.cloneNode();
 	  var arr = document.getElementById(id);
-	  arr.appendChild(newEl);
+	  var newEl = (0, _sorting_utils.moveParent)(element, arr);
 	  if (id === 'left') {
 	    (0, _animation_utils.moveByAnimation)(arr, [-1, 0, 0], true);
 	  } else {
@@ -72584,15 +72566,19 @@
 	
 	var setElHeights = exports.setElHeights = function setElHeights(arrayEls) {
 	  arrayEls.forEach(function (arrayEl, idx) {
-	    var numEls = EL_IDS.length;
-	    var id = parseInt(arrayEl.id.substr(3));
-	    arrayEl.setAttribute('geometry', 'height:' + (0.5 + id / 5));
-	    var blueHex = Math.floor(17 + (255 - 17) * (id / numEls)).toString(16);
-	    arrayEl.setAttribute('material', 'color:#7777' + blueHex);
+	    setHeightAndColor(arrayEl);
 	    var x = EL_X_POSITIONS[idx];
 	    arrayEl.setAttribute('position', x + ' 2 0');
 	    arrayEl.setAttribute('visible', 'false');
 	  });
+	};
+	
+	var setHeightAndColor = exports.setHeightAndColor = function setHeightAndColor(arrayEl) {
+	  var numEls = EL_IDS.length;
+	  var id = parseInt(arrayEl.id.substr(3));
+	  arrayEl.setAttribute('geometry', 'height:' + (0.5 + id / 5));
+	  var blueHex = Math.floor(17 + (255 - 17) * (id / numEls)).toString(16);
+	  arrayEl.setAttribute('material', 'color:#7777' + blueHex);
 	};
 	
 	var makeArrayElsVisible = exports.makeArrayElsVisible = function makeArrayElsVisible(arrayEls) {
@@ -72603,15 +72589,27 @@
 
 /***/ },
 /* 44 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.moveParent = exports.elValue = undefined;
+	
+	var _setup = __webpack_require__(43);
+	
 	var elValue = exports.elValue = function elValue(element) {
 	  return parseInt(element.id.substr(3));
+	};
+	
+	var moveParent = exports.moveParent = function moveParent(element, newParent) {
+	  var clone = element.cloneNode();
+	  element.parentNode.removeChild(element);
+	  newParent.appendChild(clone);
+	  (0, _setup.setHeightAndColor)(clone);
+	  return clone;
 	};
 
 /***/ },
