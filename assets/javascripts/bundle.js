@@ -135,17 +135,26 @@
 	var rightArray = [];
 	
 	var _addToDOMArray = function _addToDOMArray(id, element) {
+	  debugger;
+	  var oldParentPos = element.parentNode.getAttribute('position');
+	  var prevPos = element.getAttribute('position');
+	  var detachedEl = (0, _sorting_utils.detachFromParent)(element);
+	  (0, _sorting_utils.attachToScene)(detachedEl, oldParentPos, prevPos);
+	  (0, _setup.setHeightAndColor)(detachedEl);
+	
 	  var arr = document.getElementById(id);
 	  var arrPos = arr.getAttribute('position');
-	  (0, _animation_utils.moveByAnimation)(element, [arrPos.x, arrPos.y, arrPos.z], false, function () {
-	    var newEl = (0, _sorting_utils.moveParent)(element, arr);
+	  (0, _animation_utils.moveByAnimation)(detachedEl, [arrPos.x, arrPos.y, arrPos.z], false, function () {
+	
+	    attachToParent(arr, detachedEl, arrPos, prevPos);
+	    arr.appendChild(detachedEl);
 	    if (id === 'left') {
 	      (0, _animation_utils.moveByAnimation)(arr, [-1, 0, 0], true);
 	    } else {
 	      (0, _animation_utils.moveByAnimation)(arr, [1, 0, 0], true);
 	    }
 	    var xOffset = arr.childElementCount;
-	    (0, _animation_utils.moveByAnimation)(newEl, [xOffset, 0, 0]);
+	    (0, _animation_utils.moveByAnimation)(detachedEl, [xOffset, 0, 0]);
 	  });
 	};
 	
@@ -72480,13 +72489,17 @@
 
 /***/ },
 /* 42 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.moveContenderToCompare = exports.moveByAnimation = exports.stopPulsingAndMovePivot = exports.moveAndPulsePivot = undefined;
+	
+	__webpack_require__(1);
+	
 	var moveAndPulsePivot = exports.moveAndPulsePivot = function moveAndPulsePivot(pivotEl) {
 	  var pulseAnimation = document.createElement('a-animation');
 	  pulseAnimation.setAttribute('attribute', 'scale');
@@ -72529,7 +72542,10 @@
 	  moveAnimation.setAttribute('to', pos);
 	  element.appendChild(moveAnimation);
 	
-	  setTimeout(cb, parseInt(animDur));
+	  setTimeout(function () {
+	    element.removeChild(moveAnimation);
+	    cb();
+	  }, parseInt(animDur));
 	};
 	
 	var moveContenderToCompare = exports.moveContenderToCompare = function moveContenderToCompare(contender) {
@@ -72543,13 +72559,17 @@
 
 /***/ },
 /* 43 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.makeArrayElsVisible = exports.setHeightAndColor = exports.setElHeights = exports.randomElOrder = undefined;
+	
+	__webpack_require__(1);
+	
 	var EL_IDS = ['el-1', 'el-2', 'el-3', 'el-4', 'el-5', 'el-6', 'el-7', 'el-8', 'el-9', 'el-10', 'el-11', 'el-12'];
 	var EL_X_POSITIONS = EL_IDS.map(function (id, idx) {
 	  return -((EL_IDS.length - 1) / 2) + idx;
@@ -72602,7 +72622,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.moveParent = exports.elValue = undefined;
+	exports.attachToScene = exports.detachFromParent = exports.elValue = undefined;
+	
+	__webpack_require__(1);
 	
 	var _setup = __webpack_require__(43);
 	
@@ -72610,24 +72632,32 @@
 	  return parseInt(element.id.substr(3));
 	};
 	
-	var moveParent = exports.moveParent = function moveParent(element, newParent) {
+	var detachFromParent = exports.detachFromParent = function detachFromParent(element) {
 	  var clone = element.cloneNode();
 	  element.parentNode.removeChild(element);
-	  newParent.appendChild(clone);
-	  (0, _setup.setHeightAndColor)(clone);
 	  return clone;
+	};
+	
+	var attachToScene = exports.attachToScene = function attachToScene(element, parentPos, relPos) {
+	  document.querySelector('a-scene').appendChild(element);
+	  var globalPos = parentPos.x + relPos.x + ' ' + (parentPos.y + relPos.y) + ' ' + (parentPos.z + relPos.z);
+	  element.setAttribute('position', globalPos);
 	};
 
 /***/ },
 /* 45 */,
 /* 46 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.setText = exports.setIntroText = exports.addPhase4Text = exports.addPhase3Text = exports.addPhase2Text = exports.addPhase1Text = undefined;
+	
+	__webpack_require__(1);
+	
 	var addPhase1Text = exports.addPhase1Text = function addPhase1Text() {
 	  document.getElementById('top-text').setAttribute('visible', 'false');
 	  setText('mid-text', 'These boxes represent the elements to be sorted. When sorted, the smallest box will be on the left, and the largest on the right');
