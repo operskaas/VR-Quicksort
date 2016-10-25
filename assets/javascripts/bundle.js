@@ -76,7 +76,6 @@
 	};
 	
 	var moveToPhase = function moveToPhase(phase) {
-	  cleanUp();
 	  switch (phase) {
 	    case 1:
 	      (0, _setup.makeArrayElsVisible)(arrayEls);
@@ -97,6 +96,7 @@
 	      (0, _animation_utils.moveContenderToCompare)(currentContender);
 	      break;
 	    case 5:
+	      // setUpLeftAndRight();
 	      compare();
 	      break;
 	    default:
@@ -104,6 +104,21 @@
 	  }
 	  incrementPhase();
 	};
+	
+	// const setUpLeftAndRight = () => {
+	//   const left = document.createElement('a-entity');
+	//   left.id = 'left';
+	//   left.setAttribute('position', '-3 0 0');
+	
+	//   const right = document.createElement('a-entity');
+	//   right.id = 'right';
+	//   right.setAttribute('position', '3 0 0');
+	
+	//   const sortingContainer = document.getElementById('sorting-container');
+	//   sortingContainer.appendChild(left);
+	//   sortingContainer.appendChild(right);
+	// };
+	
 	
 	var setCurrentPivotEl = function setCurrentPivotEl() {
 	  currentPivotEl = arrayEls.splice(0, 1)[0];
@@ -122,7 +137,7 @@
 	    direction = 'right';
 	  }
 	  (0, _text_util.setText)('mid-text', 'In this case, the contender is ' + comparison + ' than the pivot element, so it will be moved to the ' + direction);
-	  placeContender(direction);
+	  _addToDOMArray(direction, currentContender);
 	  setCurrentContender();
 	
 	  if (arrayEls.length > 0) {
@@ -135,14 +150,17 @@
 	var leftArray = [];
 	var rightArray = [];
 	
-	var placeContender = function placeContender(direction) {
-	  if (direction === 'left') {
-	    (0, _animation_utils.moveByAnimation)(currentContender, [-4, 0, 0], true);
-	    leftArray.push(currentContender);
+	var _addToDOMArray = function _addToDOMArray(id, element) {
+	  var sortingContainer = document.getElementById('sorting-container');
+	  var arr = document.getElementById(id);
+	  if (id === 'left') {
+	    (0, _animation_utils.moveByAnimation)(arr, [-1, 0, 0]);
 	  } else {
-	    (0, _animation_utils.moveByAnimation)(currentContender, [4, 0, 0], true);
-	    rightArray.push(currentContender);
+	    (0, _animation_utils.moveByAnimation)(arr, [1, 0, 0]);
 	  }
+	  var xOffset = sortingContainer.numChildren; // need to check
+	  element.setAttribute('position', xOffset + ' 0 0');
+	  sortingContainer.appendChild(element);
 	};
 	
 	var setListenerOnNextText = function setListenerOnNextText() {
