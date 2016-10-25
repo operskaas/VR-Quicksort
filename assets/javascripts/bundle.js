@@ -152,15 +152,17 @@
 	
 	var _addToDOMArray = function _addToDOMArray(id, element) {
 	  var sortingContainer = document.getElementById('sorting-container');
+	  debugger;
+	  var newEl = element.cloneNode();
 	  var arr = document.getElementById(id);
+	  arr.appendChild(newEl);
 	  if (id === 'left') {
-	    (0, _animation_utils.moveByAnimation)(arr, [-1, 0, 0]);
+	    (0, _animation_utils.moveByAnimation)(arr, [-1, 0, 0], true);
 	  } else {
-	    (0, _animation_utils.moveByAnimation)(arr, [1, 0, 0]);
+	    (0, _animation_utils.moveByAnimation)(arr, [1, 0, 0], true);
 	  }
-	  var xOffset = sortingContainer.numChildren; // need to check
-	  element.setAttribute('position', xOffset + ' 0 0');
-	  sortingContainer.appendChild(element);
+	  var xOffset = arr.childElementCount;
+	  newEl.setAttribute('position', xOffset + ' 0 0');
 	};
 	
 	var setListenerOnNextText = function setListenerOnNextText() {
@@ -72584,7 +72586,7 @@
 	  arrayEls.forEach(function (arrayEl, idx) {
 	    var numEls = EL_IDS.length;
 	    var id = parseInt(arrayEl.id.substr(3));
-	    arrayEl.setAttribute('height', '' + (0.5 + id / 5));
+	    arrayEl.setAttribute('geometry', 'height:' + (0.5 + id / 5));
 	    var blueHex = Math.floor(17 + (255 - 17) * (id / numEls)).toString(16);
 	    arrayEl.setAttribute('material', 'color:#7777' + blueHex);
 	    var x = EL_X_POSITIONS[idx];
@@ -72623,6 +72625,7 @@
 	  value: true
 	});
 	var addPhase1Text = exports.addPhase1Text = function addPhase1Text() {
+	  document.getElementById('top-text').setAttribute('visible', 'false');
 	  setText('mid-text', 'These boxes represent the elements to be sorted. When sorted, the smallest box will be on the left, and the largest on the right');
 	};
 	
