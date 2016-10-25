@@ -135,16 +135,18 @@
 	var rightArray = [];
 	
 	var _addToDOMArray = function _addToDOMArray(id, element) {
-	  var sortingContainer = document.getElementById('sorting-container');
 	  var arr = document.getElementById(id);
-	  var newEl = (0, _sorting_utils.moveParent)(element, arr);
-	  if (id === 'left') {
-	    (0, _animation_utils.moveByAnimation)(arr, [-1, 0, 0], true);
-	  } else {
-	    (0, _animation_utils.moveByAnimation)(arr, [1, 0, 0], true);
-	  }
-	  var xOffset = arr.childElementCount;
-	  newEl.setAttribute('position', xOffset + ' 0 0');
+	  var arrPos = arr.getAttribute('position');
+	  (0, _animation_utils.moveByAnimation)(element, [arrPos.x, arrPos.y, arrPos.z], false, function () {
+	    var newEl = (0, _sorting_utils.moveParent)(element, arr);
+	    if (id === 'left') {
+	      (0, _animation_utils.moveByAnimation)(arr, [-1, 0, 0], true);
+	    } else {
+	      (0, _animation_utils.moveByAnimation)(arr, [1, 0, 0], true);
+	    }
+	    var xOffset = arr.childElementCount;
+	    (0, _animation_utils.moveByAnimation)(newEl, [xOffset, 0, 0]);
+	  });
 	};
 	
 	var setListenerOnNextText = function setListenerOnNextText() {
@@ -72510,6 +72512,7 @@
 	
 	var moveByAnimation = exports.moveByAnimation = function moveByAnimation(element, pos) {
 	  var delta = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+	  var cb = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
 	
 	  if (delta) {
 	    var prevPos = element.getAttribute('position');
@@ -72518,12 +72521,15 @@
 	    pos = pos[0] + ' ' + pos[1] + ' ' + pos[2];
 	  }
 	
+	  var animDur = '2000';
+	
 	  var moveAnimation = document.createElement('a-animation');
 	  moveAnimation.setAttribute('attribute', 'position');
-	  moveAnimation.setAttribute('dur', '2000');
+	  moveAnimation.setAttribute('dur', animDur);
 	  moveAnimation.setAttribute('to', pos);
-	
 	  element.appendChild(moveAnimation);
+	
+	  setTimeout(cb, parseInt(animDur));
 	};
 	
 	var moveContenderToCompare = exports.moveContenderToCompare = function moveContenderToCompare(contender) {
