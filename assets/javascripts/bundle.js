@@ -106,13 +106,17 @@
 	  setNextTextClickListener(compare);
 	};
 	
+	var currentEls = function currentEls() {
+	  return elTree[currentTreeNode].els;
+	};
+	
 	var setCurrentPivotEl = function setCurrentPivotEl() {
-	  currentPivotEl = elTree[currentTreeNode].els.splice(0, 1)[0];
+	  currentPivotEl = currentEls().splice(0, 1)[0];
 	  elTree[currentTreeNode].pivot = currentPivotEl;
 	};
 	
 	var setCurrentContender = function setCurrentContender() {
-	  currentContender = elTree[currentTreeNode].els.splice(0, 1)[0];
+	  currentContender = currentEls().splice(0, 1)[0];
 	};
 	
 	var compare = function compare() {
@@ -126,7 +130,7 @@
 	  (0, _text_util.setText)('mid-text', 'In this case, the contender is ' + comparison + ' than the pivot element, so it will be moved to the ' + direction);
 	  _addToDOMArray(direction, currentContender);
 	
-	  if (arrayEls.length > 0) {
+	  if (currentEls().length > 0) {
 	    setCurrentContender();
 	    changeNextTextListener();
 	  } else {
