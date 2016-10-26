@@ -127,9 +127,21 @@
 	    setCurrentContender();
 	    changeNextTextListener();
 	  } else {
+	    // have sorted all contenders in arrayEls
 	    console.log('finished sorting this round');
+	    sortLeftArray();
+	    sortRightArray();
+	    concatLeftPivotRight();
 	  }
 	};
+	
+	var sortLeftArray = function sortLeftArray() {
+	  (0, _animation_utils.moveCameraAndControls)('left');
+	};
+	
+	var sortRightArray = function sortRightArray() {};
+	
+	var concatLeftPivotRight = function concatLeftPivotRight() {};
 	
 	var leftArray = [];
 	var rightArray = [];
@@ -72498,9 +72510,19 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.moveContenderToCompare = exports.moveByAnimation = exports.stopPulsingAndMovePivot = exports.moveAndPulsePivot = undefined;
+	exports.moveContenderToCompare = exports.moveByAnimation = exports.stopPulsingAndMovePivot = exports.moveAndPulsePivot = exports.moveCameraAndControls = undefined;
 	
 	__webpack_require__(1);
+	
+	var moveCameraAndControls = exports.moveCameraAndControls = function moveCameraAndControls(direction) {
+	  var deltaX = direction === 'left' ? -4 : 4;
+	  var delta = [deltaX, 0, 1];
+	  var camera = document.querySelector('a-camera');
+	  moveByAnimation(camera, delta, true);
+	
+	  var controls = document.getElementById('controls');
+	  moveByAnimation(controls, delta, true);
+	};
 	
 	var moveAndPulsePivot = exports.moveAndPulsePivot = function moveAndPulsePivot(pivotEl) {
 	  var pulseAnimation = document.createElement('a-animation');
