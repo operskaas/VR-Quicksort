@@ -61,7 +61,7 @@
 	var _text_util = __webpack_require__(45);
 	
 	var elTree = void 0;
-	var currentTreeNode = 0;
+	var currentTreeNode = void 0;
 	var arrayEls = void 0;
 	var phase = 1;
 	var currentPivotEl = void 0;
@@ -83,11 +83,11 @@
 	    case 3:
 	      setCurrentPivotEl();
 	      (0, _text_util.addPhase3Text)();
-	      (0, _animation_utils.moveAndPulsePivot)(currentPivotEl);
+	      placePivot();
 	      break;
 	    case 4:
 	      (0, _text_util.addPhase4Text)();
-	      (0, _animation_utils.stopPulsingAndMovePivot)(currentPivotEl);
+	      (0, _animation_utils.moveByAnimation)(currentPivotEl, [-0.5, 0, 0], true);
 	      setCurrentContender();
 	      (0, _animation_utils.moveContenderToCompare)(currentContender);
 	      break;
@@ -100,6 +100,13 @@
 	  incrementPhase();
 	};
 	
+	var placePivot = function placePivot() {
+	  var camera = document.querySelector('a-camera');
+	  var cameraPos = camera.object3D.getWorldPosition();
+	  var destPos = (0, _animation_utils.sumVectors)(cameraPos, [0, -1, -3]);
+	  (0, _animation_utils.moveByAnimation)(currentPivotEl, destPos);
+	};
+	
 	var setUpCompare = function setUpCompare() {
 	  (0, _text_util.setText)('mid-text', "Let's compare the pivot element to the next element");
 	  (0, _animation_utils.moveContenderToCompare)(currentContender);
@@ -107,12 +114,12 @@
 	};
 	
 	var currentEls = function currentEls() {
-	  return elTree[currentTreeNode].els;
+	  return currentTreeNode.els;
 	};
 	
 	var setCurrentPivotEl = function setCurrentPivotEl() {
 	  currentPivotEl = currentEls().splice(0, 1)[0];
-	  elTree[currentTreeNode].pivot = currentPivotEl;
+	  currentTreeNode.pivot = currentPivotEl;
 	};
 	
 	var setCurrentContender = function setCurrentContender() {
@@ -136,20 +143,34 @@
 	  } else {
 	    // have sorted all contenders in arrayEls
 	    console.log('finished sorting this round');
-	    sortLeftArray();
-	    sortRightArray();
-	    concatLeftPivotRight();
+	    var leftKey = currentTreeNode.left;
+	    var rightKey = currentTreeNode.right;
+	    sortTreeNode(leftKey);
+	    // sortTreeNode(rightKey);
+	    // concatLeftPivotRight();
 	  }
 	};
 	
-	var sortLeftArray = function sortLeftArray() {
+	var sortTreeNode = function sortTreeNode(key) {
+	  debugger;
+	  currentTreeNode = elTree[key];
 	  (0, _text_util.setText)('mid-text', "Let's take a look at the elements on the left");
 	
-	  (0, _animation_utils.moveCameraAndControls)('left');
+	  var destCameraPos = currentTreeNode.position.slice();
+	  destCameraPos[2] += 4;
+	  (0, _animation_utils.moveCameraAndControls)(destCameraPos);
 	  setNextTextClickListener(function () {
-	    (0, _text_util.setText)('mid-text', "Looks like we got some elements over here");
-	
+	    var numEls = currentTreeNode.els.length;
+	    if (numEls === 1) {
+	      (0, _text_util.setText)('mid-text', "Since we only have one element here, we can consider it sorted");
+	      currentTreeNode.sorted = true;
+	    } else if (numEls === 0) {
+	      (0, _text_util.setText)('mid-text', "Since we have no elements here, we can consider it sorted");
+	      currentTreeNode.sorted = true;
+	    }
 	    setCurrentPivotEl();
+	    (0, _text_util.setText)('mid-text', "Once again we will choose the first element as the pivot");
+	    placePivot();
 	    setNextTextClickListener();
 	  });
 	};
@@ -169,7 +190,7 @@
 	  // setHeightAndColor(detachedEl);
 	
 	  // const arr = document.getElementById(direction);
-	  var sideNodeKey = elTree[currentTreeNode][direction];
+	  var sideNodeKey = currentTreeNode[direction];
 	  var sideNode = elTree[sideNodeKey];
 	  sideNode.els.push(element);
 	  // const arrPos = arr.object3D.getWorldPosition();
@@ -232,6 +253,7 @@
 	      },
 	      1: {
 	        sorted: false,
+	        desc: 'left',
 	        els: [],
 	        left: null,
 	        right: null,
@@ -241,6 +263,7 @@
 	      },
 	      2: {
 	        sorted: false,
+	        desc: 'right',
 	        els: [],
 	        left: null,
 	        right: null,
@@ -249,6 +272,8 @@
 	        position: [4, 2, 6]
 	      }
 	    };
+	
+	    currentTreeNode = elTree[0];
 	
 	    (0, _setup.setElHeights)(arrayEls);
 	
@@ -72547,37 +72572,44 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.moveContenderToCompare = exports.moveByAnimation = exports.stopPulsingAndMovePivot = exports.moveAndPulsePivot = exports.moveCameraAndControls = undefined;
+	exports.moveContenderToCompare = exports.moveByAnimation = exports.stopPulsingAndMovePivot = exports.sumVectors = exports.moveCameraAndControls = undefined;
 	
 	__webpack_require__(1);
 	
-	var moveCameraAndControls = exports.moveCameraAndControls = function moveCameraAndControls(direction) {
-	  var deltaX = direction === 'left' ? -4 : 4;
-	  var delta = [deltaX, 0, 1];
+	var moveCameraAndControls = exports.moveCameraAndControls = function moveCameraAndControls(destPos) {
 	  var camera = document.querySelector('a-camera');
-	  moveByAnimation(camera, delta, true);
+	  moveByAnimation(camera, destPos);
 	
 	  var controls = document.getElementById('controls');
-	  moveByAnimation(controls, delta, true);
+	  moveByAnimation(controls, destPos);
 	};
 	
-	var moveAndPulsePivot = exports.moveAndPulsePivot = function moveAndPulsePivot(pivotEl) {
-	  var pulseAnimation = document.createElement('a-animation');
-	  pulseAnimation.setAttribute('attribute', 'scale');
-	  pulseAnimation.setAttribute('direction', 'alternate');
-	  pulseAnimation.setAttribute('dur', '1000');
-	  pulseAnimation.setAttribute('fill', 'forwards');
-	  pulseAnimation.setAttribute('to', '1.3 1.3 1.3');
-	  pulseAnimation.setAttribute('repeat', 'indefinite');
-	
-	  var moveAnimation = document.createElement('a-animation');
-	  moveAnimation.setAttribute('attribute', 'position');
-	  moveAnimation.setAttribute('dur', '2000');
-	  moveAnimation.setAttribute('to', '0 2 3');
-	
-	  pivotEl.appendChild(pulseAnimation);
-	  pivotEl.appendChild(moveAnimation);
+	var sumVectors = exports.sumVectors = function sumVectors(v1, v2) {
+	  var newVector = [];
+	  for (var i = v1.length - 1; i >= 0; i--) {
+	    newVector[i] = v1[i] + v2[i];
+	  }
+	  return newVector;
 	};
+	
+	// export const moveAndPulsePivot = (pivotEl) => {
+	//   const pulseAnimation = document.createElement('a-animation');
+	//   pulseAnimation.setAttribute('attribute', 'scale');
+	//   pulseAnimation.setAttribute('direction', 'alternate');
+	//   pulseAnimation.setAttribute('dur', '1000');
+	//   pulseAnimation.setAttribute('fill', 'forwards');
+	//   pulseAnimation.setAttribute('to', '1.3 1.3 1.3');
+	//   pulseAnimation.setAttribute('repeat', 'indefinite');
+	
+	//   moveByAnimation(pivotEl, [3, 0, 3], true)
+	//   // const moveAnimation = document.createElement('a-animation');
+	//   // moveAnimation.setAttribute('attribute', 'position');
+	//   // moveAnimation.setAttribute('dur', '2000');
+	//   // moveAnimation.setAttribute('to', '0 2 3');
+	
+	//   pivotEl.appendChild(pulseAnimation);
+	//   // pivotEl.appendChild(moveAnimation);
+	// };
 	
 	var stopPulsingAndMovePivot = exports.stopPulsingAndMovePivot = function stopPulsingAndMovePivot(pivotEl) {
 	  pivotEl.innerHTML = '';
