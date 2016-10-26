@@ -60,12 +60,6 @@
 	
 	var _text_util = __webpack_require__(45);
 	
-	var setUpCompare = function setUpCompare() {
-	  (0, _text_util.setText)('mid-text', "Let's compare the pivot element to the next element");
-	  (0, _animation_utils.moveContenderToCompare)(currentContender);
-	  setCompareListener();
-	};
-	
 	var arrayEls = void 0;
 	var phase = 1;
 	var currentPivotEl = void 0;
@@ -104,6 +98,12 @@
 	  incrementPhase();
 	};
 	
+	var setUpCompare = function setUpCompare() {
+	  (0, _text_util.setText)('mid-text', "Let's compare the pivot element to the next element");
+	  (0, _animation_utils.moveContenderToCompare)(currentContender);
+	  setCompareListener();
+	};
+	
 	var setCurrentPivotEl = function setCurrentPivotEl() {
 	  currentPivotEl = arrayEls.splice(0, 1)[0];
 	};
@@ -122,9 +122,9 @@
 	  }
 	  (0, _text_util.setText)('mid-text', 'In this case, the contender is ' + comparison + ' than the pivot element, so it will be moved to the ' + direction);
 	  _addToDOMArray(direction, currentContender);
-	  setCurrentContender();
 	
 	  if (arrayEls.length > 0) {
+	    setCurrentContender();
 	    changeNextTextListener();
 	  } else {
 	    console.log('finished sorting this round');
@@ -182,7 +182,7 @@
 	
 	var changeNextTextListener = function changeNextTextListener() {
 	  var nextText = document.getElementById('next-text');
-	  nextText.removeEventListener('click', moveToPhaseListener);
+	  nextText.removeEventListener('click', moveToPhaseListener); // should be a no-op after first time, will this break?
 	
 	  nextText.addEventListener('click', setUpCompareListener);
 	};
