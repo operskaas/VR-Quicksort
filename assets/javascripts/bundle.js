@@ -58,7 +58,7 @@
 	
 	var _sorting_utils = __webpack_require__(44);
 	
-	var _text_util = __webpack_require__(46);
+	var _text_util = __webpack_require__(45);
 	
 	var setUpCompare = function setUpCompare() {
 	  (0, _text_util.setText)('mid-text', "Let's compare the pivot element to the next element");
@@ -135,26 +135,26 @@
 	var rightArray = [];
 	
 	var _addToDOMArray = function _addToDOMArray(id, element) {
-	  debugger;
-	  var oldParentPos = element.parentNode.getAttribute('position');
-	  var prevPos = element.getAttribute('position');
+	  var prevPos = element.object3D.getWorldPosition();
 	  var detachedEl = (0, _sorting_utils.detachFromParent)(element);
-	  (0, _sorting_utils.attachToScene)(detachedEl, oldParentPos, prevPos);
+	  var scene = document.querySelector('a-scene');
+	  (0, _sorting_utils.attachToParent)(scene, detachedEl, prevPos);
 	  (0, _setup.setHeightAndColor)(detachedEl);
 	
 	  var arr = document.getElementById(id);
-	  var arrPos = arr.getAttribute('position');
+	  var arrPos = arr.object3D.getWorldPosition();
 	  (0, _animation_utils.moveByAnimation)(detachedEl, [arrPos.x, arrPos.y, arrPos.z], false, function () {
-	
-	    attachToParent(arr, detachedEl, arrPos, prevPos);
-	    arr.appendChild(detachedEl);
+	    var globalPos = detachedEl.object3D.getWorldPosition();
+	    var detached = (0, _sorting_utils.detachFromParent)(detachedEl);
+	    (0, _sorting_utils.attachToParent)(arr, detached, globalPos);
+	    (0, _setup.setHeightAndColor)(detached);
 	    if (id === 'left') {
 	      (0, _animation_utils.moveByAnimation)(arr, [-1, 0, 0], true);
 	    } else {
 	      (0, _animation_utils.moveByAnimation)(arr, [1, 0, 0], true);
 	    }
 	    var xOffset = arr.childElementCount;
-	    (0, _animation_utils.moveByAnimation)(detachedEl, [xOffset, 0, 0]);
+	    (0, _animation_utils.moveByAnimation)(detached, [xOffset, 0, 0]);
 	  });
 	};
 	
@@ -72622,7 +72622,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.attachToScene = exports.detachFromParent = exports.elValue = undefined;
+	exports.attachToParent = exports.detachFromParent = exports.elValue = undefined;
 	
 	__webpack_require__(1);
 	
@@ -72638,15 +72638,15 @@
 	  return clone;
 	};
 	
-	var attachToScene = exports.attachToScene = function attachToScene(element, parentPos, relPos) {
-	  document.querySelector('a-scene').appendChild(element);
-	  var globalPos = parentPos.x + relPos.x + ' ' + (parentPos.y + relPos.y) + ' ' + (parentPos.z + relPos.z);
-	  element.setAttribute('position', globalPos);
+	var attachToParent = exports.attachToParent = function attachToParent(parent, element, elGlobalPos) {
+	  parent.appendChild(element);
+	  var parentGlobalPos = parent.object3D.getWorldPosition();
+	  var relPos = { x: elGlobalPos.x - parentGlobalPos.x, y: elGlobalPos.y - parentGlobalPos.y, z: elGlobalPos.z - parentGlobalPos.z };
+	  element.setAttribute('position', relPos);
 	};
 
 /***/ },
-/* 45 */,
-/* 46 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
