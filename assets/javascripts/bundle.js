@@ -143,18 +143,20 @@
 	
 	  var arr = document.getElementById(id);
 	  var arrPos = arr.object3D.getWorldPosition();
-	  (0, _animation_utils.moveByAnimation)(detachedEl, [arrPos.x, arrPos.y, arrPos.z], false, function () {
+	  var xOffset = arr.childElementCount;
+	  if (id === 'left') {
+	    xOffset = -xOffset;
+	  }
+	  (0, _animation_utils.moveByAnimation)(detachedEl, [arrPos.x + xOffset, arrPos.y, arrPos.z], false, function () {
 	    var globalPos = detachedEl.object3D.getWorldPosition();
 	    var detached = (0, _sorting_utils.detachFromParent)(detachedEl);
 	    (0, _sorting_utils.attachToParent)(arr, detached, globalPos);
 	    (0, _setup.setHeightAndColor)(detached);
-	    if (id === 'left') {
-	      (0, _animation_utils.moveByAnimation)(arr, [-1, 0, 0], true);
-	    } else {
-	      (0, _animation_utils.moveByAnimation)(arr, [1, 0, 0], true);
-	    }
-	    var xOffset = arr.childElementCount;
-	    (0, _animation_utils.moveByAnimation)(detached, [xOffset, 0, 0]);
+	    // if (id === 'left') {
+	    //   moveByAnimation(arr, [-1, 0, 0], true);
+	    // } else {
+	    //   moveByAnimation(arr, [1, 0, 0], true);
+	    // }
 	  });
 	};
 	
@@ -72528,7 +72530,7 @@
 	  var cb = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
 	
 	  if (delta) {
-	    var prevPos = element.getAttribute('position');
+	    var prevPos = element.object3D.position;
 	    pos = pos[0] + prevPos.x + ' ' + (pos[1] + prevPos.y) + ' ' + (pos[2] + prevPos.z);
 	  } else {
 	    pos = pos[0] + ' ' + pos[1] + ' ' + pos[2];
