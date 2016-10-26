@@ -60,6 +60,8 @@
 	
 	var _text_util = __webpack_require__(45);
 	
+	var elTree = void 0;
+	var currentTreeNode = 0;
 	var arrayEls = void 0;
 	var phase = 1;
 	var currentPivotEl = void 0;
@@ -105,11 +107,12 @@
 	};
 	
 	var setCurrentPivotEl = function setCurrentPivotEl() {
-	  currentPivotEl = arrayEls.splice(0, 1)[0];
+	  currentPivotEl = elTree[currentTreeNode].els.splice(0, 1)[0];
+	  elTree[currentTreeNode].pivot = currentPivotEl;
 	};
 	
 	var setCurrentContender = function setCurrentContender() {
-	  currentContender = arrayEls.splice(0, 1)[0];
+	  currentContender = elTree[currentTreeNode].els.splice(0, 1)[0];
 	};
 	
 	var compare = function compare() {
@@ -137,9 +140,13 @@
 	
 	var sortLeftArray = function sortLeftArray() {
 	  (0, _text_util.setText)('mid-text', "Let's take a look at the elements on the left");
+	
 	  (0, _animation_utils.moveCameraAndControls)('left');
 	  setNextTextClickListener(function () {
 	    (0, _text_util.setText)('mid-text', "Looks like we got some elements over here");
+	
+	    setCurrentPivotEl();
+	    setNextTextClickListener();
 	  });
 	};
 	
@@ -203,6 +210,17 @@
 	    (0, _text_util.setIntroText)();
 	
 	    arrayEls = (0, _setup.randomElOrder)();
+	    elTree = {
+	      0: {
+	        node: document.getElementById('el-container'),
+	        sorted: false,
+	        els: arrayEls.slice(),
+	        L: null,
+	        R: null,
+	        parent: null,
+	        pivot: null
+	      }
+	    };
 	
 	    (0, _setup.setElHeights)(arrayEls);
 	
