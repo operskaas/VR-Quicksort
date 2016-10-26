@@ -101,7 +101,7 @@
 	var setUpCompare = function setUpCompare() {
 	  (0, _text_util.setText)('mid-text', "Let's compare the pivot element to the next element");
 	  (0, _animation_utils.moveContenderToCompare)(currentContender);
-	  setCompareListener();
+	  setNextTextClickListener(compare);
 	};
 	
 	var setCurrentPivotEl = function setCurrentPivotEl() {
@@ -168,11 +168,6 @@
 	    var detached = (0, _sorting_utils.detachFromParent)(detachedEl);
 	    (0, _sorting_utils.attachToParent)(arr, detached, globalPos);
 	    (0, _setup.setHeightAndColor)(detached);
-	    // if (id === 'left') {
-	    //   moveByAnimation(arr, [-1, 0, 0], true);
-	    // } else {
-	    //   moveByAnimation(arr, [1, 0, 0], true);
-	    // }
 	  });
 	};
 	
@@ -194,31 +189,12 @@
 	  moveToPhase(phase);
 	};
 	
-	var setCompareListener = function setCompareListener() {
-	  var nextText = document.getElementById('next-text');
-	  nextText.addEventListener('click', compareListener);
-	};
-	
-	var compareListener = function compareListener(e) {
-	  compare();
-	  var nextText = document.getElementById('next-text');
-	  nextText.removeEventListener('click', compareListener);
-	};
-	
 	var changeNextTextListener = function changeNextTextListener() {
 	  var nextText = document.getElementById('next-text');
 	  nextText.removeEventListener('click', moveToPhaseListener); // should be a no-op after first time, will this break?
 	
 	  setNextTextClickListener(setUpCompare);
-	  // nextText.addEventListener('click', setUpCompareListener);
 	};
-	
-	// const setUpCompareListener = e => {
-	//   setUpCompare();
-	//   const nextText = document.getElementById('next-text');
-	//   nextText.removeEventListener('click', setUpCompareListener);
-	// };
-	
 	
 	document.addEventListener('DOMContentLoaded', function () {
 	  var scene = document.querySelector('a-scene');
