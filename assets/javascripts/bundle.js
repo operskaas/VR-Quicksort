@@ -136,7 +136,11 @@
 	};
 	
 	var sortLeftArray = function sortLeftArray() {
+	  (0, _text_util.setText)('mid-text', "Let's take a look at the elements on the left");
 	  (0, _animation_utils.moveCameraAndControls)('left');
+	  setNextTextClickListener(function () {
+	    (0, _text_util.setText)('mid-text', "Looks like we got some elements over here");
+	  });
 	};
 	
 	var sortRightArray = function sortRightArray() {};
@@ -172,6 +176,15 @@
 	  });
 	};
 	
+	var setNextTextClickListener = function setNextTextClickListener(cb) {
+	  var nextText = document.getElementById('next-text');
+	  var eventCB = function eventCB() {
+	    cb();
+	    nextText.removeEventListener('click', eventCB);
+	  };
+	  nextText.addEventListener('click', eventCB);
+	};
+	
 	var setListenerOnNextText = function setListenerOnNextText() {
 	  var nextText = document.getElementById('next-text');
 	  nextText.addEventListener('click', moveToPhaseListener);
@@ -196,14 +209,16 @@
 	  var nextText = document.getElementById('next-text');
 	  nextText.removeEventListener('click', moveToPhaseListener); // should be a no-op after first time, will this break?
 	
-	  nextText.addEventListener('click', setUpCompareListener);
+	  setNextTextClickListener(setUpCompare);
+	  // nextText.addEventListener('click', setUpCompareListener);
 	};
 	
-	var setUpCompareListener = function setUpCompareListener(e) {
-	  setUpCompare();
-	  var nextText = document.getElementById('next-text');
-	  nextText.removeEventListener('click', setUpCompareListener);
-	};
+	// const setUpCompareListener = e => {
+	//   setUpCompare();
+	//   const nextText = document.getElementById('next-text');
+	//   nextText.removeEventListener('click', setUpCompareListener);
+	// };
+	
 	
 	document.addEventListener('DOMContentLoaded', function () {
 	  var scene = document.querySelector('a-scene');
