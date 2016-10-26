@@ -128,7 +128,7 @@
 	    direction = 'right';
 	  }
 	  (0, _text_util.setText)('mid-text', 'In this case, the contender is ' + comparison + ' than the pivot element, so it will be moved to the ' + direction);
-	  _addToDOMArray(direction, currentContender);
+	  addToTreeNode(direction, currentContender);
 	
 	  if (currentEls().length > 0) {
 	    setCurrentContender();
@@ -161,24 +161,30 @@
 	var leftArray = [];
 	var rightArray = [];
 	
-	var _addToDOMArray = function _addToDOMArray(id, element) {
+	var addToTreeNode = function addToTreeNode(direction, element) {
 	  var prevPos = element.object3D.getWorldPosition();
-	  var detachedEl = (0, _sorting_utils.detachFromParent)(element);
-	  var scene = document.querySelector('a-scene');
-	  (0, _sorting_utils.attachToParent)(scene, detachedEl, prevPos);
-	  (0, _setup.setHeightAndColor)(detachedEl);
+	  // const detachedEl = detachFromParent(element);
+	  // const scene = document.querySelector('a-scene');
+	  // attachToParent(scene, detachedEl, prevPos);
+	  // setHeightAndColor(detachedEl);
 	
-	  var arr = document.getElementById(id);
-	  var arrPos = arr.object3D.getWorldPosition();
-	  var xOffset = arr.childElementCount;
-	  if (id === 'left') {
+	  // const arr = document.getElementById(direction);
+	  var sideNodeKey = elTree[currentTreeNode][direction];
+	  var sideNode = elTree[sideNodeKey];
+	  sideNode.els.push(element);
+	  // const arrPos = arr.object3D.getWorldPosition();
+	  var sideNodePos = sideNode.position;
+	  var destPos = sideNodePos.slice();
+	  var xOffset = sideNode.els.length;
+	  if (direction === 'left') {
 	    xOffset = -xOffset;
 	  }
-	  (0, _animation_utils.moveByAnimation)(detachedEl, [arrPos.x + xOffset, arrPos.y, arrPos.z], false, function () {
-	    var globalPos = detachedEl.object3D.getWorldPosition();
-	    var detached = (0, _sorting_utils.detachFromParent)(detachedEl);
-	    (0, _sorting_utils.attachToParent)(arr, detached, globalPos);
-	    (0, _setup.setHeightAndColor)(detached);
+	  destPos[0] += xOffset;
+	  (0, _animation_utils.moveByAnimation)(element, destPos, false, function () {
+	    // const globalPos = detachedEl.object3D.getWorldPosition();
+	    // const detached = detachFromParent(detachedEl);
+	    // attachToParent(arr, detached, globalPos);
+	    // setHeightAndColor(detached);
 	  });
 	};
 	
@@ -216,13 +222,31 @@
 	    arrayEls = (0, _setup.randomElOrder)();
 	    elTree = {
 	      0: {
-	        node: document.getElementById('el-container'),
 	        sorted: false,
 	        els: arrayEls.slice(),
-	        L: null,
-	        R: null,
+	        left: 1,
+	        right: 2,
 	        parent: null,
-	        pivot: null
+	        pivot: null,
+	        position: [0, 0, 0]
+	      },
+	      1: {
+	        sorted: false,
+	        els: [],
+	        left: null,
+	        right: null,
+	        parent: 0,
+	        pivot: null,
+	        position: [-4, 2, 6]
+	      },
+	      2: {
+	        sorted: false,
+	        els: [],
+	        left: null,
+	        right: null,
+	        parent: 0,
+	        pivot: null,
+	        position: [4, 2, 6]
 	      }
 	    };
 	
