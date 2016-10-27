@@ -153,11 +153,9 @@
 	  (0, _text_util.setText)('mid-text', "Let's take a look at these elements over here");
 	
 	  var destCameraPos = (0, _animation_utils.sumVectors)(currentTreeNode.position, [0, 0, 15]);
-	  var xOffset = currentTreeNode.els.length / 2;
-	  if (currentTreeNode.desc === 'left') {
-	    xOffset = -xOffset;
-	  }
-	  destCameraPos[0] += xOffset;
+	  // let xOffset = currentTreeNode.els.length / 2;
+	  // if (currentTreeNode.desc === 'left') {xOffset = -xOffset}
+	  // destCameraPos[0] += xOffset;
 	  (0, _animation_utils.moveCameraAndControls)(destCameraPos);
 	  setNextTextClickListener(function () {
 	    var numEls = currentTreeNode.els.length;
