@@ -141,13 +141,10 @@
 	    setCurrentContender();
 	    changeNextTextListener();
 	  } else {
-	    // have sorted all contenders in arrayEls
 	    console.log('finished sorting this round');
 	    var leftKey = currentTreeNode.left;
 	    var rightKey = currentTreeNode.right;
 	    sortTreeNode(leftKey);
-	    // sortTreeNode(rightKey);
-	    // concatLeftPivotRight();
 	  }
 	};
 	
@@ -164,12 +161,18 @@
 	  (0, _animation_utils.moveCameraAndControls)(destCameraPos);
 	  setNextTextClickListener(function () {
 	    var numEls = currentTreeNode.els.length;
-	    if (numEls === 1) {
-	      (0, _text_util.setText)('mid-text', "Since we only have one element here, we can consider it sorted");
+	    if (numEls <= 1) {
+	      if (numEls === 1) {
+	        (0, _text_util.setText)('mid-text', "Since we only have one element here, we can consider it sorted");
+	      } else {
+	        (0, _text_util.setText)('mid-text', "Since we have no elements here, we can consider it sorted");
+	      }
 	      currentTreeNode.sorted = true;
-	    } else if (numEls === 0) {
-	      (0, _text_util.setText)('mid-text', "Since we have no elements here, we can consider it sorted");
-	      currentTreeNode.sorted = true;
+	      if (complementSideNodeIsSorted()) {
+	        sortTreeNode(currentTreeNode.parent);
+	      } else {
+	        sortTreeNode(complementSideKey());
+	      }
 	    } else {
 	      createTreeSideNodes();
 	      setCurrentPivotEl();
@@ -183,6 +186,20 @@
 	      });
 	    }
 	  });
+	};
+	
+	var complementSideNodeIsSorted = function complementSideNodeIsSorted() {
+	  return elTree[complementSideKey()].sorted;
+	};
+	
+	var complementSideKey = function complementSideKey() {
+	  var currentKey = currentTreeNode.key;
+	  var parentNode = elTree[currentTreeNode.parent];
+	  if (currentKey === parentNode.left) {
+	    return parentNode.right;
+	  } else {
+	    return parentNode.left;
+	  }
 	};
 	
 	var createTreeSideNodes = function createTreeSideNodes() {
@@ -229,13 +246,11 @@
 	
 	  var sideNodePos = sideNode.position;
 	  var destPos = sideNodePos.slice();
-	  var xOffset = sideNode.els.length;
-	  if (direction === 'left') {
-	    xOffset = -xOffset;
-	  }
+	  var xOffset = (sideNode.els.length - 1) / 2;
+	  // if (direction === 'left') {xOffset = -xOffset}
 	  destPos[0] += xOffset;
-	
 	  (0, _animation_utils.moveByAnimation)(element, destPos);
+	  (0, _animation_utils.shiftAllEls)(sideNode);
 	};
 	
 	var setNextTextClickListener = function setNextTextClickListener(cb) {
@@ -72605,7 +72620,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.moveContenderToCompare = exports.moveByAnimation = exports.sumVectors = exports.moveCameraAndControls = undefined;
+	exports.shiftAllEls = exports.moveContenderToCompare = exports.moveByAnimation = exports.sumVectors = exports.moveCameraAndControls = undefined;
 	
 	__webpack_require__(1);
 	
@@ -72656,7 +72671,7 @@
 	    pos = pos[0] + ' ' + pos[1] + ' ' + pos[2];
 	  }
 	
-	  var animDur = '2000';
+	  var animDur = '1000';
 	
 	  var moveAnimation = document.createElement('a-animation');
 	  moveAnimation.setAttribute('attribute', 'position');
@@ -72676,6 +72691,13 @@
 	  var destPos = sumVectors([cameraPos.x, cameraPos.y, cameraPos.z], [0.5, -1, -7]);
 	
 	  moveByAnimation(contender, destPos);
+	};
+	
+	var shiftAllEls = exports.shiftAllEls = function shiftAllEls(node) {
+	  var shift = -0.5;
+	  for (var i = 0; i < node.els.length - 1; i++) {
+	    moveByAnimation(node.els[i], [shift, 0, 0], true);
+	  }
 	};
 
 /***/ },
