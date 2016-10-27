@@ -11,6 +11,7 @@
       <a-assets>
         <a-mixin id="array-element" material="color: #00cc00" geometry="width:0.4; height:1; depth:0.4;"></a-mixin>
         <img id="start" src="images/textures/start.png" />
+        <img id="grass" src="images/textures/grass.jpg" />
       </a-assets>
 
       <a-entity id="controls" position="0 0 0">
@@ -20,7 +21,7 @@
         <a-entity id="mid-text" class="starting-el" position="-5.4 5.5 0">
         </a-entity>
 
-        <a-box class="clickable" id="next-text" width="3.5" position="0 4.5 0" src="#start" ></a-box>
+        <a-box class="clickable" id="next-text" width="3.5" position="0 4.5 0" src="#start"></a-box>
       </a-entity>
 
 
@@ -41,10 +42,10 @@
 
 
 
-      <a-plane rotation="-90 0 0" width="200" height="200" color="#edf5d9">
+      <a-plane rotation="-90 0 0" width="200" height="200" color="#edf5d9" material="src: #grass; repeat: 20 20">
       </a-plane>
 
-      <!-- <a-sky color="white"></a-sky> -->
+      <a-sky color="teal"></a-sky>
       <a-entity id="camera-cont" position="0 2 15">
         <a-camera id="user" fov="80">
           <a-entity raycaster="objects: .clickable"
