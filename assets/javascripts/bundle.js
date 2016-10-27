@@ -72646,12 +72646,11 @@
 	};
 	
 	var moveContenderToCompare = exports.moveContenderToCompare = function moveContenderToCompare(contender) {
-	  var moveAnimation = document.createElement('a-animation');
-	  moveAnimation.setAttribute('attribute', 'position');
-	  moveAnimation.setAttribute('dur', '1500');
-	  moveAnimation.setAttribute('to', '0.5 2 3');
+	  var camera = document.querySelector('a-camera');
+	  var cameraPos = camera.object3D.getWorldPosition();
+	  var destPos = sumVectors([cameraPos.x, cameraPos.y, cameraPos.z], [0.5, -1, -7]);
 	
-	  contender.appendChild(moveAnimation);
+	  moveByAnimation(contender, destPos);
 	};
 
 /***/ },
