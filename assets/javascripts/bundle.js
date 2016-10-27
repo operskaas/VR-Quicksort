@@ -103,7 +103,7 @@
 	var placePivot = function placePivot() {
 	  var camera = document.querySelector('a-camera');
 	  var cameraPos = camera.object3D.getWorldPosition();
-	  var destPos = (0, _animation_utils.sumVectors)(cameraPos, [0, -1, -3]);
+	  var destPos = (0, _animation_utils.sumVectors)([cameraPos.x, cameraPos.y, cameraPos.z], [0, -1, -7]);
 	  (0, _animation_utils.moveByAnimation)(currentPivotEl, destPos);
 	};
 	
@@ -152,12 +152,15 @@
 	};
 	
 	var sortTreeNode = function sortTreeNode(key) {
-	  debugger;
 	  currentTreeNode = elTree[key];
-	  (0, _text_util.setText)('mid-text', "Let's take a look at the elements on the left");
+	  (0, _text_util.setText)('mid-text', "Let's take a look at these elements over here");
 	
-	  var destCameraPos = currentTreeNode.position.slice();
-	  destCameraPos[2] += 4;
+	  var destCameraPos = (0, _animation_utils.sumVectors)(currentTreeNode.position, [0, 0, 4]);
+	  var xOffset = currentTreeNode.els.length / 2;
+	  if (currentTreeNode.desc === 'left') {
+	    xOffset = -xOffset;
+	  }
+	  destCameraPos[0] += xOffset;
 	  (0, _animation_utils.moveCameraAndControls)(destCameraPos);
 	  setNextTextClickListener(function () {
 	    var numEls = currentTreeNode.els.length;
@@ -274,6 +277,7 @@
 	    };
 	
 	    currentTreeNode = elTree[0];
+	    currentTreeNode.els = arrayEls;
 	
 	    (0, _setup.setElHeights)(arrayEls);
 	
@@ -72572,7 +72576,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.moveContenderToCompare = exports.moveByAnimation = exports.stopPulsingAndMovePivot = exports.sumVectors = exports.moveCameraAndControls = undefined;
+	exports.moveContenderToCompare = exports.moveByAnimation = exports.sumVectors = exports.moveCameraAndControls = undefined;
 	
 	__webpack_require__(1);
 	
@@ -72611,10 +72615,10 @@
 	//   // pivotEl.appendChild(moveAnimation);
 	// };
 	
-	var stopPulsingAndMovePivot = exports.stopPulsingAndMovePivot = function stopPulsingAndMovePivot(pivotEl) {
-	  pivotEl.innerHTML = '';
-	  moveByAnimation(pivotEl, [-0.5, 0, 0], true);
-	};
+	// export const stopPulsingAndMovePivot = (pivotEl) => {
+	//   pivotEl.innerHTML = '';
+	//   moveByAnimation(pivotEl, [-0.5, 0, 0], true);
+	// };
 	
 	var moveByAnimation = exports.moveByAnimation = function moveByAnimation(element, pos) {
 	  var delta = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
