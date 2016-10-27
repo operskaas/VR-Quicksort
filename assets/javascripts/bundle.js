@@ -244,7 +244,7 @@
 	
 	  var sideNodePos = sideNode.position;
 	  var destPos = sideNodePos.slice();
-	  var xOffset = (sideNode.els.length - 1) / 2;
+	  var xOffset = (sideNode.els.length - 1) / 4;
 	  // if (direction === 'left') {xOffset = -xOffset}
 	  destPos[0] += xOffset;
 	  (0, _animation_utils.moveByAnimation)(element, destPos);
@@ -72692,7 +72692,7 @@
 	};
 	
 	var shiftAllEls = exports.shiftAllEls = function shiftAllEls(node) {
-	  var shift = -0.5;
+	  var shift = -0.25;
 	  for (var i = 0; i < node.els.length - 1; i++) {
 	    moveByAnimation(node.els[i], [shift, 0, 0], true);
 	  }
@@ -72736,7 +72736,6 @@
 	  arrayEls.forEach(function (arrayEl, idx) {
 	    setHeightAndColor(arrayEl);
 	    var x = EL_X_POSITIONS[idx];
-	    debugger;
 	    arrayEl.setAttribute('position', x + ' 2 0');
 	    arrayEl.setAttribute('visible', 'false');
 	  });
