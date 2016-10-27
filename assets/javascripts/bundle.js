@@ -72713,7 +72713,8 @@
 	
 	var EL_IDS = ['el-1', 'el-2', 'el-3', 'el-4', 'el-5', 'el-6', 'el-7', 'el-8', 'el-9', 'el-10', 'el-11', 'el-12'];
 	var EL_X_POSITIONS = EL_IDS.map(function (id, idx) {
-	  return -((EL_IDS.length - 1) / 2) + idx;
+	  var leftMostX = -((EL_IDS.length - 1) / 4);
+	  return leftMostX + idx / 2;
 	});
 	
 	var randomElOrder = exports.randomElOrder = function randomElOrder() {
@@ -72735,6 +72736,7 @@
 	  arrayEls.forEach(function (arrayEl, idx) {
 	    setHeightAndColor(arrayEl);
 	    var x = EL_X_POSITIONS[idx];
+	    debugger;
 	    arrayEl.setAttribute('position', x + ' 2 0');
 	    arrayEl.setAttribute('visible', 'false');
 	  });
