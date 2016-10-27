@@ -101,7 +101,7 @@
 	};
 	
 	var placePivot = function placePivot() {
-	  var camera = document.querySelector('a-camera');
+	  var camera = document.getElementById('camera-cont');
 	  var cameraPos = camera.object3D.getWorldPosition();
 	  var destPos = (0, _animation_utils.sumVectors)([cameraPos.x, cameraPos.y, cameraPos.z], [0, -1, -7]);
 	  (0, _animation_utils.moveByAnimation)(currentPivotEl, destPos);
@@ -161,6 +161,7 @@
 	    xOffset = -xOffset;
 	  }
 	  destCameraPos[0] += xOffset;
+	  debugger;
 	  (0, _animation_utils.moveCameraAndControls)(destCameraPos);
 	  setNextTextClickListener(function () {
 	    var numEls = currentTreeNode.els.length;
@@ -186,17 +187,10 @@
 	var rightArray = [];
 	
 	var addToTreeNode = function addToTreeNode(direction, element) {
-	  var prevPos = element.object3D.getWorldPosition();
-	  // const detachedEl = detachFromParent(element);
-	  // const scene = document.querySelector('a-scene');
-	  // attachToParent(scene, detachedEl, prevPos);
-	  // setHeightAndColor(detachedEl);
-	
-	  // const arr = document.getElementById(direction);
 	  var sideNodeKey = currentTreeNode[direction];
 	  var sideNode = elTree[sideNodeKey];
 	  sideNode.els.push(element);
-	  // const arrPos = arr.object3D.getWorldPosition();
+	
 	  var sideNodePos = sideNode.position;
 	  var destPos = sideNodePos.slice();
 	  var xOffset = sideNode.els.length;
@@ -204,12 +198,8 @@
 	    xOffset = -xOffset;
 	  }
 	  destPos[0] += xOffset;
-	  (0, _animation_utils.moveByAnimation)(element, destPos, false, function () {
-	    // const globalPos = detachedEl.object3D.getWorldPosition();
-	    // const detached = detachFromParent(detachedEl);
-	    // attachToParent(arr, detached, globalPos);
-	    // setHeightAndColor(detached);
-	  });
+	
+	  (0, _animation_utils.moveByAnimation)(element, destPos);
 	};
 	
 	var setNextTextClickListener = function setNextTextClickListener(cb) {
@@ -72581,7 +72571,7 @@
 	__webpack_require__(1);
 	
 	var moveCameraAndControls = exports.moveCameraAndControls = function moveCameraAndControls(destPos) {
-	  var camera = document.querySelector('a-camera');
+	  var camera = document.getElementById('camera-cont');
 	  moveByAnimation(camera, destPos);
 	
 	  var controls = document.getElementById('controls');

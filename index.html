@@ -12,6 +12,7 @@
         <a-mixin id="array-element" material="color: #00cc00" geometry="width:0.4; height:1; depth:0.4;"></a-mixin>
         <img id="start" src="images/textures/start.png" />
       </a-assets>
+
       <a-entity id="controls" position="0 0 0">
         <a-entity id="top-text" class="starting-el" position="-5.4 6.5 0">
         </a-entity>
@@ -44,26 +45,22 @@
       </a-plane>
 
       <!-- <a-sky color="white"></a-sky> -->
-
-      <a-entity position="0 2 15" material geometry>
-        <a-entity id="sorting-container" position="0 0 -6">
-          <a-entity id="left" position="-4 0 0"></a-entity>
-          <a-entity id="right" position="4 0 0"></a-entity>
-        </a-entity>
-        <a-box color="#edf5d9" height="2" width="2" depth="1"></a-box>
+      <a-entity id="camera-cont" position="0 2 15">
         <a-camera id="user" fov="80">
-            <a-entity raycaster="objects: .clickable"
-              cursor="fuse: true; fuseTimeout: 100"
-              position="0 0 -3"
-              geometry="primitive: plane; width: 0.05; height: 0.05;"
-              material="color: #666666; shader: flat">
-              <a-animation begin="click" easing="ease" attribute="scale"
-                fill="backwards" from="0.25 0.25 0.25" to="1 1 1" dur="150"></a-animation>
-              <a-animation begin="cursor-fusing" easing="ease" attribute="scale"
-                fill="none" from="1 1 1" to="0.25 0.25 0.25" dur="100"></a-animation>
-            </a-entity>
+          <a-entity raycaster="objects: .clickable"
+            cursor="fuse: true; fuseTimeout: 100"
+            position="0 0 -3"
+            geometry="primitive: plane; width: 0.05; height: 0.05;"
+            material="color: #666666; shader: flat">
+            <a-animation begin="click" easing="ease" attribute="scale"
+              fill="backwards" from="0.25 0.25 0.25" to="1 1 1" dur="150"></a-animation>
+            <a-animation begin="cursor-fusing" easing="ease" attribute="scale"
+              fill="none" from="1 1 1" to="0.25 0.25 0.25" dur="100"></a-animation>
+          </a-entity>
         </a-camera>
+        <a-box color="#edf5d9" height="2" width="2" depth="1"></a-box>
       </a-entity>
+
 
       <a-entity light="type: directional; color: #FFF; intensity: 1.6" position="-5.6 8 6.3"></a-entity>
 
