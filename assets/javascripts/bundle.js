@@ -113,17 +113,13 @@
 	  setNextTextClickListener(compare);
 	};
 	
-	var currentEls = function currentEls() {
-	  return currentTreeNode.els;
-	};
-	
 	var setCurrentPivotEl = function setCurrentPivotEl() {
-	  currentPivotEl = currentEls().splice(0, 1)[0];
+	  currentPivotEl = currentTreeNode.els.splice(0, 1)[0];
 	  currentTreeNode.pivot = currentPivotEl;
 	};
 	
 	var setCurrentContender = function setCurrentContender() {
-	  currentContender = currentEls().splice(0, 1)[0];
+	  currentContender = currentTreeNode.els.splice(0, 1)[0];
 	};
 	
 	var compare = function compare() {
@@ -137,7 +133,7 @@
 	  (0, _text_util.setText)('mid-text', 'In this case, the contender is ' + comparison + ' than the pivot element, so it will be moved to the ' + direction);
 	  addToTreeNode(direction, currentContender);
 	
-	  if (currentEls().length > 0) {
+	  if (currentTreeNode.els.length > 0) {
 	    setCurrentContender();
 	    changeNextTextListener();
 	  } else {
@@ -148,15 +144,24 @@
 	  }
 	};
 	
+	var bothSideNodesAreSorted = function bothSideNodesAreSorted() {
+	  var leftSideNode = elTree[currentTreeNode.left];
+	  var rightSideNode = elTree[currentTreeNode.right];
+	
+	  return rightSideNode.sorted && leftSideNode.sorted;
+	};
+	
 	var sortTreeNode = function sortTreeNode(key) {
 	  currentTreeNode = elTree[key];
 	  (0, _text_util.setText)('mid-text', "Let's take a look at these elements over here");
+	  if (bothSideNodesAreSorted()) {
+	    console.log('both side nodes are sorted');
+	    concatLeftPivotRight();
+	  }
 	
 	  var destCameraPos = (0, _animation_utils.sumVectors)(currentTreeNode.position, [0, 0, 15]);
-	  // let xOffset = currentTreeNode.els.length / 2;
-	  // if (currentTreeNode.desc === 'left') {xOffset = -xOffset}
-	  // destCameraPos[0] += xOffset;
 	  (0, _animation_utils.moveCameraAndControls)(destCameraPos);
+	
 	  setNextTextClickListener(function () {
 	    var numEls = currentTreeNode.els.length;
 	    if (numEls <= 1) {
@@ -232,7 +237,24 @@
 	  };
 	};
 	
-	var concatLeftPivotRight = function concatLeftPivotRight() {};
+	var concatLeftPivotRight = function concatLeftPivotRight() {
+	  var leftEls = elTree[currentTreeNode.left].els;
+	  var rightEls = elTree[currentTreeNode.right].els;
+	  var leftLength = leftEls.length;
+	  for (var i = 0; i < leftLength; i++) {
+	    currentTreeNode.els.push(leftEls.shift());
+	  }
+	
+	  currentTreeNode.els.push(currentTreeNode.pivot);
+	  currentTreeNode.pivot = null;
+	
+	  var rightLength = rightEls.length;
+	  for (var _i = 0; _i < rightLength; _i++) {
+	    currentTreeNode.els.push(rightEls.shift());
+	  }
+	
+	  (0, _animation_utils.moveAllElsToCenter)(currentTreeNode);
+	};
 	
 	var leftArray = [];
 	var rightArray = [];
@@ -72618,7 +72640,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.shiftAllEls = exports.moveContenderToCompare = exports.moveByAnimation = exports.sumVectors = exports.moveCameraAndControls = undefined;
+	exports.moveAllElsToCenter = exports.shiftAllEls = exports.moveContenderToCompare = exports.moveByAnimation = exports.sumVectors = exports.moveCameraAndControls = undefined;
 	
 	__webpack_require__(1);
 	
@@ -72696,6 +72718,14 @@
 	  for (var i = 0; i < node.els.length - 1; i++) {
 	    moveByAnimation(node.els[i], [shift, 0, 0], true);
 	  }
+	};
+	
+	var moveAllElsToCenter = exports.moveAllElsToCenter = function moveAllElsToCenter(node) {
+	  var leftBound = node.els.length / 4;
+	  node.els.forEach(function (el, idx) {
+	    var destPos = sumVectors(node.position, [leftBound + idx / 2, 0, 0]);
+	    moveByAnimation(el, destPos);
+	  });
 	};
 
 /***/ },
