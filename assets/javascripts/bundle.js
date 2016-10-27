@@ -179,8 +179,6 @@
 	  });
 	};
 	
-	var sortRightArray = function sortRightArray() {};
-	
 	var concatLeftPivotRight = function concatLeftPivotRight() {};
 	
 	var leftArray = [];
@@ -72596,13 +72594,8 @@
 	//   pulseAnimation.setAttribute('repeat', 'indefinite');
 	
 	//   moveByAnimation(pivotEl, [3, 0, 3], true)
-	//   // const moveAnimation = document.createElement('a-animation');
-	//   // moveAnimation.setAttribute('attribute', 'position');
-	//   // moveAnimation.setAttribute('dur', '2000');
-	//   // moveAnimation.setAttribute('to', '0 2 3');
 	
 	//   pivotEl.appendChild(pulseAnimation);
-	//   // pivotEl.appendChild(moveAnimation);
 	// };
 	
 	// export const stopPulsingAndMovePivot = (pivotEl) => {
@@ -72636,7 +72629,7 @@
 	};
 	
 	var moveContenderToCompare = exports.moveContenderToCompare = function moveContenderToCompare(contender) {
-	  var camera = document.querySelector('a-camera');
+	  var camera = document.getElementById('camera-cont');
 	  var cameraPos = camera.object3D.getWorldPosition();
 	  var destPos = sumVectors([cameraPos.x, cameraPos.y, cameraPos.z], [0.5, -1, -7]);
 	
@@ -72763,7 +72756,7 @@
 	
 	var setIntroText = exports.setIntroText = function setIntroText() {
 	  setText('top-text', 'Welcome to Quicksort VR!');
-	  setText('mid-text', "Look at 'Continue' to get started");
+	  setText('mid-text', "Grab the screen to move the grey cursor. If you have a Google Cardboard, press the button in the lower right!");
 	};
 	
 	var setText = exports.setText = function setText(id, text) {
