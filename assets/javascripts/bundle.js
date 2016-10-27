@@ -155,7 +155,7 @@
 	  currentTreeNode = elTree[key];
 	  (0, _text_util.setText)('mid-text', "Let's take a look at these elements over here");
 	
-	  var destCameraPos = (0, _animation_utils.sumVectors)(currentTreeNode.position, [0, 0, 4]);
+	  var destCameraPos = (0, _animation_utils.sumVectors)(currentTreeNode.position, [0, 0, 15]);
 	  var xOffset = currentTreeNode.els.length / 2;
 	  if (currentTreeNode.desc === 'left') {
 	    xOffset = -xOffset;
@@ -72572,8 +72572,9 @@
 	  var camera = document.getElementById('camera-cont');
 	  moveByAnimation(camera, destPos);
 	
+	  var controlsDestPos = sumVectors(destPos, [0, -2, -15]);
 	  var controls = document.getElementById('controls');
-	  moveByAnimation(controls, destPos);
+	  moveByAnimation(controls, controlsDestPos);
 	};
 	
 	var sumVectors = exports.sumVectors = function sumVectors(v1, v2) {
