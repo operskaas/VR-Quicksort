@@ -161,7 +161,6 @@
 	    xOffset = -xOffset;
 	  }
 	  destCameraPos[0] += xOffset;
-	  debugger;
 	  (0, _animation_utils.moveCameraAndControls)(destCameraPos);
 	  setNextTextClickListener(function () {
 	    var numEls = currentTreeNode.els.length;
@@ -171,12 +170,51 @@
 	    } else if (numEls === 0) {
 	      (0, _text_util.setText)('mid-text', "Since we have no elements here, we can consider it sorted");
 	      currentTreeNode.sorted = true;
+	    } else {
+	      createTreeSideNodes();
+	      setCurrentPivotEl();
+	      (0, _text_util.setText)('mid-text', "Once again we will choose the first element as the pivot");
+	      placePivot();
+	      setNextTextClickListener(function () {
+	        (0, _animation_utils.moveByAnimation)(currentPivotEl, [-0.5, 0, 0], true);
+	        setCurrentContender();
+	        (0, _animation_utils.moveContenderToCompare)(currentContender);
+	        setNextTextClickListener(compare);
+	      });
 	    }
-	    setCurrentPivotEl();
-	    (0, _text_util.setText)('mid-text', "Once again we will choose the first element as the pivot");
-	    placePivot();
-	    setNextTextClickListener();
 	  });
+	};
+	
+	var createTreeSideNodes = function createTreeSideNodes() {
+	  var newKey = currentTreeNode.key + 1;
+	  while (elTree[newKey]) {
+	    newKey++;
+	  }
+	  currentTreeNode.left = newKey;
+	  currentTreeNode.right = newKey + 1;
+	  elTree[newKey] = {
+	    key: newKey,
+	    sorted: false,
+	    desc: 'left',
+	    els: [],
+	    left: null,
+	    right: null,
+	    parent: currentTreeNode.key,
+	    pivot: null,
+	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [-4, 0, 6])
+	  };
+	
+	  elTree[newKey + 1] = {
+	    key: newKey + 1,
+	    sorted: false,
+	    desc: 'right',
+	    els: [],
+	    left: null,
+	    right: null,
+	    parent: currentTreeNode.key,
+	    pivot: null,
+	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [4, 0, 6])
+	  };
 	};
 	
 	var concatLeftPivotRight = function concatLeftPivotRight() {};
@@ -234,6 +272,7 @@
 	    arrayEls = (0, _setup.randomElOrder)();
 	    elTree = {
 	      0: {
+	        key: 0,
 	        sorted: false,
 	        els: arrayEls.slice(),
 	        left: 1,
@@ -243,6 +282,7 @@
 	        position: [0, 0, 0]
 	      },
 	      1: {
+	        key: 1,
 	        sorted: false,
 	        desc: 'left',
 	        els: [],
@@ -253,6 +293,7 @@
 	        position: [-4, 2, 6]
 	      },
 	      2: {
+	        key: 2,
 	        sorted: false,
 	        desc: 'right',
 	        els: [],
