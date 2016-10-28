@@ -138,26 +138,38 @@
 	  (0, _text_util.setText)('mid-text', 'In this case, the contender is ' + comparison + ' than the pivot element, so it will be moved to the ' + direction);
 	  addToTreeNode(direction, currentContender);
 	
-	  if (currentTreeNode.els.length > 0) {
-	    setCurrentContender();
-	    setTimeout(setUpCompare, timeOutDelay);
-	  } else {
-	    var leftKey = currentTreeNode.left;
-	    var leftNode = elTree[leftKey];
-	    if (leftNode.els.length <= 1) {
-	      leftNode.sorted = true;
-	      var rightKey = currentTreeNode.right;
-	      var rightNode = elTree[rightKey];
-	      if (rightNode.els.length <= 1) {
-	        rightNode.sorted = true;
-	        sortTreeNode(currentTreeNode.key);
-	      } else {
-	        sortTreeNode(rightKey);
-	      }
+	  setTimeout(function () {
+	    if (currentTreeNode.els.length > 0) {
+	      setCurrentContender();
+	      setUpCompare();
 	    } else {
-	      sortTreeNode(leftKey);
+	      (function () {
+	        var leftKey = currentTreeNode.left;
+	        var leftNode = elTree[leftKey];
+	        if (leftNode.els.length <= 1) {
+	          var numElsText = leftNode.els.length === 1 ? 'is only one element' : 'are no elements';
+	          (0, _text_util.setText)('mid-text', 'Since there ' + numElsText + ' on the left, we can consider it sorted');
+	          setTimeout(function () {
+	            leftNode.sorted = true;
+	            var rightKey = currentTreeNode.right;
+	            var rightNode = elTree[rightKey];
+	            if (rightNode.els.length <= 1) {
+	              var _numElsText = rightNode.els.length === 1 ? 'is only one element' : 'are no elements';
+	              (0, _text_util.setText)('mid-text', 'Since there ' + _numElsText + ' on the right, we can consider it sorted');
+	              setTimeout(function () {
+	                rightNode.sorted = true;
+	                sortTreeNode(currentTreeNode.key);
+	              }, timeOutDelay);
+	            } else {
+	              sortTreeNode(rightKey);
+	            }
+	          }, timeOutDelay);
+	        } else {
+	          sortTreeNode(leftKey);
+	        }
+	      })();
 	    }
-	  }
+	  }, timeOutDelay);
 	};
 	
 	var bothSideNodesAreSorted = function bothSideNodesAreSorted() {
@@ -242,7 +254,7 @@
 	    right: null,
 	    parent: currentTreeNode.key,
 	    pivot: null,
-	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [-4, 0, 6])
+	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [-4, 0, 3])
 	  };
 	
 	  elTree[newKey + 1] = {
@@ -254,7 +266,7 @@
 	    right: null,
 	    parent: currentTreeNode.key,
 	    pivot: null,
-	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [4, 0, 6])
+	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [4, 0, 3])
 	  };
 	};
 	
@@ -345,7 +357,7 @@
 	        right: null,
 	        parent: 0,
 	        pivot: null,
-	        position: [-4, 2, 6]
+	        position: [-4, 2, 3]
 	      },
 	      2: {
 	        key: 2,
@@ -356,7 +368,7 @@
 	        right: null,
 	        parent: 0,
 	        pivot: null,
-	        position: [4, 2, 6]
+	        position: [4, 2, 3]
 	      }
 	    };
 	
