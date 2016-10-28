@@ -147,17 +147,17 @@
 	var bothSideNodesAreSorted = function bothSideNodesAreSorted() {
 	  var leftSideNode = elTree[currentTreeNode.left];
 	  var rightSideNode = elTree[currentTreeNode.right];
+	  if (!leftSideNode || !rightSideNode) {
+	    return false;
+	  }
 	
 	  return rightSideNode.sorted && leftSideNode.sorted;
 	};
 	
 	var sortTreeNode = function sortTreeNode(key) {
+	  debugger;
 	  currentTreeNode = elTree[key];
 	  (0, _text_util.setText)('mid-text', "Let's take a look at these elements over here");
-	  if (bothSideNodesAreSorted()) {
-	    console.log('both side nodes are sorted');
-	    concatLeftPivotRight();
-	  }
 	
 	  var destCameraPos = (0, _animation_utils.sumVectors)(currentTreeNode.position, [0, 0, 15]);
 	  (0, _animation_utils.moveCameraAndControls)(destCameraPos);
@@ -167,6 +167,9 @@
 	    if (numEls <= 1) {
 	      if (numEls === 1) {
 	        (0, _text_util.setText)('mid-text', "Since we only have one element here, we can consider it sorted");
+	      } else if (bothSideNodesAreSorted()) {
+	        console.log('both side nodes are sorted');
+	        concatLeftPivotRight();
 	      } else {
 	        (0, _text_util.setText)('mid-text', "Since we have no elements here, we can consider it sorted");
 	      }
