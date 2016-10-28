@@ -67,6 +67,8 @@
 	var currentPivotEl = void 0;
 	var currentContender = void 0;
 	
+	var timeOutDelay = 500;
+	
 	var incrementPhase = function incrementPhase() {
 	  return phase++;
 	};
@@ -113,8 +115,7 @@
 	var setUpCompare = function setUpCompare() {
 	  (0, _text_util.setText)('mid-text', "Let's compare the pivot element to the next element");
 	  (0, _animation_utils.moveContenderToCompare)(currentContender);
-	  setTimeout(compare, 1000);
-	  // setNextTextClickListener(compare);
+	  setTimeout(compare, timeOutDelay);
 	};
 	
 	var setCurrentPivotEl = function setCurrentPivotEl() {
@@ -139,8 +140,7 @@
 	
 	  if (currentTreeNode.els.length > 0) {
 	    setCurrentContender();
-	    // changeNextTextListener();
-	    setTimeout(setUpCompare, 1000);
+	    setTimeout(setUpCompare, timeOutDelay);
 	  } else {
 	    console.log('finished sorting this round');
 	    var leftKey = currentTreeNode.left;
@@ -173,6 +173,10 @@
 	      } else if (bothSideNodesAreSorted()) {
 	        console.log('both side nodes are sorted');
 	        concatLeftPivotRight();
+	        if (currentTreeNode.key === 0) {
+	          (0, _text_util.setText)('mid-text', "Sorted! Refresh to rerun");
+	          return;
+	        }
 	      } else {
 	        (0, _text_util.setText)('mid-text', "Since we have no elements here, we can consider it sorted");
 	      }
@@ -191,10 +195,10 @@
 	        (0, _animation_utils.moveByAnimation)(currentPivotEl, [-0.5, 0, 0], true);
 	        setCurrentContender();
 	        (0, _animation_utils.moveContenderToCompare)(currentContender);
-	        setTimeout(compare, 1000);
-	      }, 1000);
+	        setTimeout(compare, timeOutDelay);
+	      }, timeOutDelay);
 	    }
-	  }, 1000);
+	  }, timeOutDelay);
 	};
 	
 	var complementSideNodeIsSorted = function complementSideNodeIsSorted() {
@@ -273,7 +277,6 @@
 	  var sideNodePos = sideNode.position;
 	  var destPos = sideNodePos.slice();
 	  var xOffset = (sideNode.els.length - 1) / 4;
-	  // if (direction === 'left') {xOffset = -xOffset}
 	  destPos[0] += xOffset;
 	  (0, _animation_utils.moveByAnimation)(element, destPos);
 	  (0, _animation_utils.shiftAllEls)(sideNode);
@@ -72654,7 +72657,7 @@
 	  var camera = document.getElementById('camera-cont');
 	  moveByAnimation(camera, destPos);
 	
-	  var controlsDestPos = sumVectors(destPos, [0, -2, -15]);
+	  var controlsDestPos = sumVectors(destPos, [0, -2, -10]);
 	  var controls = document.getElementById('controls');
 	  moveByAnimation(controls, controlsDestPos);
 	};
@@ -72667,25 +72670,6 @@
 	  return newVector;
 	};
 	
-	// export const moveAndPulsePivot = (pivotEl) => {
-	//   const pulseAnimation = document.createElement('a-animation');
-	//   pulseAnimation.setAttribute('attribute', 'scale');
-	//   pulseAnimation.setAttribute('direction', 'alternate');
-	//   pulseAnimation.setAttribute('dur', '1000');
-	//   pulseAnimation.setAttribute('fill', 'forwards');
-	//   pulseAnimation.setAttribute('to', '1.3 1.3 1.3');
-	//   pulseAnimation.setAttribute('repeat', 'indefinite');
-	
-	//   moveByAnimation(pivotEl, [3, 0, 3], true)
-	
-	//   pivotEl.appendChild(pulseAnimation);
-	// };
-	
-	// export const stopPulsingAndMovePivot = (pivotEl) => {
-	//   pivotEl.innerHTML = '';
-	//   moveByAnimation(pivotEl, [-0.5, 0, 0], true);
-	// };
-	
 	var moveByAnimation = exports.moveByAnimation = function moveByAnimation(element, pos) {
 	  var delta = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 	  var cb = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
@@ -72697,7 +72681,7 @@
 	    pos = pos[0] + ' ' + pos[1] + ' ' + pos[2];
 	  }
 	
-	  var animDur = '1000';
+	  var animDur = '500';
 	
 	  var moveAnimation = document.createElement('a-animation');
 	  moveAnimation.setAttribute('attribute', 'position');
@@ -72727,7 +72711,7 @@
 	};
 	
 	var moveAllElsToCenter = exports.moveAllElsToCenter = function moveAllElsToCenter(node) {
-	  var leftBound = node.els.length / 4;
+	  var leftBound = -(node.els.length / 4);
 	  node.els.forEach(function (el, idx) {
 	    var destPos = sumVectors(node.position, [leftBound + idx / 2, 0, 0]);
 	    moveByAnimation(el, destPos);
@@ -72800,7 +72784,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.attachToParent = exports.detachFromParent = exports.elValue = undefined;
+	exports.elValue = undefined;
 	
 	__webpack_require__(1);
 	
@@ -72808,19 +72792,6 @@
 	
 	var elValue = exports.elValue = function elValue(element) {
 	  return parseInt(element.id.substr(3));
-	};
-	
-	var detachFromParent = exports.detachFromParent = function detachFromParent(element) {
-	  var clone = element.cloneNode();
-	  element.parentNode.removeChild(element);
-	  return clone;
-	};
-	
-	var attachToParent = exports.attachToParent = function attachToParent(parent, element, elGlobalPos) {
-	  parent.appendChild(element);
-	  var parentGlobalPos = parent.object3D.getWorldPosition();
-	  var relPos = { x: elGlobalPos.x - parentGlobalPos.x, y: elGlobalPos.y - parentGlobalPos.y, z: elGlobalPos.z - parentGlobalPos.z };
-	  element.setAttribute('position', relPos);
 	};
 
 /***/ },
