@@ -155,7 +155,6 @@
 	};
 	
 	var sortTreeNode = function sortTreeNode(key) {
-	  debugger;
 	  currentTreeNode = elTree[key];
 	  (0, _text_util.setText)('mid-text', "Let's take a look at these elements over here");
 	
