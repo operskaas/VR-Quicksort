@@ -67,7 +67,7 @@
 	var currentPivotEl = void 0;
 	var currentContender = void 0;
 	
-	var timeOutDelay = 500;
+	var timeOutDelay = 800;
 	
 	var incrementPhase = function incrementPhase() {
 	  return phase++;
@@ -142,9 +142,21 @@
 	    setCurrentContender();
 	    setTimeout(setUpCompare, timeOutDelay);
 	  } else {
-	    console.log('finished sorting this round');
 	    var leftKey = currentTreeNode.left;
-	    sortTreeNode(leftKey);
+	    var leftNode = elTree[leftKey];
+	    if (leftNode.els.length <= 1) {
+	      leftNode.sorted = true;
+	      var rightKey = currentTreeNode.right;
+	      var rightNode = elTree[rightKey];
+	      if (rightNode.els.length <= 1) {
+	        rightNode.sorted = true;
+	        sortTreeNode(currentTreeNode.key);
+	      } else {
+	        sortTreeNode(rightKey);
+	      }
+	    } else {
+	      sortTreeNode(leftKey);
+	    }
 	  }
 	};
 	
@@ -162,7 +174,7 @@
 	  currentTreeNode = elTree[key];
 	  (0, _text_util.setText)('mid-text', "Let's take a look at these elements over here");
 	
-	  var destCameraPos = (0, _animation_utils.sumVectors)(currentTreeNode.position, [0, 0, 15]);
+	  var destCameraPos = (0, _animation_utils.sumVectors)(currentTreeNode.position, [0, 0, 10]);
 	  (0, _animation_utils.moveCameraAndControls)(destCameraPos);
 	
 	  setTimeout(function () {
@@ -171,7 +183,6 @@
 	      if (numEls === 1) {
 	        (0, _text_util.setText)('mid-text', "Since we only have one element here, we can consider it sorted");
 	      } else if (bothSideNodesAreSorted()) {
-	        console.log('both side nodes are sorted');
 	        concatLeftPivotRight();
 	        if (currentTreeNode.key === 0) {
 	          (0, _text_util.setText)('mid-text', "Sorted! Refresh to rerun");
@@ -72657,7 +72668,7 @@
 	  var camera = document.getElementById('camera-cont');
 	  moveByAnimation(camera, destPos);
 	
-	  var controlsDestPos = sumVectors(destPos, [0, -2, -10]);
+	  var controlsDestPos = sumVectors(destPos, [0, -2, -15]);
 	  var controls = document.getElementById('controls');
 	  moveByAnimation(controls, controlsDestPos);
 	};
