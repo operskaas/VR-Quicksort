@@ -165,7 +165,7 @@
 	  var destCameraPos = (0, _animation_utils.sumVectors)(currentTreeNode.position, [0, 0, 15]);
 	  (0, _animation_utils.moveCameraAndControls)(destCameraPos);
 	
-	  setNextTextClickListener(function () {
+	  setTimeout(function () {
 	    var numEls = currentTreeNode.els.length;
 	    if (numEls <= 1) {
 	      if (numEls === 1) {
@@ -187,14 +187,14 @@
 	      setCurrentPivotEl();
 	      (0, _text_util.setText)('mid-text', "Once again we will choose the first element as the pivot");
 	      placePivot();
-	      setNextTextClickListener(function () {
+	      setTimeout(function () {
 	        (0, _animation_utils.moveByAnimation)(currentPivotEl, [-0.5, 0, 0], true);
 	        setCurrentContender();
 	        (0, _animation_utils.moveContenderToCompare)(currentContender);
-	        setNextTextClickListener(compare);
-	      });
+	        setTimeout(compare, 1000);
+	      }, 1000);
 	    }
-	  });
+	  }, 1000);
 	};
 	
 	var complementSideNodeIsSorted = function complementSideNodeIsSorted() {
@@ -320,7 +320,7 @@
 	        right: 2,
 	        parent: null,
 	        pivot: null,
-	        position: [0, 0, 0]
+	        position: [0, 2, 0]
 	      },
 	      1: {
 	        key: 1,
