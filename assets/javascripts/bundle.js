@@ -72826,7 +72826,7 @@
 	
 	var setIntroText = exports.setIntroText = function setIntroText() {
 	  setText('top-text', 'Welcome to Quicksort VR!');
-	  setText('mid-text', "Grab the screen to move the grey cursor. If you have a Google Cardboard, press the button in the lower right!");
+	  setText('mid-text', "Grab the screen to move the white cursor. If you have a Google Cardboard, press the button in the lower right!");
 	};
 	
 	var setText = exports.setText = function setText(id, text) {
@@ -72834,7 +72834,7 @@
 	
 	  var textEl = document.getElementById(id);
 	  textEl.setAttribute('visible', 'true');
-	  textEl.setAttribute('bmfont-text', 'text: ' + text + '; align: center; width: 750; color: red;');
+	  textEl.setAttribute('bmfont-text', 'text: ' + text + '; align: center; width: 750; color: white;');
 	  textEl.setAttribute('scale', scale + ' ' + scale + ' ' + scale);
 	};
 
