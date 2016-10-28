@@ -92,6 +92,9 @@
 	      (0, _animation_utils.moveContenderToCompare)(currentContender);
 	      break;
 	    case 5:
+	      (0, _text_util.setText)('mid-text', 'The next time you select continue, the sorting will go to completion');
+	      break;
+	    case 6:
 	      compare();
 	      break;
 	    default:
@@ -110,7 +113,8 @@
 	var setUpCompare = function setUpCompare() {
 	  (0, _text_util.setText)('mid-text', "Let's compare the pivot element to the next element");
 	  (0, _animation_utils.moveContenderToCompare)(currentContender);
-	  setNextTextClickListener(compare);
+	  setTimeout(compare, 1000);
+	  // setNextTextClickListener(compare);
 	};
 	
 	var setCurrentPivotEl = function setCurrentPivotEl() {
@@ -135,11 +139,11 @@
 	
 	  if (currentTreeNode.els.length > 0) {
 	    setCurrentContender();
-	    changeNextTextListener();
+	    // changeNextTextListener();
+	    setTimeout(setUpCompare, 1000);
 	  } else {
 	    console.log('finished sorting this round');
 	    var leftKey = currentTreeNode.left;
-	    var rightKey = currentTreeNode.right;
 	    sortTreeNode(leftKey);
 	  }
 	};
