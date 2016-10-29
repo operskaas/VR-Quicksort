@@ -69,7 +69,7 @@
 	
 	var EL_SPACING = 0.5;
 	
-	var timeOutDelay = 500;
+	var timeOutDelay = 800;
 	
 	var incrementPhase = function incrementPhase() {
 	  return phase++;
@@ -72720,7 +72720,7 @@
 	    pos = pos[0] + ' ' + pos[1] + ' ' + pos[2];
 	  }
 	
-	  var animDur = '500';
+	  var animDur = '800';
 	
 	  var moveAnimation = document.createElement('a-animation');
 	  moveAnimation.setAttribute('attribute', 'position');
