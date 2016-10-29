@@ -269,7 +269,7 @@
 	    right: null,
 	    parent: currentTreeNode.key,
 	    pivot: null,
-	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [-3, 0, 3])
+	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [-1.5, 0, 3])
 	  };
 	
 	  elTree[newKey + 1] = {
@@ -281,7 +281,7 @@
 	    right: null,
 	    parent: currentTreeNode.key,
 	    pivot: null,
-	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [3, 0, 3])
+	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [1.5, 0, 3])
 	  };
 	};
 	
@@ -373,7 +373,7 @@
 	        right: null,
 	        parent: 0,
 	        pivot: null,
-	        position: [-3, 2, 3]
+	        position: [-1.5, 2, 3]
 	      },
 	      2: {
 	        key: 2,
@@ -384,7 +384,7 @@
 	        right: null,
 	        parent: 0,
 	        pivot: null,
-	        position: [3, 2, 3]
+	        position: [1.5, 2, 3]
 	      }
 	    };
 	
