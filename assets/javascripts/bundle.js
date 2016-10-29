@@ -72797,12 +72797,25 @@
 	  });
 	};
 	
+	var eightBitSinStr = function eightBitSinStr(x, offset) {
+	  var sinHex = Math.floor(Math.sin(x + offset) * 127 + 128).toString(16);
+	  if (sinHex.length < 2) {
+	    sinHex = '0' + sinHex;
+	  }
+	  return sinHex;
+	};
+	
 	var setHeightAndColor = exports.setHeightAndColor = function setHeightAndColor(arrayEl) {
 	  var numEls = EL_IDS.length;
 	  var id = parseInt(arrayEl.id.substr(3));
 	  arrayEl.setAttribute('geometry', 'height:' + (0.5 + id / 5));
-	  var blueHex = Math.floor(17 + (255 - 17) * (id / numEls)).toString(16);
-	  arrayEl.setAttribute('material', 'color:#7777' + blueHex);
+	
+	  var frequency = 2 * Math.PI / numEls;
+	  var red = eightBitSinStr(frequency * id, 0);
+	  var green = eightBitSinStr(frequency * id, 2);
+	  var blue = eightBitSinStr(frequency * id, 4);
+	
+	  arrayEl.setAttribute('material', 'color:#' + red + green + blue);
 	};
 	
 	var makeArrayElsVisible = exports.makeArrayElsVisible = function makeArrayElsVisible(arrayEls) {
