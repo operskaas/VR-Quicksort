@@ -67,6 +67,8 @@
 	var currentPivotEl = void 0;
 	var currentContender = void 0;
 	
+	var EL_SPACING = 0.5;
+	
 	var timeOutDelay = 500;
 	
 	var incrementPhase = function incrementPhase() {
@@ -89,7 +91,7 @@
 	      break;
 	    case 4:
 	      (0, _text_util.addPhase4Text)();
-	      (0, _animation_utils.moveByAnimation)(currentPivotEl, [-0.5, 0, 0], true);
+	      (0, _animation_utils.moveByAnimation)(currentPivotEl, [-0.3, 0, 0], true);
 	      setCurrentContender();
 	      (0, _animation_utils.moveContenderToCompare)(currentContender);
 	      break;
@@ -136,7 +138,7 @@
 	    direction = 'right';
 	  }
 	  (0, _text_util.setText)('mid-text', 'In this case, the contender is ' + comparison + ' than the pivot element, so it will be moved to the ' + direction);
-	  addToTreeNode(direction, currentContender);
+	  addToSideNode(direction, currentContender);
 	
 	  setTimeout(function () {
 	    if (currentTreeNode.els.length > 0) {
@@ -228,7 +230,7 @@
 	      (0, _text_util.setText)('mid-text', "Once again we will choose the first element as the pivot");
 	      placePivot();
 	      setTimeout(function () {
-	        (0, _animation_utils.moveByAnimation)(currentPivotEl, [-0.5, 0, 0], true);
+	        (0, _animation_utils.moveByAnimation)(currentPivotEl, [-0.3, 0, 0], true);
 	        setCurrentContender();
 	        (0, _animation_utils.moveContenderToCompare)(currentContender);
 	        setTimeout(compare, timeOutDelay);
@@ -267,7 +269,7 @@
 	    right: null,
 	    parent: currentTreeNode.key,
 	    pivot: null,
-	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [-4, 0, 3])
+	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [-3, 0, 3])
 	  };
 	
 	  elTree[newKey + 1] = {
@@ -279,7 +281,7 @@
 	    right: null,
 	    parent: currentTreeNode.key,
 	    pivot: null,
-	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [4, 0, 3])
+	    position: (0, _animation_utils.sumVectors)(currentTreeNode.position, [3, 0, 3])
 	  };
 	};
 	
@@ -302,20 +304,21 @@
 	  (0, _animation_utils.moveAllElsToCenter)(node);
 	};
 	
-	var leftArray = [];
-	var rightArray = [];
-	
-	var addToTreeNode = function addToTreeNode(direction, element) {
-	  var sideNodeKey = currentTreeNode[direction];
-	  var sideNode = elTree[sideNodeKey];
+	var addToSideNode = function addToSideNode(direction, element) {
+	  var sideNode = elTree[currentTreeNode[direction]];
 	  sideNode.els.push(element);
 	
-	  var sideNodePos = sideNode.position;
-	  var destPos = sideNodePos.slice();
 	  var xOffset = (sideNode.els.length - 1) / 4;
-	  destPos[0] += xOffset;
+	  if (direction === 'left') {
+	    (0, _animation_utils.shiftAllEls)(sideNode);
+	  }
+	  var destPos = (0, _animation_utils.sumVectors)(sideNode.position, [xOffset, 0, 0]);
 	  (0, _animation_utils.moveByAnimation)(element, destPos);
-	  (0, _animation_utils.shiftAllEls)(sideNode);
+	  if (direction === 'left') {
+	    sideNode.position = (0, _animation_utils.sumVectors)(sideNode.position, [-EL_SPACING / 2, 0, 0]);
+	  } else {
+	    sideNode.position = (0, _animation_utils.sumVectors)(sideNode.position, [EL_SPACING / 2, 0, 0]);
+	  }
 	};
 	
 	var setNextTextClickListener = function setNextTextClickListener(cb) {
@@ -370,7 +373,7 @@
 	        right: null,
 	        parent: 0,
 	        pivot: null,
-	        position: [-4, 2, 3]
+	        position: [-3, 2, 3]
 	      },
 	      2: {
 	        key: 2,
@@ -381,7 +384,7 @@
 	        right: null,
 	        parent: 0,
 	        pivot: null,
-	        position: [4, 2, 3]
+	        position: [3, 2, 3]
 	      }
 	    };
 	
@@ -72734,13 +72737,13 @@
 	var moveContenderToCompare = exports.moveContenderToCompare = function moveContenderToCompare(contender) {
 	  var camera = document.getElementById('camera-cont');
 	  var cameraPos = camera.object3D.getWorldPosition();
-	  var destPos = sumVectors([cameraPos.x, cameraPos.y, cameraPos.z], [0.5, -1, -7]);
+	  var destPos = sumVectors([cameraPos.x, cameraPos.y, cameraPos.z], [0.3, -1, -7]);
 	
 	  moveByAnimation(contender, destPos);
 	};
 	
 	var shiftAllEls = exports.shiftAllEls = function shiftAllEls(node) {
-	  var shift = -0.25;
+	  var shift = -0.5;
 	  for (var i = 0; i < node.els.length - 1; i++) {
 	    moveByAnimation(node.els[i], [shift, 0, 0], true);
 	  }
