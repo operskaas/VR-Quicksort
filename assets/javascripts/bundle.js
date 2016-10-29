@@ -67,7 +67,7 @@
 	var currentPivotEl = void 0;
 	var currentContender = void 0;
 	
-	var timeOutDelay = 800;
+	var timeOutDelay = 500;
 	
 	var incrementPhase = function incrementPhase() {
 	  return phase++;
@@ -143,33 +143,62 @@
 	      setCurrentContender();
 	      setUpCompare();
 	    } else {
-	      (function () {
-	        var leftKey = currentTreeNode.left;
-	        var leftNode = elTree[leftKey];
-	        if (leftNode.els.length <= 1) {
-	          var numElsText = leftNode.els.length === 1 ? 'is only one element' : 'are no elements';
-	          (0, _text_util.setText)('mid-text', 'Since there ' + numElsText + ' on the left, we can consider it sorted');
-	          setTimeout(function () {
-	            leftNode.sorted = true;
-	            var rightKey = currentTreeNode.right;
-	            var rightNode = elTree[rightKey];
-	            if (rightNode.els.length <= 1) {
-	              var _numElsText = rightNode.els.length === 1 ? 'is only one element' : 'are no elements';
-	              (0, _text_util.setText)('mid-text', 'Since there ' + _numElsText + ' on the right, we can consider it sorted');
-	              setTimeout(function () {
-	                rightNode.sorted = true;
-	                sortTreeNode(currentTreeNode.key);
-	              }, timeOutDelay);
-	            } else {
-	              sortTreeNode(rightKey);
-	            }
-	          }, timeOutDelay);
-	        } else {
-	          sortTreeNode(leftKey);
-	        }
-	      })();
+	      checkLeftAndRightNodes();
 	    }
 	  }, timeOutDelay);
+	};
+	
+	var checkLeftAndRightNodes = function checkLeftAndRightNodes() {
+	  var leftKey = currentTreeNode.left;
+	  var leftNode = elTree[leftKey];
+	
+	  if (leftNode.els.length <= 1) {
+	    leftNode.sorted = true;
+	    var numElsText = leftNode.els.length === 1 ? 'is only one element' : 'are no elements';
+	    (0, _text_util.setText)('mid-text', 'Since there ' + numElsText + ' on the left, we can consider it sorted');
+	    setTimeout(checkSizeOfRightNode, timeOutDelay);
+	  } else {
+	    checkSizeOfRightNode();
+	  }
+	};
+	
+	var checkSizeOfRightNode = function checkSizeOfRightNode() {
+	  var rightKey = currentTreeNode.right;
+	  var rightNode = elTree[rightKey];
+	
+	  if (rightNode.els.length <= 1) {
+	    rightNode.sorted = true;
+	    var numElsText = rightNode.els.length === 1 ? 'is only one element' : 'are no elements';
+	    (0, _text_util.setText)('mid-text', 'Since there ' + numElsText + ' on the right, we can consider it sorted');
+	    setTimeout(decideWhichNodeToSortNext, timeOutDelay);
+	  } else {
+	    decideWhichNodeToSortNext();
+	  }
+	};
+	
+	var decideWhichNodeToSortNext = function decideWhichNodeToSortNext() {
+	  if (bothSideNodesAreSorted()) {
+	    currentTreeNode.sorted = true;
+	    (0, _text_util.setText)('mid-text', "Since both the left and right of this section is sorted, we can add the left, pivot, and right elements together");
+	    // const currentNode = currentTreeNode;
+	    concatLeftPivotRight(currentTreeNode);
+	    setTimeout(function () {
+	      if (currentTreeNode.key === 0) {
+	        (0, _text_util.setText)('mid-text', "Sorted! Refresh to rerun");
+	        return;
+	      } else {
+	        sortTreeNode(currentTreeNode.parent);
+	      }
+	    }, timeOutDelay);
+	  } else if (!elTree[currentTreeNode.left].sorted) {
+	    sortTreeNode(currentTreeNode.left);
+	  } else if (!elTree[currentTreeNode.right].sorted) {
+	    sortTreeNode(currentTreeNode.right);
+	  } else if (complementSideNodeIsSorted()) {
+	    sortTreeNode(currentTreeNode.parent);
+	  } else {
+	    sortTreeNode(complementSideKey());
+	  }
 	};
 	
 	var bothSideNodesAreSorted = function bothSideNodesAreSorted() {
@@ -192,23 +221,7 @@
 	  setTimeout(function () {
 	    var numEls = currentTreeNode.els.length;
 	    if (numEls <= 1) {
-	      if (numEls === 1) {
-	        (0, _text_util.setText)('mid-text', "Since we only have one element here, we can consider it sorted");
-	      } else if (bothSideNodesAreSorted()) {
-	        concatLeftPivotRight();
-	        if (currentTreeNode.key === 0) {
-	          (0, _text_util.setText)('mid-text', "Sorted! Refresh to rerun");
-	          return;
-	        }
-	      } else {
-	        (0, _text_util.setText)('mid-text', "Since we have no elements here, we can consider it sorted");
-	      }
-	      currentTreeNode.sorted = true;
-	      if (complementSideNodeIsSorted()) {
-	        sortTreeNode(currentTreeNode.parent);
-	      } else {
-	        sortTreeNode(complementSideKey());
-	      }
+	      decideWhichNodeToSortNext();
 	    } else {
 	      createTreeSideNodes();
 	      setCurrentPivotEl();
@@ -270,23 +283,23 @@
 	  };
 	};
 	
-	var concatLeftPivotRight = function concatLeftPivotRight() {
-	  var leftEls = elTree[currentTreeNode.left].els;
-	  var rightEls = elTree[currentTreeNode.right].els;
+	var concatLeftPivotRight = function concatLeftPivotRight(node) {
+	  var leftEls = elTree[node.left].els;
+	  var rightEls = elTree[node.right].els;
 	  var leftLength = leftEls.length;
 	  for (var i = 0; i < leftLength; i++) {
-	    currentTreeNode.els.push(leftEls.shift());
+	    node.els.push(leftEls.shift());
 	  }
 	
-	  currentTreeNode.els.push(currentTreeNode.pivot);
-	  currentTreeNode.pivot = null;
+	  node.els.push(node.pivot);
+	  node.pivot = null;
 	
 	  var rightLength = rightEls.length;
 	  for (var _i = 0; _i < rightLength; _i++) {
-	    currentTreeNode.els.push(rightEls.shift());
+	    node.els.push(rightEls.shift());
 	  }
 	
-	  (0, _animation_utils.moveAllElsToCenter)(currentTreeNode);
+	  (0, _animation_utils.moveAllElsToCenter)(node);
 	};
 	
 	var leftArray = [];
