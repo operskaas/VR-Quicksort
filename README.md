@@ -11,7 +11,7 @@ Simply go to the live site from a browser and click to drag the white cursor ont
 
 If you have a Google Cardboard, and are on a mobile device, press the button on the bottom left of the window and place your mobile device into the Google Cardboard. The white cursor follows your gaze, so simply turn your head to hover over the Continue block.
 
-To continue, you must move the cursor away from the block, and then back onto the block. 
+To continue, you must move the cursor away from the block, and then back onto the block. After continuing through the introduction, the demonstration will proceed to completion. To rerun it, refresh the page. 
 
 ![Quicksort VR](docs/walkthrough.gif)
 
@@ -21,8 +21,8 @@ After selecting 'Continue' the first time, 12 blocks representing array elements
 ## Algorithm & Tree Nodes
 The quicksort algorithm being visualized here is a recursive algorithm, and is certainly not an optimal implementation of quicksort.
 
-Each group of elements to be sorted is modeled as an instance of the SortingTreeNode class. This instance contains information about it's center position, whether it is sorted, references to it's parent and child nodes, a reference to it's pivot element if it has one, and a reference to it's non-sorted elements.
+Each group of elements to be sorted is modeled as an instance of the SortingTreeNode class. This instance contains information about its center position, whether it is sorted, references to its parent and child nodes, a reference to its pivot element if it has one, and a reference to its non-sorted elements.
 
-The algorithm selects the first element of the array as the pivot element, and compares each remaining element to this pivot element. Elements with a lesser value (represented by a smaller block) will be moved to the current node's left node, and larger elements are moved to the right. These left and right nodes are then sorted the same way if they have 2 or more elements in them. If they have one or less elements, they are considered sorted (the base case), and are skipped. When both side nodes of a node are sorted, the side nodes are concatenated with the pivot element, and the algorithm will move on to the parent node.
+The algorithm selects the first element of the array as the pivot element, and compares each remaining element to this pivot element. Elements with a lesser value (represented by a smaller block) will be moved to the current node's left node, and larger elements are moved to the right. These left and right nodes are then sorted the same way if they have 2 or more elements in them. If they have one or less elements, they are considered sorted (the base case), and are skipped. When both side nodes of a node are sorted, the side nodes are concatenated with the pivot element, and the algorithm will move on to the parent node. If there is no parent node, that meanst the algorithm is at the root of the tree, and after sorting the root node it will know that it is finished.
 
  
