@@ -49,7 +49,8 @@
       <a-sky src="#desert"></a-sky>
       <a-entity id="camera-cont" position="0 2 10">
         <a-camera id="user" fov="80">
-          <a-entity raycaster="objects: .clickable"
+          <a-entity id="cursor" 
+            raycaster="objects: .clickable"
             cursor="fuse: true; fuseTimeout: 100"
             position="0 0 -3"
             geometry="primitive: circle; radius: 0.05;"

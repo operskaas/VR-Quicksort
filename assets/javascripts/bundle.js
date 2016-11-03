@@ -69,7 +69,7 @@
 	
 	var EL_SPACING = 0.5;
 	
-	var timeOutDelay = 800;
+	var timeOutDelay = 500;
 	
 	var incrementPhase = function incrementPhase() {
 	  return phase++;
@@ -99,12 +99,18 @@
 	      (0, _text_util.setText)('mid-text', 'The next time you select continue, the sorting will go to completion');
 	      break;
 	    case 6:
+	      hideTextCursorContinue();
 	      compare();
 	      break;
 	    default:
 	      break;
 	  }
 	  incrementPhase();
+	};
+	
+	var hideTextCursorContinue = function hideTextCursorContinue() {
+	  document.getElementById('controls').setAttribute('visible', 'false');
+	  document.getElementById('cursor').setAttribute('visible', 'false');
 	};
 	
 	var placePivot = function placePivot() {
@@ -72720,7 +72726,7 @@
 	    pos = pos[0] + ' ' + pos[1] + ' ' + pos[2];
 	  }
 	
-	  var animDur = '800';
+	  var animDur = '500';
 	
 	  var moveAnimation = document.createElement('a-animation');
 	  moveAnimation.setAttribute('attribute', 'position');
