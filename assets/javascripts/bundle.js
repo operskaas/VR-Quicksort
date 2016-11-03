@@ -69,7 +69,7 @@
 	
 	var EL_SPACING = 0.5;
 	
-	var timeOutDelay = 500;
+	var timeOutDelay = 350;
 	
 	var incrementPhase = function incrementPhase() {
 	  return phase++;
@@ -90,15 +90,18 @@
 	      placePivot();
 	      break;
 	    case 4:
+	      (0, _text_util.addPhase3HalfText)();
+	      break;
+	    case 5:
 	      (0, _text_util.addPhase4Text)();
 	      (0, _animation_utils.moveByAnimation)(currentPivotEl, [-0.3, 0, 0], true);
 	      setCurrentContender();
 	      (0, _animation_utils.moveContenderToCompare)(currentContender);
 	      break;
-	    case 5:
-	      (0, _text_util.setText)('mid-text', 'The next time you select continue, the sorting will go to completion');
-	      break;
 	    case 6:
+	      (0, _text_util.setText)('mid-text', 'The next time you select continue, the sorting will go to completion. Try to follow along!');
+	      break;
+	    case 7:
 	      hideTextCursorContinue();
 	      compare();
 	      break;
@@ -192,7 +195,11 @@
 	    concatLeftPivotRight(currentTreeNode);
 	    setTimeout(function () {
 	      if (currentTreeNode.key === 0) {
-	        (0, _text_util.setText)('mid-text', "Sorted! Refresh to rerun");
+	
+	        (0, _text_util.setText)('mid-text', "Sorted! Refresh to rerun with freshly shuffled elements");
+	        document.getElementById('mid-text').setAttribute('visible', 'true');
+	        document.getElementById('next-text').setAttribute('visible', 'false');
+	        document.getElementById('controls').setAttribute('visible', 'true');
 	        return;
 	      } else {
 	        sortTreeNode(currentTreeNode.parent);
@@ -72726,7 +72733,7 @@
 	    pos = pos[0] + ' ' + pos[1] + ' ' + pos[2];
 	  }
 	
-	  var animDur = '500';
+	  var animDur = '350';
 	
 	  var moveAnimation = document.createElement('a-animation');
 	  moveAnimation.setAttribute('attribute', 'position');
@@ -72861,25 +72868,29 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.setText = exports.setIntroText = exports.addPhase4Text = exports.addPhase3Text = exports.addPhase2Text = exports.addPhase1Text = undefined;
+	exports.setText = exports.setIntroText = exports.addPhase4Text = exports.addPhase3HalfText = exports.addPhase3Text = exports.addPhase2Text = exports.addPhase1Text = undefined;
 	
 	__webpack_require__(1);
 	
 	var addPhase1Text = exports.addPhase1Text = function addPhase1Text() {
 	  document.getElementById('top-text').setAttribute('visible', 'false');
-	  setText('mid-text', 'These boxes represent the elements to be sorted. When sorted, the smallest box will be on the left, and the largest on the right');
+	  setText('mid-text', 'These boxes were randomly shuffled, and need to be sorted! We will use a recursive quicksort algorithm to sort them');
 	};
 	
 	var addPhase2Text = exports.addPhase2Text = function addPhase2Text() {
-	  setText('mid-text', 'The first step is to select the pivot element. The pivot element will be sorted first by comparing it against all other elements');
+	  setText('mid-text', 'The first step is to select the pivot element. The pivot element will be compared against all other elements');
 	};
 	
 	var addPhase3Text = exports.addPhase3Text = function addPhase3Text() {
 	  setText('mid-text', "It is common to use the first element as the pivot element. Any elements smaller than the pivot element will be moved to the left, and any elements larger than the pivot element will be moved to the right");
 	};
 	
+	var addPhase3HalfText = exports.addPhase3HalfText = function addPhase3HalfText() {
+	  setText('mid-text', "After moving elements to the left or right, we will need to then recursively sort the left and right segments. When a segment has one or no elements in it, we will know it is sorted, and at that point we will combine the left and right segments with the pivot element in the middle");
+	};
+	
 	var addPhase4Text = exports.addPhase4Text = function addPhase4Text() {
-	  setText('mid-text', "Let's compare it with the first remaining element");
+	  setText('mid-text', "Let's bring in the first contender!");
 	};
 	
 	var setIntroText = exports.setIntroText = function setIntroText() {
