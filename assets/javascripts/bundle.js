@@ -191,13 +191,10 @@
 	  if (bothSideNodesAreSorted()) {
 	    currentTreeNode.sorted = true;
 	    (0, _text_util.setText)('mid-text', "Since both the left and right of this section is sorted, we can add the left, pivot, and right elements together");
-	    // const currentNode = currentTreeNode;
 	    concatLeftPivotRight(currentTreeNode);
 	    setTimeout(function () {
 	      if (currentTreeNode.key === 0) {
-	
-	        (0, _text_util.setText)('mid-text', "Sorted! Refresh to rerun with freshly shuffled elements");
-	        document.getElementById('mid-text').setAttribute('visible', 'true');
+	        (0, _text_util.setText)('mid-text', "Sorted! Refresh to rerun with freshly shuffled elements :)");
 	        document.getElementById('next-text').setAttribute('visible', 'false');
 	        document.getElementById('controls').setAttribute('visible', 'true');
 	        return;
@@ -72886,7 +72883,7 @@
 	};
 	
 	var addPhase3HalfText = exports.addPhase3HalfText = function addPhase3HalfText() {
-	  setText('mid-text', "After moving elements to the left or right, we will need to then recursively sort the left and right segments. When a segment has one or no elements in it, we will know it is sorted, and at that point we will combine the left and right segments with the pivot element in the middle");
+	  setText('mid-text', "After moving elements to the left or right, we will need to then recursively sort the left and right segments. When a segment has one or zero elements in it, we will know it is sorted, and if both the left and right are sorted, we will combine them with the pivot element in the middle");
 	};
 	
 	var addPhase4Text = exports.addPhase4Text = function addPhase4Text() {
