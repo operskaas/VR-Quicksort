@@ -31,3 +31,37 @@ The algorithm selects the first element of the array as the pivot element, and c
 Since QuickSort VR is built using A-Frame, it is able to change the camera's perspective based on a mobile device's rotational sensors (accelerometer, gyroscope). When visiting the site on a desktop or laptop that does not have these sensors, the camera's orientation is controlled by grabbing and dragging the screen with a mouse. However, A-Frame recognizes when it is running on a mobile device and will use the rotational sensors to correctly orient the camera. 
 
 A-Frame also provides a button to switch into 'Cardboard Mode'. On a non-mobile device, it will simply full-screen the experience, but on a mobile device, it will split the screen into two stereoscopic displays. The images displayed on each half of the screen are essentially being rendered from two separate cameras in the scene, separated by a distance equal to the average inter-pupillary distance (distance between pupils). When placed in a Google Cardboard spec device, each eye will see one half of the screen, and since each eye sees a slightly different view, the viewer will perceive a 3D effect. 
+
+## Alternate Quicksort implementation
+
+Below is an implementation of quicksort that swaps the elements around if they are out of place, rather than sorting them into left and right piles as above. 
+
+```javascript
+const quicksort = (array, start = 0, length = array.length) => {
+  if (length < 2) { return array; }
+
+  const pivotIdx = partition(array, start, length);
+
+  const leftLength = pivotIdx - start;
+  const rightLength = length - (leftLength + 1);
+  quicksort(array, start, leftLength);
+  quicksort(array, pivotIdx + 1, rightLength);
+
+  return array;
+}
+
+const partition = (array, start, length) => {
+  let pivotIdx = start;
+  const pivot = array[start];
+  for (let i = start + 1; i < start + length; i++) {
+    const val = array[i];
+    if (val < pivot) {
+      array[i] = array[pivotIdx + 1];
+      array[pivotIdx + 1] = pivot;
+      array[pivotIdx] = val;
+      pivotIdx += 1;
+    }
+  }
+  return pivotIdx;
+}
+```
